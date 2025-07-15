@@ -62,4 +62,30 @@ class UserService implements UserServiceInterface
     {
         return $this->userRepository->delete($id);
     }
+
+    public function verifyCode($user, string $code): bool
+    {
+        if ($user->code === $code) {
+            $user->update(['code' => null]);
+            return true;
+        }
+        return false;
+    }
+
+    public function completeProfile($user, array $data)
+    {
+        // Only update allowed fields
+        $fields = [
+            'name',
+            'identity_number',
+            'email',
+            'account_type',
+            'commercial_name',
+            'commercial_number',
+        ];
+        $updateData = array_intersect_key($data, array_flip($fields));
+        $this->userRepository->update($user->id, $updateData);
+        $user->refresh();
+        return $user;
+    }
 }

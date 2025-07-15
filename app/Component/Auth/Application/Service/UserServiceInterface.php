@@ -40,4 +40,20 @@ interface UserServiceInterface
      * @return mixed
      */
     public function loginByPhone(string $phone);
+
+    /**
+     * Verify the user's code.
+     * @param \App\Models\User $user
+     * @param string $code
+     * @return bool
+     */
+    public function verifyCode($user, string $code): bool;
+
+    /**
+     * Complete the user's profile.
+     * @param \App\Models\User $user
+     * @param array $data
+     * @return \App\Models\User
+     */
+    public function completeProfile($user, array $data);
 } 

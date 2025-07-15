@@ -26,4 +26,9 @@ class UserViewQuery implements UserViewQueryInterface
     {
         return \App\Models\User::where('phone', $phone)->first();
     }
+
+    public function findUserByCode(string $code)
+    {
+        return \App\Models\User::where('code', $code)->first();
+    }
 }

@@ -24,4 +24,11 @@ interface UserViewQueryInterface
      * @return mixed
      */
     public function findUserByPhone(string $phone);
+
+    /**
+     * Find a user by code.
+     * @param string $code
+     * @return mixed
+     */
+    public function findUserByCode(string $code);
 }
