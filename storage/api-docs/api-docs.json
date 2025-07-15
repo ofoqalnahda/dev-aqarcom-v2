@@ -1,0 +1,309 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Aqarkom API Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "ecdd4df10738c25ddf52b4577f723dcc",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/LoginRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string"
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserViewModel"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UserViewModel": {
+                "title": "UserViewModel",
+                "description": "User View Model",
+                "required": [
+                    "id",
+                    "email",
+                    "phone",
+                    "is_active",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "whatsapp": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "is_verified": {
+                        "type": "boolean"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "receive_notification": {
+                        "type": "boolean"
+                    },
+                    "receive_messages": {
+                        "type": "boolean"
+                    },
+                    "free_ads": {
+                        "type": "integer"
+                    },
+                    "device_token": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "last_login": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "is_authentic": {
+                        "type": "boolean"
+                    },
+                    "pending_authentication": {
+                        "type": "boolean"
+                    },
+                    "identity_owner_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "identity_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "commercial_owner_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "commercial_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "commercial_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "commercial_image": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "identity_image": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "val_license": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "transId": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "requestId": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "is_nafath_verified": {
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Meta": {
+                "properties": {
+                    "total": {
+                        "type": "integer"
+                    },
+                    "per_page": {
+                        "type": "integer"
+                    },
+                    "current_page": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "to": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "DataTable": {
+                "properties": {
+                    "draw": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "recordsTotal": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "recordsFiltered": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "input": {
+                        "required": [
+                            "columns"
+                        ],
+                        "properties": {
+                            "columns": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "column_name"
+                                        },
+                                        "searchable": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "orderable": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "search": {
+                                            "properties": {
+                                                "value": {
+                                                    "type": "string",
+                                                    "example": "column value",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "search": {
+                                "properties": {
+                                    "value": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object",
+                        "additionalProperties": {
+                            "description": "Whatever you pass to request body will be present here under the same key, with the same value.",
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "requestBodies": {
+            "LoginRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "phone"
+                            ],
+                            "properties": {
+                                "phone": {
+                                    "description": "Phone number",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        }
+    ]
+}

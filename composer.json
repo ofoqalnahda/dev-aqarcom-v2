@@ -10,8 +10,21 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "astrotomic/laravel-translatable": "^11.16",
+        "darkaonline/l5-swagger": "^9.0",
+        "firebase/php-jwt": "^6.11",
+        "intervention/image": "^3.11",
+        "kreait/laravel-firebase": "^6.1",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/sanctum": "^4.0",
+        "laravel/telescope": "^5.10",
+        "laravel/tinker": "^2.10.1",
+        "league/fractal": "^0.20.2",
+        "moneyphp/money": "^4.7",
+        "predis/predis": "^3.0",
+        "propaganistas/laravel-phone": "^6.0",
+        "spatie/laravel-permission": "^6.20",
+        "yajra/laravel-datatables": "^12.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

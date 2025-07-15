@@ -13,12 +13,38 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('name')->nullable();
+            $table->string('email')->nullable()->unique();
+            $table->string('phone')->unique();
+            $table->string('whatsapp')->nullable()->unique();
             $table->string('password');
+            $table->string('image')->nullable();
+            $table->string('code')->nullable();
+            $table->boolean('is_verified')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->boolean('receive_notification')->default(true);
+            $table->boolean('receive_messages')->default(true);
+            $table->integer('free_ads')->unsigned()->default(0);
+            $table->string('device_token')->nullable();
+            $table->timestamp('last_login')->nullable();
+
+            //for authenticated users only
+            $table->boolean('is_authentic')->default(0);
+            $table->boolean('pending_authentication')->default(0);
+            $table->string('identity_owner_name')->nullable();
+            $table->string('identity_number')->nullable();
+            $table->string('commercial_owner_name')->nullable();
+            $table->string('commercial_name')->nullable();
+            $table->string('commercial_number')->nullable();
+            $table->string('commercial_image')->nullable();
+            $table->string('identity_image')->nullable();
+            $table->longText('val_license')->nullable();
+            $table->string( 'transId')->nullable();
+            $table->string( 'requestId')->nullable();
+            $table->boolean( 'is_nafath_verified')->default( false );
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

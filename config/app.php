@@ -123,4 +123,14 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'GOOGLE_API' => env('GOOGLE_API', ''),
+    'country_codes' => [
+
+    ],
+
+    'payments' => [
+        'default_currency' => 'SAR',
+
+    ],
+
 ];
