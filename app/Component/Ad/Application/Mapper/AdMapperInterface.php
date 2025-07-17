@@ -7,9 +7,9 @@ use App\Component\Ad\Presentation\ViewModel\AdViewModel;
 interface AdMapperInterface
 {
     /**
-     * Map a User model to a UserViewModel.
-     * @param mixed $user
+     * Map a Ad model to a AdViewModel.
+     * @param mixed $ad
      * @return AdViewModel
      */
-    public function toViewModel($user): AdViewModel;
+    public function toViewModel($ad): AdViewModel;
 }
