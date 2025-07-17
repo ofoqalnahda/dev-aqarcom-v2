@@ -4,12 +4,12 @@ declare(strict_types = 1);
 
 namespace App\Component\Common\Infrastructure\Factory\DatePeriod;
 
-use App\Component\Common\Application\Factory\PeriodFactory;
+//use App\Component\Common\Application\Factory\PeriodFactory;
 use App\Component\Common\Domain\Dto\DatePeriod\DailyPeriodDto;
 use App\Component\Common\Domain\Dto\DatePeriod\MonthlyPeriodDto;
 use Carbon\Carbon;
 
-class PeriodApplicationFactory implements PeriodFactory
+class PeriodApplicationFactory // implements PeriodFactory
 {
     public function createDailyPeriodForCarRental(
         Carbon $startDateTime,

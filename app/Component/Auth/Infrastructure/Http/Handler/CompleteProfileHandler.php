@@ -54,4 +54,4 @@ class CompleteProfileHandler extends Handler
             'data' => $userViewModel->toArray(),
         ]);
     }
-} 
+}

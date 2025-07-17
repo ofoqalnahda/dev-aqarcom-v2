@@ -56,4 +56,4 @@ interface UserServiceInterface
      * @return \App\Models\User
      */
     public function completeProfile($user, array $data);
-} 
+}
