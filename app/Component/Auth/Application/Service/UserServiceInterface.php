@@ -56,4 +56,12 @@ interface UserServiceInterface
      * @return \App\Models\User
      */
     public function completeProfile($user, array $data);
+
+    /**
+     * Edit the user's profile.
+     * @param \App\Models\User $user
+     * @param array $data
+     * @return \App\Models\User
+     */
+    public function editProfile($user, array $data);
 } 

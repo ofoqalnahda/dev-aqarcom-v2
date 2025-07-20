@@ -88,4 +88,29 @@ class UserService implements UserServiceInterface
         $user->refresh();
         return $user;
     }
+
+    public function editProfile($user, array $data)
+    {
+        $fields = [
+            'name',
+            'email',
+            'whatsapp',
+            'commercial_name',
+            'latitude',
+            'longitude',
+            'address',
+        ];
+        $updateData = array_intersect_key($data, array_flip($fields));
+        // Handle location array if present
+        if (isset($data['location'])) {
+            foreach (['latitude', 'longitude', 'address'] as $locField) {
+                if (isset($data['location'][$locField])) {
+                    $updateData[$locField] = $data['location'][$locField];
+                }
+            }
+        }
+        $this->userRepository->update($user->id, $updateData);
+        $user->refresh();
+        return $user;
+    }
 }

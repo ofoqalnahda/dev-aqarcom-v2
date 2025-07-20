@@ -62,6 +62,63 @@
                 ]
             }
         },
+        "/api/v1/auth/edit-profile": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "32acb2cefe03af89b5bc6d2ebee01dde",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/EditProfileRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/auth/login": {
             "post": {
                 "tags": [
@@ -426,6 +483,54 @@
                                 },
                                 "commercial_number": {
                                     "type": "string",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "EditProfileRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "whatsapp": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "commercial_name": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "location": {
+                                    "properties": {
+                                        "latitude": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "nullable": true
+                                        },
+                                        "longitude": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "nullable": true
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object",
                                     "nullable": true
                                 }
                             },
