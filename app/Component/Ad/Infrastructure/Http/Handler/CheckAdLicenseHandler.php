@@ -59,7 +59,7 @@ class CheckAdLicenseHandler extends Handler
     public function __invoke(CheckAdLicenseRequest $request): JsonResponse
     {
         $user = Auth::user();
-        $license_number=$request->license_number;
+        $license_number = $request->input('license_number');
         $exit_ad= $this->adService->CheckIsExitAd($license_number);
 
         if($exit_ad){

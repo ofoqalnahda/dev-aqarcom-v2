@@ -9,7 +9,7 @@ use App\Component\Ad\Presentation\ViewModel\AdViewModel;
 interface AdMapperInterface
 {
     /**
-     * Map a Ad model to a AdViewModel.
+     * Map an Ad model to a AdViewModel.
      * @param mixed $ad
      * @return AdViewModel
      */
