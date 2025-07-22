@@ -12,12 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then:function () {
-            Route::prefix('api')
+            Route::prefix('api/v1')
                 ->middleware([
                     'api'
                 ])
                 ->group(function () {
                     require app_path('Component/Auth/Resource/routes.php');
+                    require app_path('Component/Ad/Resource/routes.php');
                 });
         }
     )
