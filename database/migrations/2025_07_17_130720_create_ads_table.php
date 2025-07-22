@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('license_number')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('ad_type_id')->constrained()->onDelete('cascade');
 
             $table->foreignId('region_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('city_id')->nullable()->constrained()->onDelete('set null');
@@ -30,8 +31,9 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->decimal('lng', 11, 8)->nullable();
             $table->decimal('lat', 10, 8)->nullable();
-            $table->decimal('price', 15, 2)->nullable();
-            $table->decimal('area', 15, 2)->nullable();
+            $table->decimal('price', 15)->nullable();
+            $table->decimal('property_price', 15)->default(0)->nullable();
+            $table->decimal('area', 15)->nullable();
             $table->text('description')->nullable();
 
             $table->boolean('is_constrained')->default(false);
@@ -41,7 +43,6 @@ return new class extends Migration
 
             $table->integer('street_width')->nullable();
             $table->integer('number_of_rooms')->nullable();
-            $table->string('advertiser_registration_number')->nullable();
             $table->string('deed_number')->nullable();
             $table->string('property_face')->nullable();
             $table->string('plan_number')->nullable();

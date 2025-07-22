@@ -24,6 +24,8 @@ use OpenApi\Attributes as OA;
 )]
 class CheckAdLicenseRequest extends FormRequest
 {
+    public int|string $license_number;
+
     public function rules(): array
     {
         return [

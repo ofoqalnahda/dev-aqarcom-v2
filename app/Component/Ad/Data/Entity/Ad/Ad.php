@@ -14,6 +14,7 @@ class Ad extends Model
         'id',
         'license_number',
         'user_id',
+        'ad_type_id',
 
         'region_id',
         'city_id',
@@ -28,6 +29,7 @@ class Ad extends Model
         'lng',
         'lat',
         'price',
+        'property_price',
         'area',
         'description',
         "is_constrained",
@@ -37,7 +39,6 @@ class Ad extends Model
 
         'street_width',
         'number_of_rooms',
-        'advertiser_registration_number',
         'deed_number',
         'property_face',
         'plan_number',
@@ -46,6 +47,7 @@ class Ad extends Model
         'ad_source',
         'title_deed_type_name',
         'location_description',
+        'property_age',
         'property_age',
         'rer_constraints',
         'creation_date',
@@ -91,6 +93,10 @@ class Ad extends Model
         return $this->belongsTo(Neighborhood::class);
     }
 
+    public function ad_type()
+    {
+        return $this->belongsTo(AdType::class);
+    }
     public function estateType()
     {
         return $this->belongsTo(EstateType::class);

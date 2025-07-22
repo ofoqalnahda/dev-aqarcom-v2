@@ -2,6 +2,9 @@
 
 namespace App\Component\Ad\Application\Repository;
 
+use App\Component\Ad\Infrastructure\Http\Request\CheckAdLicenseRequest;
+use Illuminate\Contracts\Auth\Authenticatable;
+
 interface AdRepository
 {
     /**
@@ -31,5 +34,8 @@ interface AdRepository
      * @param string $license_number
      * @return mixed
      */
-    public function findByLicenseNumber(string $license_number);
+    public function findByLicenseNumber(string $license_number): mixed;
+    public function CheckIsExitAd(string $license_number);
+
+    public function CheckAdLicense(CheckAdLicenseRequest $request, ?Authenticatable $user);
 }

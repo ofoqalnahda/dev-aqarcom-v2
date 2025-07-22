@@ -5,8 +5,11 @@ namespace App\Component\Ad\Infrastructure\Http\Handler;
 use App\Component\Ad\Application\Mapper\AdMapperInterface;
 use App\Component\Ad\Application\Service\AdServiceInterface;
 use App\Component\Ad\Infrastructure\Http\Request\CheckAdLicenseRequest;
+use App\Component\Ad\Presentation\ViewModel\AdExistsAdViewModel;
 use App\Libraries\Base\Http\Handler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use OpenApi\Attributes as OA;
 
 #[OA\Post(
@@ -23,6 +26,15 @@ use OpenApi\Attributes as OA;
             ],
             type: 'object'
         )),
+        new OA\Response(response: 402, description: 'Exit ad', content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'status', type: 'string'),
+                new OA\Property(property: 'message', type: 'string'),
+                new OA\Property(property: 'data', ref: '#/components/schemas/AdExistsAdViewModel'),
+
+            ],
+            type: 'object'
+        )),
         new OA\Response(response: 400, description: 'Validation error', content: new OA\JsonContent(
             properties: [
                 new OA\Property(property: 'status', type: 'string'),
@@ -35,6 +47,7 @@ use OpenApi\Attributes as OA;
 class CheckAdLicenseHandler extends Handler
 {
     protected AdServiceInterface $adService;
+
     protected AdMapperInterface $adMapper;
 
     public function __construct(AdServiceInterface $adService, AdMapperInterface $adMapper)
@@ -43,14 +56,32 @@ class CheckAdLicenseHandler extends Handler
         $this->adMapper = $adMapper;
     }
 
-    public function __invoke(CheckAdLicenseRequest $request): \Illuminate\Http\JsonResponse
+    public function __invoke(CheckAdLicenseRequest $request): JsonResponse
     {
         $user = Auth::user();
-       //code here
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Profile completed',
-            'data' =>[],
-        ]);
+        $license_number=$request->license_number;
+        $exit_ad= $this->adService->CheckIsExitAd($license_number);
+
+        if($exit_ad){
+            $adViewModel = $this->adMapper->toExistsViewModel($exit_ad);
+            return response()->json([
+                'status' => 'success',
+                'message' => '',
+                'date'=> $adViewModel->toArray(),
+            ]);
+        }
+        $ad_platform=  $this->adService->CheckAdLicense($request, $user);
+        if($ad_platform['status']){
+            $cacheKey = 'ad_platform_view_' . $license_number;
+            $adViewModel = $this->adMapper->toPlatformViewModel($ad_platform['Body']['result']['advertisement']);
+
+            Cache::put($cacheKey, $adViewModel->toArray(), now()->addHour());
+            return response()->json([
+                'status' => 'success',
+                'message' => '',
+                'date'=> $adViewModel->toArray(),
+            ]);
+        }
+        return  responseApiFalse(400,translate('Invalid license or ID. Please check and try again. If the issue persists, contact support'));
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Component\Ad\Application\Service;
 
+use App\Component\Ad\Infrastructure\Http\Request\CheckAdLicenseRequest;
+use Illuminate\Contracts\Auth\Authenticatable;
+
 interface AdServiceInterface
 {
     /**
@@ -31,4 +34,13 @@ interface AdServiceInterface
      * @return mixed
      */
     public function find($id);
+
+    /**
+     * Check if Already exists.
+     * @param int|string $license_number
+     * @return mixed
+     */
+    public function CheckIsExitAd(int|string $license_number): mixed;
+
+    public function CheckAdLicense(CheckAdLicenseRequest $request, ?Authenticatable $user);
 }

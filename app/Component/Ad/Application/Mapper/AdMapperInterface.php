@@ -2,6 +2,8 @@
 
 namespace App\Component\Ad\Application\Mapper;
 
+use App\Component\Ad\Presentation\ViewModel\AdExistsAdViewModel;
+use App\Component\Ad\Presentation\ViewModel\AdPlatformViewModel;
 use App\Component\Ad\Presentation\ViewModel\AdViewModel;
 
 interface AdMapperInterface
@@ -12,4 +14,6 @@ interface AdMapperInterface
      * @return AdViewModel
      */
     public function toViewModel($ad): AdViewModel;
+    public function toExistsViewModel($ad): AdExistsAdViewModel;
+    public function toPlatformViewModel($ad): AdPlatformViewModel;
 }

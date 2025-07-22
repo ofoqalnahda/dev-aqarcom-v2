@@ -36,6 +36,27 @@
                             }
                         }
                     },
+                    "402": {
+                        "description": "Exit ad",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/AdExistsAdViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "400": {
                         "description": "Validation error",
                         "content": {
@@ -218,8 +239,30 @@
     },
     "components": {
         "schemas": {
-            "AdPlatformViewModel": {
+            "AdExistsAdViewModel": {
                 "title": "AdViewModel",
+                "description": "Ad If Already exists View Model",
+                "required": [
+                    "license_number"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "license_number": {
+                        "type": "string"
+                    },
+                    "user_name": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "AdPlatformViewModel": {
+                "title": "AdPlatformViewModel",
                 "description": "Ad From Platform View Model",
                 "required": [
                     "license_number"
@@ -228,8 +271,126 @@
                     "license_number": {
                         "type": "string"
                     },
-                    "region_name": {
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "property_price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "region": {
+                        "type": "object"
+                    },
+                    "city": {
+                        "type": "object"
+                    },
+                    "neighborhood": {
+                        "type": "object"
+                    },
+                    "estate_type": {
+                        "type": "object"
+                    },
+                    "usage_type": {
+                        "type": "object"
+                    },
+                    "ad_type": {
+                        "type": "object"
+                    },
+                    "property_utilities": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "address": {
                         "type": "string"
+                    },
+                    "lng": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "lat": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "is_constrained": {
+                        "type": "boolean"
+                    },
+                    "is_pawned": {
+                        "type": "boolean"
+                    },
+                    "is_halted": {
+                        "type": "boolean"
+                    },
+                    "is_testment": {
+                        "type": "boolean"
+                    },
+                    "street_width": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "number_of_rooms": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "area": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "deed_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "property_face": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "plan_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "land_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "ad_license_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "ad_source": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "title_deed_type_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "location_description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "property_age": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "rerConstraints": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "creation_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
                     }
                 },
                 "type": "object"
