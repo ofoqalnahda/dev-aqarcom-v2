@@ -48,13 +48,20 @@ class AdRepositoryEloquent implements AdRepository
 
     public function CheckAdLicense(CheckAdLicenseRequest $request, ?Authenticatable $user): array
     {
-        $data=[];
         $adLicenseNumber=$request->input('license_number');
-        $idType=$user->identity_type;
-        $advertiserId=$idType?$user->identity_number:$user->unified_number;
-        $ClientId=env('X_IBM_Client_Id');
-        $ClientSecret=env('X_IBM_Client_Secret');
-        $URL=env('X_IBM_Client_URL');
+        $data= $this->GetApiPlatform(1,$user->identity_number,$adLicenseNumber);
+        if (!$data['Status']){
+            $data= $this->GetApiPlatform(1,$user->commercial_number,$adLicenseNumber);
+        }
+        return $data;
+
+    }
+    static function GetApiPlatform(int $idType ,int|string $advertiserId,int|string $adLicenseNumber )
+    {
+        $data=[];
+        $ClientId = env('X_IBM_CLIENT_ID');
+        $ClientSecret = env('X_IBM_CLIENT_SECRET');
+        $URL = env('X_IBM_CLIENT_URL');
         $url = $URL."/v2/brokerage/AdvertisementValidator?adLicenseNumber={$adLicenseNumber}&advertiserId={$advertiserId}&idType={$idType}";
         $headers = [
             "Accept: application/json",
