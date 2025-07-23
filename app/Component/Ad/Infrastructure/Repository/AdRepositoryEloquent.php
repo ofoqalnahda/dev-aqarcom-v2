@@ -51,7 +51,7 @@ class AdRepositoryEloquent implements AdRepository
         $adLicenseNumber=$request->input('license_number');
         $data= $this->GetApiPlatform(1,$user->identity_number,$adLicenseNumber);
         if (!$data['Status']){
-            $data= $this->GetApiPlatform(1,$user->commercial_number,$adLicenseNumber);
+            $data= $this->GetApiPlatform(2,$user->commercial_number,$adLicenseNumber);
         }
         return $data;
 

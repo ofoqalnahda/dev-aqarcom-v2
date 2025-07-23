@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('region_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('region_map_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('region_map_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('lng',25)->nullable();
             $table->string('lat',25)->nullable();
             $table->timestamps();

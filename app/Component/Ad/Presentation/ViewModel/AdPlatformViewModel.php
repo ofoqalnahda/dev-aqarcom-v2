@@ -100,9 +100,8 @@ class AdPlatformViewModel
     public ?string $creation_date;
     public ?string $end_date;
 
-    public function __construct(object $advertisement)
+    public function __construct(array $advertisement)
     {
-        ;
 
         $this->license_number=$advertisement['adLicenseNumber'];
         $this->price=convert_to_english_numbers($advertisement['propertyPrice']);
@@ -114,7 +113,7 @@ class AdPlatformViewModel
 
         }
 
-        $this->region = $this->findOrCreateTranslatable(Region::class, 'name', $advertisement['region']);
+        $this->region = $this->findOrCreateTranslatable(Region::class, 'name', $advertisement['location']['region']);
         $this->city = $this->findOrCreateTranslatable(City::class, 'name', $advertisement['location']['city'], ['region_id' => $this->region['id']]);
         $this->neighborhood = $this->findOrCreateTranslatable(Neighborhood::class, 'name', $advertisement['location']['district'], ['city_id' => $this->city['id']]);
         $this->estate_type = $this->findOrCreateTranslatable(EstateType::class, 'title', $advertisement['propertyType']);
@@ -176,12 +175,12 @@ class AdPlatformViewModel
 
         if (!$record) {
             $en = Str::title(str_replace('-', ' ', Str::slug($value)));
-            $record = $model::create(array_merge($extra, [
-                $field => [
-                    'ar' => $value,
-                    'en' => $en,
-                ],
-            ]));
+            $record = new $model($extra);
+            $record->save();
+
+            $record->translateOrNew('ar')->$field = $value;
+            $record->translateOrNew('en')->$field = $en;
+            $record->save();
         }
 
         return [
