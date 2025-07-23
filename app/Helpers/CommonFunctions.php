@@ -1,8 +1,6 @@
 <?php
 
 // ---------------- Api response -------------------
-use App\CPU\Helpers;
-
 if (!function_exists('responseApi')) {
     function responseApi($message = '', $data = null)
     {
@@ -37,7 +35,7 @@ if (!function_exists('translate')) {
 
         try {
             $lang_array = include(base_path('resources/lang/' . $local . '/messages.php'));
-            $processed_key = ucfirst(str_replace('_', ' ', Helpers::remove_invalid_charcaters($key)));
+            $processed_key = ucfirst(str_replace('_', ' ', remove_invalid_charcaters($key)));
 
             if (!array_key_exists($key, $lang_array)) {
                 $lang_array[$key] = $processed_key;
@@ -52,5 +50,12 @@ if (!function_exists('translate')) {
         }
 
         return $result;
+    }
+}
+if (!function_exists('remove_invalid_charcaters')) {
+
+    function remove_invalid_charcaters($str)
+    {
+        return str_ireplace(['\'', '"', ',', ';', '<', '>', '?'], ' ', $str);
     }
 }
