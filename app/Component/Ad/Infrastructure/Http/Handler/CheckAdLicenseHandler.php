@@ -71,7 +71,7 @@ class CheckAdLicenseHandler extends Handler
             ]);
         }
         $ad_platform=  $this->adService->CheckAdLicense($request, $user);
-        if($ad_platform['status']){
+        if($ad_platform['Status']){
             $cacheKey = 'ad_platform_view_' . $license_number;
             $adViewModel = $this->adMapper->toPlatformViewModel($ad_platform['Body']['result']['advertisement']);
 
