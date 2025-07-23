@@ -7,6 +7,6 @@ Route::group([
     'prefix' => 'ads',
 
 ],function (){
-    Route::post('check-license', CheckAdLicenseHandler::class)->middleware('auth');
+    Route::post('check-license', CheckAdLicenseHandler::class)->middleware('auth:sanctum');
 
 });
