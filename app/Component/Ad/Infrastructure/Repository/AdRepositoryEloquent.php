@@ -9,6 +9,7 @@ use App\Component\Ad\Infrastructure\Http\Request\CheckAdLicenseRequest;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class AdRepositoryEloquent implements AdRepository
 {
@@ -17,56 +18,57 @@ class AdRepositoryEloquent implements AdRepository
     public function create(MainType $mainType, $request, $user): mixed
     {
         $property_utilities=[];
-        switch ($mainType) {
+        $data=[];
+        switch ($mainType->value) {
             case 'sell':
-                $cacheKey = 'ad_platform_view_' . $request->license_number;
+                $cacheKey = 'ad_platform_view_' . $request['license_number'];
                 $ad_platform=null;
                 if (Cache::has($cacheKey)) {
-                   $ad_platform=Cache::get($cacheKey);
+                    $ad_platform=Cache::get($cacheKey);
                 }
-
-                $property_utilities=$ad_platform->property_utilities;
-                $slug=self::CreateSlug(Str::slug($ad_platform->ad_type->title.'-'.$ad_platform->address));
-                $data=[
+                $property_utilities=collect($ad_platform['property_utilities'])->pluck('id')->toArray();
+                $slug=self::CreateSlug(Str::slug($ad_platform['ad_type']['name'].'-'.$ad_platform['address']));
+                $data = [
                     'slug' => $slug,
                     'main_type' => $mainType,
-                    'license_number'=>$request->license_number,
-                    'user_id'=>$user->id,
-                    'ad_type_id'=>$ad_platform->ad_type->id,
-                    'region_id'=>$ad_platform->region->id,
-                    'city_id'=>$ad_platform->city->id,
-                    'neighborhood_id'=>$ad_platform->neighborhood->id,
-                    'estate_type_id'=>$ad_platform->estate_type->id,
-                    'usage_type_id'=>$ad_platform->usage_type->id,
-                    'status'=>true,
-                    'is_special'=>$request->is_special,
-                    'is_story'=>$request->is_story,
-                    'address'=>$ad_platform->address,
-                    'lng'=>$ad_platform->lng,
-                    'lat'=>$ad_platform->lat,
-                    'price'=>$ad_platform->price,
-                    'property_price'=>$ad_platform->property_price,
-                    'area'=>$ad_platform->area,
-                    'description'=>$request->description,
-                    "is_constrained"=>$ad_platform->is_constrained,
-                    "is_pawned"=>$ad_platform->is_pawned,
-                    "is_halted"=>$ad_platform->is_halted,
-                    "is_testament"=>$ad_platform->is_testament,
-                    'street_width'=>$ad_platform->street_width,
-                    'number_of_rooms'=>$ad_platform->number_of_rooms,
-                    'deed_number'=>$ad_platform->deed_number,
-                    'property_face'=>$ad_platform->property_face,
-                    'plan_number'=>$ad_platform->plan_number,
-                    'land_number'=>$ad_platform->land_number,
-                    'ad_license_url'=>$ad_platform->ad_license_url,
-                    'ad_source'=>$ad_platform->ad_source,
-                    'title_deed_type_name'=>$ad_platform->title_deed_type_name,
-                    'location_description'=>$ad_platform->location_description,
-                    'property_age'=>$ad_platform->property_age,
-                    'rer_constraints'=>$ad_platform->rerConstraints,
-                    'creation_date'=>$ad_platform->creation_date,
-                    'end_date'=>$ad_platform->end_date
-                    ];
+                    'license_number' => $request['license_number'],
+                    'user_id' => $user->id,
+                    'ad_type_id' => $ad_platform['ad_type']['id'],
+                    'region_id' => $ad_platform['region']['id'],
+                    'city_id' => $ad_platform['city']['id'],
+                    'neighborhood_id' => $ad_platform['neighborhood']['id'],
+                    'estate_type_id' => $ad_platform['estate_type']['id'],
+                    'usage_type_id' => $ad_platform['usage_type']['id'],
+                    'status' => true,
+                    'is_special' => $request['is_special'],
+                    'is_story' => $request['is_story'],
+                    'address' => $ad_platform['address'],
+                    'lng' => $ad_platform['lng'],
+                    'lat' => $ad_platform['lat'],
+                    'price' => $ad_platform['price'],
+                    'property_price' => $ad_platform['property_price'],
+                    'area' => $ad_platform['area'],
+                    'description' => $request['description'],
+                    "is_constrained" => $ad_platform['is_constrained'],
+                    "is_pawned" => $ad_platform['is_pawned'],
+                    "is_halted" => $ad_platform['is_halted'],
+                    "is_testament" => $ad_platform['is_testment'],
+                    'street_width' => $ad_platform['street_width'],
+                    'number_of_rooms' => $ad_platform['number_of_rooms'],
+                    'deed_number' => $ad_platform['deed_number'],
+                    'property_face' => $ad_platform['property_face'],
+                    'plan_number' => $ad_platform['plan_number'],
+                    'land_number' => $ad_platform['land_number'],
+                    'ad_license_url' => $ad_platform['ad_license_url'],
+                    'ad_source' => $ad_platform['ad_source'],
+                    'title_deed_type_name' => $ad_platform['title_deed_type_name'],
+                    'location_description' => $ad_platform['location_description'],
+                    'property_age' => $ad_platform['property_age'],
+                    'rer_constraints' => $ad_platform['rerConstraints'],
+                    'creation_date' => Carbon::createFromFormat('d/m/Y', $ad_platform['creation_date']),
+                    'end_date' => Carbon::createFromFormat('d/m/Y', $ad_platform['end_date'])
+                ];
+
                 break;
             case 'buy':
                 $data=[
@@ -82,7 +84,7 @@ class AdRepositoryEloquent implements AdRepository
             $ad->addMediaFromRequest('main_image')->toMediaCollection('main_image');
         }
         if ($request->has('images')) {
-            foreach ($request->images as $image) {
+            foreach ($request->file('images') as $image) {
                 $ad->addMedia($image)->toMediaCollection('images');
             }
         }
@@ -171,7 +173,7 @@ class AdRepositoryEloquent implements AdRepository
     }
     private static function CreateSlug($slug,$number=0)
     {
-        if(Ad::where('slug',$slug)->exit()){
+        if(Ad::where('slug',$slug)->exists()){
             return  self::CreateSlug($slug,$number+1);
         }
         return $number != 0 ? $slug.'-'.$number:$slug;

@@ -67,17 +67,17 @@ class StoreSellAdHandler extends Handler
 
         if($exit_ad){
             $adViewModel = $this->adMapper->toExistsViewModel($exit_ad);
-            responseApiFalse(
+            return   responseApiFalse(
                 code: 402,
                 data: $adViewModel->toArray()
             );
         }
         $ad= $this->adService->create(MainType::SELL,$request->validated(),$user);
         if($ad){
-            responseApi(
+            return   responseApi(
                 data: $ad->slug,
             );
         }
-        return  responseApiFalse(400,translate('An unexpected error occurred while processing your request. Please try again. If the problem persists, contact our support team for assistance.'));
+        return  responseApiFalse(code:400,message:translate('An unexpected error occurred while processing your request. Please try again. If the problem persists, contact our support team for assistance.'));
     }
 }
