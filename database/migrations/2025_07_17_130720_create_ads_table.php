@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->id();
-            $table->string('license_number')->nullable();
+            $table->string('license_number')->nullable()->index();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('ad_type_id')->constrained()->onDelete('cascade');
 
@@ -26,7 +26,7 @@ return new class extends Migration
 
             $table->string('main_type')->comment(sprintf('it will be %s', implode(',', MainType::values())));
             $table->boolean('status')->default(false);
-            $table->string('slug',300);
+            $table->string('slug',300)->index();
             $table->boolean('is_special')->default(false);
             $table->boolean('is_story')->default(false);
             $table->string('address')->nullable();
@@ -52,7 +52,7 @@ return new class extends Migration
             $table->string('ad_source')->nullable();
             $table->string('title_deed_type_name')->nullable();
             $table->string('location_description')->nullable();
-            $table->integer('property_age')->nullable();
+            $table->string('property_age')->nullable();
             $table->json('rer_constraints')->nullable();
 
             $table->date('creation_date')->nullable();

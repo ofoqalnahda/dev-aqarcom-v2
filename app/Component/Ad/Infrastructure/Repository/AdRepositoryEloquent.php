@@ -27,7 +27,8 @@ class AdRepositoryEloquent implements AdRepository
                     $ad_platform=Cache::get($cacheKey);
                 }
                 $property_utilities=collect($ad_platform['property_utilities'])->pluck('id')->toArray();
-                $slug=self::CreateSlug(Str::slug($ad_platform['ad_type']['name'].'-'.$ad_platform['address']));
+
+                $slug=self::CreateSlug(Str::slug($ad_platform['ad_type']['name'].'-'.$ad_platform['estate_type']['name'].'-'.$ad_platform['address']));
                 $data = [
                     'slug' => $slug,
                     'main_type' => $mainType,
@@ -80,17 +81,6 @@ class AdRepositoryEloquent implements AdRepository
         }
         $ad= Ad::create($data);
         $ad->propertyUtilities()->sync($property_utilities ?? []);
-        if ($request->has('main_image')) {
-            $ad->addMediaFromRequest('main_image')->toMediaCollection('main_image');
-        }
-        if ($request->has('images')) {
-            foreach ($request->file('images') as $image) {
-                $ad->addMedia($image)->toMediaCollection('images');
-            }
-        }
-        if ($request->has('video')) {
-            $ad->addMediaFromRequest('video')->toMediaCollection('video');
-        }
         return $ad;
     }
 
@@ -119,11 +109,13 @@ class AdRepositoryEloquent implements AdRepository
 
     public function CheckIsExitAd(int|string $license_number): mixed
     {
-        $ad = Ad::with('user:id,name')->where('license_number',$license_number)->first();
-        if ($ad) {
-            return $ad;
-        }
-        return null;
+        $cacheKey = 'ad_check_' . $license_number;
+
+        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($license_number) {
+            return Ad::with('user:id,name')
+                ->where('license_number', $license_number)
+                ->first();
+        });
     }
 
     public function CheckAdLicense(CheckAdLicenseRequest $request, ?Authenticatable $user): array
@@ -173,9 +165,10 @@ class AdRepositoryEloquent implements AdRepository
     }
     private static function CreateSlug($slug,$number=0)
     {
-        if(Ad::where('slug',$slug)->exists()){
+        $new_slug =$number != 0 ? $slug.'-'.$number:$slug;
+        if(Ad::where('slug',$new_slug)->exists()){
             return  self::CreateSlug($slug,$number+1);
         }
-        return $number != 0 ? $slug.'-'.$number:$slug;
+        return $new_slug;
     }
 }
