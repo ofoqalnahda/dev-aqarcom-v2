@@ -10,7 +10,7 @@ interface AdMapperInterface
 {
     /**
      * Map an Ad model to a AdViewModel.
-     * @param mixed $ad
+     * @param  $ad
      * @return AdViewModel
      */
     public function toViewModel($ad): AdViewModel;

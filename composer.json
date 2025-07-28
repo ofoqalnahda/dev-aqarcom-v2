@@ -23,6 +23,7 @@
         "moneyphp/money": "^4.7",
         "predis/predis": "^3.0",
         "propaganistas/laravel-phone": "^6.0",
+        "spatie/laravel-medialibrary": "^11.13",
         "spatie/laravel-permission": "^6.20",
         "yajra/laravel-datatables": "^12.0"
     },

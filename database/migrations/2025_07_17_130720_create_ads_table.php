@@ -26,6 +26,7 @@ return new class extends Migration
 
             $table->string('main_type')->comment(sprintf('it will be %s', implode(',', MainType::values())));
             $table->boolean('status')->default(false);
+            $table->string('slug',300);
             $table->boolean('is_special')->default(false);
             $table->boolean('is_story')->default(false);
             $table->string('address')->nullable();

@@ -2,6 +2,7 @@
 
 namespace App\Component\Ad\Application\Service;
 
+use App\Component\Ad\Domain\Enum\MainType;
 use App\Component\Ad\Infrastructure\Http\Request\CheckAdLicenseRequest;
 use Illuminate\Contracts\Auth\Authenticatable;
 
@@ -9,10 +10,12 @@ interface AdServiceInterface
 {
     /**
      * create a new ad.
-     * @param array $data
+     * @param  $request
+     * @param  $user
+     * @param MainType $main_type
      * @return mixed
      */
-    public function create(array $data);
+    public function create(MainType $main_type, $request, $user): mixed;
     /**
      * Update ad information.
      * @param int|string $id
