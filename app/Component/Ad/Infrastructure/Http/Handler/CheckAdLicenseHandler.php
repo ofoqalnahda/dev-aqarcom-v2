@@ -66,7 +66,7 @@ class CheckAdLicenseHandler extends Handler
 
         if($exit_ad){
             $adViewModel = $this->adMapper->toExistsViewModel($exit_ad);
-            responseApiFalse(
+            return  responseApiFalse(
                 code: 402,
                 data: $adViewModel->toArray()
             );
@@ -75,9 +75,8 @@ class CheckAdLicenseHandler extends Handler
         if($ad_platform['Status']){
             $cacheKey = 'ad_platform_view_' . $license_number;
             $adViewModel = $this->adMapper->toPlatformViewModel($ad_platform['Body']['result']['advertisement']);
-
             Cache::put($cacheKey, $adViewModel->toArray(), now()->addHour());
-            responseApi(
+            return responseApi(
                 data: $adViewModel->toArray(),
             );
         }
