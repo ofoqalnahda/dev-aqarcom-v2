@@ -5,6 +5,7 @@ namespace App\Component\Ad\Infrastructure\Service;
 use AllowDynamicProperties;
 use App\Component\Ad\Application\Service\AdServiceInterface;
 use App\Component\Ad\Application\Repository\AdRepository;
+use App\Component\Ad\Domain\Enum\MainType;
 use App\Component\Ad\Infrastructure\Http\Request\CheckAdLicenseRequest;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
@@ -33,9 +34,9 @@ class AdService implements AdServiceInterface
         return $this->adRepository->delete($id);
     }
 
-    public function create(array $data)
+    public function create(MainType $main_type , $request, $user): mixed
     {
-        // TODO: Implement create() method.
+        return $this->adRepository->create( $main_type, $request, $user);
     }
 
     public function find($id)

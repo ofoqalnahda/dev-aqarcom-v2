@@ -7,9 +7,12 @@ use App\Component\Ad\Data\Entity\Geography\Neighborhood;
 use App\Component\Ad\Data\Entity\Geography\Region;
 use App\Component\Auth\Data\Entity\User\User;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Ad extends Model
+class Ad extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     protected $fillable = [
         'id',
         'license_number',
@@ -47,7 +50,6 @@ class Ad extends Model
         'ad_source',
         'title_deed_type_name',
         'location_description',
-        'property_age',
         'property_age',
         'rer_constraints',
         'creation_date',

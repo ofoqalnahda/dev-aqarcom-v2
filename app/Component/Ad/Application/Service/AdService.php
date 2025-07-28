@@ -2,14 +2,18 @@
 
 namespace App\Component\Ad\Application\Service;
 
+use App\Component\Ad\Domain\Enum\MainType;
+
 interface AdService
 {
     /**
      * create a new ad.
-     * @param array $data
+     * @param MainType $mainType
+     * @param $request
+     * @param $user
      * @return mixed
      */
-    public function create(array $data);
+    public function create( MainType $mainType, $request, $user): mixed;
     /**
      * Update ad information.
      * @param int|string $id

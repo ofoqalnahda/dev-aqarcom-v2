@@ -4,7 +4,8 @@ namespace App\Component\Ad\Infrastructure\Http\Handler;
 
 use App\Component\Ad\Application\Mapper\AdMapperInterface;
 use App\Component\Ad\Application\Service\AdServiceInterface;
-use App\Component\Ad\Infrastructure\Http\Request\CheckAdLicenseRequest;
+use App\Component\Ad\Domain\Enum\MainType;
+use App\Component\Ad\Infrastructure\Http\Request\StoreSellAdRequest;
 use App\Component\Ad\Presentation\ViewModel\AdExistsAdViewModel;
 use App\Libraries\Base\Http\Handler;
 use Illuminate\Http\JsonResponse;
@@ -13,18 +14,18 @@ use Illuminate\Support\Facades\Cache;
 use OpenApi\Attributes as OA;
 
 #[OA\Post(
-    path: '/api/v1/ads/check-license',
-    operationId: "checkLicense",
-    summary: "check license",
+    path: '/api/v1/ads/store-sell-ads',
+    operationId: "storeSellAds",
+    summary: "store sell ads",
     security: [['sanctum' => []]],
-    requestBody: new OA\RequestBody(ref: '#/components/requestBodies/CheckAdLicenseRequest'),
+    requestBody: new OA\RequestBody(ref: '#/components/requestBodies/StoreSellAdRequest'),
     tags: ['Ads'],
     responses: [
         new OA\Response(response: 200, description: 'Success', content: new OA\JsonContent(
             properties: [
                 new OA\Property(property: 'status', type: 'string'),
                 new OA\Property(property: 'message', type: 'string'),
-                new OA\Property(property: 'data', ref: '#/components/schemas/AdPlatformViewModel'),
+                new OA\Property(property: 'data', title: 'string',example: 'slug ad'),
             ],
             type: 'object'
         )),
@@ -46,7 +47,7 @@ use OpenApi\Attributes as OA;
         )),
     ]
 )]
-class CheckAdLicenseHandler extends Handler
+class StoreSellAdHandler extends Handler
 {
     protected AdServiceInterface $adService;
 
@@ -58,7 +59,7 @@ class CheckAdLicenseHandler extends Handler
         $this->adMapper = $adMapper;
     }
 
-    public function __invoke(CheckAdLicenseRequest $request): JsonResponse
+    public function __invoke(StoreSellAdRequest $request): JsonResponse
     {
         $user = Auth::user();
         $license_number = $request->input('license_number');
@@ -71,16 +72,12 @@ class CheckAdLicenseHandler extends Handler
                 data: $adViewModel->toArray()
             );
         }
-        $ad_platform=  $this->adService->CheckAdLicense($request, $user);
-        if($ad_platform['Status']){
-            $cacheKey = 'ad_platform_view_' . $license_number;
-            $adViewModel = $this->adMapper->toPlatformViewModel($ad_platform['Body']['result']['advertisement']);
-
-            Cache::put($cacheKey, $adViewModel->toArray(), now()->addHour());
+        $ad=  $this->adService->create(MainType::SELL,$request->validated(),$user);
+        if($ad){
             responseApi(
-                data: $adViewModel->toArray(),
+                data: $ad->slug,
             );
         }
-        return  responseApiFalse(400,translate('Invalid license or ID. Please check and try again. If the issue persists, contact support'));
+        return  responseApiFalse(400,translate('An unexpected error occurred while processing your request. Please try again. If the problem persists, contact our support team for assistance.'));
     }
 }

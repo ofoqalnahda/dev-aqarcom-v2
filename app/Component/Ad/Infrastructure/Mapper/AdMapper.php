@@ -9,7 +9,7 @@ use App\Component\Ad\Presentation\ViewModel\AdViewModel;
 
 class AdMapper implements AdMapperInterface
 {
-    public function toViewModel($ad): AdViewModel
+    public function toViewModel(mixed $ad): AdViewModel
     {
         return new AdViewModel($ad);
     }

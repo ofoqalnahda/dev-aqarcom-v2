@@ -10,7 +10,8 @@
                 "tags": [
                     "Ads"
                 ],
-                "operationId": "259731a316c73f00b88c18c4a1bdfe2c",
+                "summary": "check license",
+                "operationId": "checkLicense",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/CheckAdLicenseRequest"
                 },
@@ -29,6 +30,85 @@
                                         },
                                         "data": {
                                             "$ref": "#/components/schemas/AdPlatformViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "402": {
+                        "description": "Exit ad",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/AdExistsAdViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/ads/store-sell-ads": {
+            "post": {
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "store sell ads",
+                "operationId": "storeSellAds",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreSellAdRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/AdViewModel"
                                         }
                                     },
                                     "type": "object"
@@ -656,6 +736,58 @@
                                     "maxLength": 10,
                                     "minLength": 10,
                                     "pattern": "^72\\d{8}$"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "StoreSellAdRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "license_number",
+                                "is_special",
+                                "is_story",
+                                "description",
+                                "images",
+                                "video"
+                            ],
+                            "properties": {
+                                "license_number": {
+                                    "description": "The license number must be exactly 10 digits long and must begin with 72.",
+                                    "type": "string",
+                                    "maxLength": 10,
+                                    "minLength": 10,
+                                    "pattern": "^72\\d{8}$"
+                                },
+                                "is_special": {
+                                    "description": "Is the ad marked as special?",
+                                    "type": "boolean"
+                                },
+                                "is_story": {
+                                    "description": "Is the ad shown as a story?",
+                                    "type": "boolean"
+                                },
+                                "description": {
+                                    "description": "Ad description text.",
+                                    "type": "string"
+                                },
+                                "images": {
+                                    "description": "Array of image files. Each image must be one of: jpeg, png, gif, svg, webp, bmp, tiff and max 5MB each.",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "video": {
+                                    "description": "Video file (mp4, avi, mpeg, mov). Max size: 50MB.",
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             },
                             "type": "object"
