@@ -16,6 +16,7 @@ class Ad extends Model implements HasMedia
     protected $fillable = [
         'id',
         'license_number',
+        'slug',
         'user_id',
         'ad_type_id',
 

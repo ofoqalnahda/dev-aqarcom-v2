@@ -11,6 +11,7 @@ use App\Libraries\Base\Http\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use OpenApi\Attributes as OA;
 
 #[OA\Post(
@@ -61,23 +62,60 @@ class StoreSellAdHandler extends Handler
 
     public function __invoke(StoreSellAdRequest $request): JsonResponse
     {
-        $user = Auth::user();
-        $license_number = $request->input('license_number');
-        $exit_ad= $this->adService->CheckIsExitAd($license_number);
+        try {
+            DB::beginTransaction();
+            $user = Auth::user();
 
-        if($exit_ad){
-            $adViewModel = $this->adMapper->toExistsViewModel($exit_ad);
-            responseApiFalse(
-                code: 402,
-                data: $adViewModel->toArray()
+
+            $license_number = $request->input('license_number');
+            $exit_ad = $this->adService->CheckIsExitAd($license_number);
+            if ($exit_ad) {
+                $adViewModel = $this->adMapper->toExistsViewModel($exit_ad);
+                return responseApiFalse(
+                    code: 402,
+                    data: $adViewModel->toArray()
+                );
+            }
+
+            $ad = $this->adService->create(MainType::SELL, $request->validated(), $user);
+            if ($request->hasFile('main_image')) {
+                $ad->addMediaFromRequest('main_image')->toMediaCollection('main_image');
+            }
+
+            if ($request->has('images')) {
+                foreach ($request->file('images') as $image) {
+                    $ad->addMedia($image)->toMediaCollection('images');
+                }
+            }
+
+            if ($request->hasFile('video')) {
+                $ad->addMediaFromRequest('video')->toMediaCollection('video');
+            }
+            $slug=$ad->slug;
+            $cacheKey = 'ad_platform_view_' . $license_number;
+            $cacheKey_ch = 'ad_check_' . $license_number;
+
+            Cache::forget($cacheKey);
+            Cache::forget($cacheKey_ch);
+            DB::commit();
+            return responseApi(
+                data: $slug,
+            );
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error in StoreSellAdHandler', [
+                'error'     => $e->getMessage(),
+                'file'      => $e->getFile(),
+                'line'      => $e->getLine(),
+                'code'      => $e->getCode(),
+                'user_id'   => optional(Auth::user())->id
+            ]);
+
+            return responseApiFalse(
+                400,
+                translate('An unexpected error occurred while processing your request. Please try again. If the problem persists, contact our support team for assistance.')
             );
         }
-        $ad= $this->adService->create(MainType::SELL,$request->validated(),$user);
-        if($ad){
-            responseApi(
-                data: $ad->slug,
-            );
-        }
-        return  responseApiFalse(400,translate('An unexpected error occurred while processing your request. Please try again. If the problem persists, contact our support team for assistance.'));
     }
+
 }
