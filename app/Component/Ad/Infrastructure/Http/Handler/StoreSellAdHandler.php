@@ -72,7 +72,7 @@ class StoreSellAdHandler extends Handler
                 data: $adViewModel->toArray()
             );
         }
-        $ad=  $this->adService->create(MainType::SELL,$request->validated(),$user);
+        $ad= $this->adService->create(MainType::SELL,$request->validated(),$user);
         if($ad){
             responseApi(
                 data: $ad->slug,

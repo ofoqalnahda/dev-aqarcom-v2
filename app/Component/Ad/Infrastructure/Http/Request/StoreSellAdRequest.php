@@ -9,7 +9,7 @@ use OpenApi\Attributes as OA;
     request: 'StoreSellAdRequest',
     required: true,
     content: new OA\JsonContent(
-        required: ['license_number', 'is_special', 'is_story', 'description', 'images', 'video'],
+        required: ['license_number', 'is_special', 'is_story', 'description','main_image'],
         properties: [
             new OA\Property(
                 property: 'license_number',
@@ -35,6 +35,11 @@ use OpenApi\Attributes as OA;
                 type: 'string'
             ),
             new OA\Property(
+                property: 'main_image',
+                description: 'Ad main image.',
+
+            ),
+            new OA\Property(
                 property: 'images',
                 description: 'Array of image files. Each image must be one of: jpeg, png, gif, svg, webp, bmp, tiff and max 5MB each.',
                 type: 'array',
@@ -43,7 +48,6 @@ use OpenApi\Attributes as OA;
             new OA\Property(
                 property: 'video',
                 description: 'Video file (mp4, avi, mpeg, mov). Max size: 50MB.',
-                type: 'string',
                 format: 'binary'
             ),
         ]
@@ -73,17 +77,23 @@ class StoreSellAdRequest extends FormRequest
                 'required',
                 'string',
             ],
-            'images' => [
-                'required',
-                'array',
-            ],
-            'images.*' => [
+            'main_image' => [
                 'required',
                 'max:5120', // 5MB
                 'mimetypes:image/jpeg,image/png,image/gif,image/svg+xml,image/webp,image/bmp,image/tiff',
             ],
+            'images' => [
+                'nullable',
+                'array',
+            ],
+
+            'images.*' => [
+                'nullable',
+                'max:5120', // 5MB
+                'mimetypes:image/jpeg,image/png,image/gif,image/svg+xml,image/webp,image/bmp,image/tiff',
+            ],
             'video' => [
-                'required',
+                'nullable',
                 'mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime,video/x-msvideo',
                 'max:51200', // 50MB
             ],
