@@ -11,6 +11,7 @@ use ReflectionClass;
     required: ["license_number"],
     properties: [
         new OA\Property(property: "id", type: "integer"),
+        new OA\Property(property: "slug", type: "string"),
         new OA\Property(property: "license_number", type: "string"),
         new OA\Property(property: "user_name", type: "string"),
         new OA\Property(property: "user_id", type: "integer")
@@ -19,7 +20,8 @@ use ReflectionClass;
 )]
 class AdExistsAdViewModel
 {
-    public string $id;
+    public int $id;
+    public string $slug;
     public string $license_number;
     public ?string $user_name;
     public string $user_id;
@@ -27,6 +29,7 @@ class AdExistsAdViewModel
     public function __construct($data)
     {
         $this->id = $data->id;
+        $this->slug = $data->slug;
         $this->license_number = $data->license_number;
         $this->user_name = $data->user_name;
         $this->user_id = $data->user_id;

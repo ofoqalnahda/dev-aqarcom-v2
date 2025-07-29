@@ -112,9 +112,17 @@ class AdRepositoryEloquent implements AdRepository
         $cacheKey = 'ad_check_' . $license_number;
 
         return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($license_number) {
-            return Ad::with('user:id,name')
-                ->where('license_number', $license_number)
-                ->first();
+            return Ad::query()
+                ->join('users', 'users.id', '=', 'ads.user_id')
+                ->where('ads.license_number', $license_number)
+                ->select([
+                    'ads.id',
+                    'ads.license_number',
+                    'ads.slug',
+                    'users.id as user_id',
+                    'users.name as user_name'
+                ])
+                ->first()?->toArray();
         });
     }
 
