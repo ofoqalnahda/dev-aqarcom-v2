@@ -19,6 +19,8 @@ use ReflectionClass;
     required: ["license_number"],
     properties: [
         new OA\Property(property: "license_number", type: "string"),
+        new OA\Property(property: "advertiser_name", type: "string"),
+        new OA\Property(property: "advertiser_phone", type: "string"),
         new OA\Property(property: "price", type: "number", format: "float"),
         new OA\Property(property: "property_price", type: "number", format: "float"),
 
@@ -62,6 +64,9 @@ use ReflectionClass;
 class AdPlatformViewModel
 {
     public string $license_number;
+    public string $advertiser_name;
+    public string $advertiser_phone;
+
     public float $price;
     public float $property_price;
     public array $region;
@@ -104,6 +109,9 @@ class AdPlatformViewModel
     {
 
         $this->license_number=$advertisement['adLicenseNumber'];
+        $this->advertiser_name =$advertisement['advertiserName'];
+        $this->advertiser_phone =$advertisement['phoneNumber'];
+
         $this->price=convert_to_english_numbers($advertisement['propertyPrice']);
         $this->property_price=convert_to_english_numbers($advertisement['propertyPrice']);
         if($advertisement['landTotalAnnualRent']){

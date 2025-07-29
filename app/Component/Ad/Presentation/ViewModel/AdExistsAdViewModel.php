@@ -28,11 +28,11 @@ class AdExistsAdViewModel
 
     public function __construct($data)
     {
-        $this->id = $data->id;
-        $this->slug = $data->slug;
-        $this->license_number = $data->license_number;
-        $this->user_name = $data->user_name;
-        $this->user_id = $data->user_id;
+        $this->id = $data["id"];
+        $this->slug = $data["slug"];
+        $this->license_number = $data["license_number"];
+        $this->user_name = $data["user_name"];
+        $this->user_id = $data["user_id"];
     }
 
     public function toArray(): array
@@ -40,3 +40,7 @@ class AdExistsAdViewModel
         return get_object_vars($this);
     }
 }
+
+
+
+
