@@ -16,7 +16,7 @@ interface AdViewQueryInterface
      * @param int|string $id
      * @return mixed
      */
-    public function find($id);
+    public function find(int|string $id): mixed;
 
 
 }

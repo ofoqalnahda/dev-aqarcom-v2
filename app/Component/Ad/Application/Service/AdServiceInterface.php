@@ -36,7 +36,7 @@ interface AdServiceInterface
      * @param int|string $id
      * @return mixed
      */
-    public function find($id);
+    public function find(int|string $id): mixed;
 
     /**
      * Check if Already exists.
@@ -46,4 +46,6 @@ interface AdServiceInterface
     public function CheckIsExitAd(int|string $license_number): mixed;
 
     public function CheckAdLicense(CheckAdLicenseRequest $request, ?Authenticatable $user);
+
+    public function filter(MainType $mainType, array $filters,$withDist=false);
 }

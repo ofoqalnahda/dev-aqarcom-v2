@@ -15,7 +15,6 @@ use App\Component\Common\Infrastructure\Log\Application\ApplicationLogManager;
 use App\Component\Common\Infrastructure\Mapper\Pagination\PaginatedListViewModelApplicationMapper;
 use App\Component\Common\Infrastructure\Service\Csv\CsvApplicationService;
 use App\Component\Common\Infrastructure\Service\Notification\NotificationApplicationService;
-use App\Component\Common\Presentation\Application\ApplicationPaginator;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -33,7 +32,7 @@ class ApplicationServiceProvider extends ServiceProvider implements DeferrablePr
         $this->registerTranslation();
         $this->registerSystemClient();
         $this->app->bind(CsvService::class, CsvApplicationService::class);
-        $this->app->bind(LengthAwarePaginator::class, ApplicationPaginator::class);
+        $this->app->bind(LengthAwarePaginator::class);
         $this->app->bind(PaginatedListViewModelMapper::class, PaginatedListViewModelApplicationMapper::class);
         $this->app->bind(NotificationService::class, NotificationApplicationService::class);
     }

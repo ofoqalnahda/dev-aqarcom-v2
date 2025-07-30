@@ -41,4 +41,5 @@ interface AdRepository
     public function CheckIsExitAd(string $license_number);
 
     public function CheckAdLicense(CheckAdLicenseRequest $request, ?Authenticatable $user);
+    public function filter(MainType $mainType, array $filters,$withDist=false);
 }

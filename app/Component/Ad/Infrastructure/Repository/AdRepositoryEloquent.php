@@ -4,13 +4,18 @@ namespace App\Component\Ad\Infrastructure\Repository;
 
 use App\Component\Ad\Application\Repository\AdRepository;
 use App\Component\Ad\Data\Entity\Ad\Ad;
+use App\Component\Ad\Data\Entity\Ad\AdType;
+use App\Component\Ad\Data\Entity\Ad\EstateType;
+use App\Component\Ad\Data\Entity\Geography\City;
+use App\Component\Ad\Data\Entity\Geography\Region;
+use App\Component\Ad\Data\Entity\Geography\RegionMap;
 use App\Component\Ad\Domain\Enum\MainType;
 use App\Component\Ad\Infrastructure\Http\Request\CheckAdLicenseRequest;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-
 class AdRepositoryEloquent implements AdRepository
 {
 
@@ -92,7 +97,10 @@ class AdRepositoryEloquent implements AdRepository
         }
         return $user;
     }
-
+    public function find($id)
+    {
+        return Ad::find($id);
+    }
     public function delete($id): bool
     {
         $user = Ad::find($id);
@@ -179,4 +187,104 @@ class AdRepositoryEloquent implements AdRepository
         }
         return $new_slug;
     }
+
+    public function filter(MainType $mainType, array $filters,$withDist=false)
+    {
+        $validKeys = [
+            'user_id',
+            'is_special',
+            'is_special',
+            'ad_type_id',
+            'estate_type_id',
+            'city_id',
+            'region_id',
+            'neighborhood_id',
+            'usage_type_id',
+            'main_type',
+            'status',
+            'number_of_rooms',
+            'price',
+            'min_price',
+            'max_price',
+            'area',
+            'min_area',
+            'max_area',
+            'search',
+            'region_map_id',
+            'property_utilities',
+        ];
+
+        $query = Ad::query();
+
+        if ($withDist){
+            $query= $query->WithDistanceFrom();
+        }
+        $query->where('main_type', $mainType->value);
+        $filters = array_filter($filters, fn($v) => $v !== null && $v !== '');
+
+        foreach ($filters as $key => $value) {
+            if (!in_array($key, $validKeys)) {
+                continue;
+            }
+
+            if ($key === 'search') {
+                $query->where(function ($q) use ($value) {
+                    if (is_numeric($value)) {
+                        $q->where('id', (int)$value);
+                    } else {
+                        $q->where('description', 'like', '%' . $value . '%');
+                        $estateTypeIds = EstateType::whereTranslation('title', 'like', '%' . $value . '%')->pluck('id');
+                        $adTypeIds = AdType::whereTranslation('title', 'like', '%' . $value . '%')->pluck('id');
+                        $q->orWhereIn('estate_type_id', $estateTypeIds);
+                        $q->orWhereIn('ad_type_id', $adTypeIds);
+                    }
+                });
+                continue;
+            }
+
+            if (is_string($value) && str_contains($value, ',')) {
+                $values = explode(',', $value);
+                if (count($values) === 2) {
+                    $query->whereBetween($key, [$values[0], $values[1]]);
+                }
+                continue;
+            }
+
+            if ($key === 'region_map_id') {
+                $state = RegionMap::find($value);
+                if ($state) {
+                    $cityIds = City::where('region_map_id', $state->id)->pluck('id');
+                    if (!empty($cityIds)) {
+                        $query->whereIn('city_id', $cityIds);
+                    }
+                }
+                continue;
+            }
+            if ($key === 'property_utilities') {
+                $utilityIds = is_string($value) ? explode(',', $value) : (array)$value;
+                $query->whereHas('propertyUtilities', function ($q) use ($utilityIds) {
+                    $q->whereIn('property_utilities.id', $utilityIds);
+                });
+
+                continue;
+            }
+
+            if (in_array($key, ['min_price', 'min_area'])) {
+                $column = str_replace('min_', '', $key);
+                $query->where($column, '>=', $value);
+                continue;
+            }
+
+            if (in_array($key, ['max_price', 'max_area'])) {
+                $column = str_replace('max_', '', $key);
+                $query->where($column, '<=', $value);
+                continue;
+            }
+
+            $query->where($key, $value);
+        }
+
+        return $query;
+    }
+
 }
