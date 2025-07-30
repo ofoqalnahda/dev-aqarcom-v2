@@ -39,9 +39,9 @@ class AdService implements AdServiceInterface
         return $this->adRepository->create( $main_type, $request, $user);
     }
 
-    public function find($id)
+    public function find(int|string $id): mixed
     {
-        // TODO: Implement find() method.
+        return $this->adRepository->find($id);
     }
 
     public function CheckIsExitAd(int|string $license_number): mixed
@@ -52,5 +52,10 @@ class AdService implements AdServiceInterface
     public function CheckAdLicense(CheckAdLicenseRequest $request, ?Authenticatable $user)
     {
         return $this->adRepository->CheckAdLicense($request,$user);
+    }
+
+    public function filter(MainType $SELL, array $filters)
+    {
+        return $this->adRepository->filter($SELL,$filters);
     }
 }

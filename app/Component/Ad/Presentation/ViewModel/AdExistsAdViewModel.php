@@ -18,7 +18,8 @@ use ReflectionClass;
     ],
     type: "object",
 )]
-class AdExistsAdViewModel
+class
+AdExistsAdViewModel
 {
     public int $id;
     public string $slug;

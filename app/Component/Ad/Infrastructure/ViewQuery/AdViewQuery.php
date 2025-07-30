@@ -17,7 +17,7 @@ class AdViewQuery implements AdViewQueryInterface
         return $query->get()->toArray();
     }
 
-    public function find($id)
+    public function find(int|string $id): mixed
     {
         return Ad::find($id);
     }

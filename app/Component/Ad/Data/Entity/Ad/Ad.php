@@ -86,6 +86,11 @@ class Ad extends Model implements HasMedia
         return $this->belongsTo(Region::class);
     }
 
+    public function distanceForUser()
+    {
+        return $this->belongsTo(Region::class);
+    }
+
     public function city()
     {
         return $this->belongsTo(City::class);
@@ -117,6 +122,36 @@ class Ad extends Model implements HasMedia
     public function propertyUtilities()
     {
         return $this->belongsToMany(PropertyUtility::class, 'ad_property_utility');
+    }
+
+    public function favoritedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'ad_id', 'user_id');
+    }
+
+
+    public function isFavoritedBy($userId): bool
+    {
+        return $this->favoritedByUsers()->where('user_id', $userId)->exists();
+    }
+
+
+
+    public function scopeWithDistanceFrom($query)
+    {
+        $lat = request()->input('lat');
+        $lng = request()->input('lng');
+
+        if (!$lat || !$lng) return $query;
+
+        $haversine = "(6371 * acos(cos(radians($lat))
+                    * cos(radians(lat))
+                    * cos(radians(lng) - radians($lng))
+                    + sin(radians($lat))
+                    * sin(radians(lat))))";
+
+        return $query->select('*')
+            ->selectRaw("$haversine AS distance_for_user");
     }
 
 }
