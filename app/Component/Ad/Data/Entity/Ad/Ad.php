@@ -153,5 +153,14 @@ class Ad extends Model implements HasMedia
         return $query->select('*')
             ->selectRaw("$haversine AS distance_for_user");
     }
+    public function getTitleAttribute()
+    {
+        return __('special.title_ad',[
+            "estate_type"=>$this->estateType->title,
+            "ad_type"=>$this->ad_type->title,
+            "neighborhood"=>$this->neighborhood->name
+        ]) ;
+
+    }
 
 }
