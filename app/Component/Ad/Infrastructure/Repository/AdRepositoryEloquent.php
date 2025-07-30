@@ -188,7 +188,7 @@ class AdRepositoryEloquent implements AdRepository
         return $new_slug;
     }
 
-    public function filter(MainType $mainType, array $filters)
+    public function filter(MainType $mainType, array $filters,$withDist=false)
     {
         $validKeys = [
             'user_id',
@@ -214,7 +214,11 @@ class AdRepositoryEloquent implements AdRepository
             'property_utilities',
         ];
 
-        $query = Ad::query()->WithDistanceFrom();
+        $query = Ad::query();
+
+        if ($withDist){
+            $query= $query->WithDistanceFrom();
+        }
         $query->where('main_type', $mainType->value);
         $filters = array_filter($filters, fn($v) => $v !== null && $v !== '');
 

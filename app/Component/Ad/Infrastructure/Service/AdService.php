@@ -54,8 +54,8 @@ class AdService implements AdServiceInterface
         return $this->adRepository->CheckAdLicense($request,$user);
     }
 
-    public function filter(MainType $SELL, array $filters)
+    public function filter(MainType $mainType, array $filters,$withDist=false)
     {
-        return $this->adRepository->filter($SELL,$filters);
+        return $this->adRepository->filter($mainType,$filters,$withDist);
     }
 }

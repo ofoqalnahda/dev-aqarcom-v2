@@ -82,7 +82,7 @@ class ListAdHandler extends Handler
         try {
             $perPage = (int) $request->input('per_page', 15);
             $filters =$request->all();
-            $query = $this->adService->filter(MainType::SELL,$filters);
+            $query = $this->adService->filter(MainType::SELL,$filters,true);
             $paginated = $query->paginate($perPage);
             $items = $paginated->getCollection()->map(function ($ad) {
                 return new AdViewListModel($ad);
@@ -106,8 +106,6 @@ class ListAdHandler extends Handler
                 'code'      => $e->getCode(),
                 'user_id'   => optional(Auth::user())->id
             ]);
-            dd($e);
-
             return responseApiFalse(
                 400,
                 translate('An unexpected error occurred while processing your request. Please try again. If the problem persists, contact our support team for assistance.')
