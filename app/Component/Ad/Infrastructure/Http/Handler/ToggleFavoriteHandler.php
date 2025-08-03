@@ -4,7 +4,6 @@ namespace App\Component\Ad\Infrastructure\Http\Handler;
 
 use App\Component\Ad\Application\Mapper\AdMapperInterface;
 use App\Component\Ad\Application\Service\AdServiceInterface;
-use App\Component\Ad\Domain\Enum\MainType;
 use App\Libraries\Base\Http\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

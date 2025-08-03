@@ -44,7 +44,7 @@ use OpenApi\Attributes as OA;
         new OA\Parameter(name: "per_page", in: "query", required: false, schema: new OA\Schema(type: "integer")),
         new OA\Parameter(name: "page", in: "query", required: false, schema: new OA\Schema(type: "integer")),
         new OA\Parameter(name: "is_special", in: "query", required: false, schema: new OA\Schema(type: "integer")),
-        new OA\Parameter(name: "is_store", in: "query", required: false, schema: new OA\Schema(type: "integer")),
+        new OA\Parameter(name: "is_story", in: "query", required: false, schema: new OA\Schema(type: "integer")),
 
     ],
     responses: [
@@ -84,12 +84,13 @@ class ListAdHandler extends Handler
             $filters =$request->all();
             $query = $this->adService->filter(MainType::SELL,$filters,true);
             $paginated = $query->paginate($perPage);
-            $items = $paginated->getCollection()->map(function ($ad) {
-                return new AdViewListModel($ad);
-            });
+            $items = $this->adMapper->toViewLiseModelCollection($paginated->getCollection());
+//            $items = $paginated->getCollection()->map(function ($ad) {
+//                return new AdViewListModel($ad);
+//            });
             return  responseApi(
                 data: [
-                    'data' => $items->toArray(),
+                    'data' => $items,
                     'meta' => [
                         'current_page' => $paginated->currentPage(),
                         'per_page'     => $paginated->perPage(),
@@ -99,7 +100,7 @@ class ListAdHandler extends Handler
                 ]
             );
         } catch (\Exception $e) {
-            \Log::error('Error in StoreSellAdHandler', [
+            \Log::error('Error in List Sell Ad Handler', [
                 'error'     => $e->getMessage(),
                 'file'      => $e->getFile(),
                 'line'      => $e->getLine(),

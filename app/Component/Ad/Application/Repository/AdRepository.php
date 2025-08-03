@@ -42,4 +42,5 @@ interface AdRepository
 
     public function CheckAdLicense(CheckAdLicenseRequest $request, ?Authenticatable $user);
     public function filter(MainType $mainType, array $filters,$withDist=false);
+    public function getDataForFilter(): array;
 }

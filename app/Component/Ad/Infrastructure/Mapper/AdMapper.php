@@ -29,4 +29,10 @@ class AdMapper implements AdMapperInterface
         return new AdViewListModel($ad);
 
     }
+    public function toViewLiseModelCollection(array $ad): array
+    {
+        return array_map(function ($ad) {
+            return $this->toViewLiseModel($ad);
+        }, $ad);
+    }
 }

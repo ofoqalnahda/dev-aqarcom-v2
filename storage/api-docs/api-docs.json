@@ -84,6 +84,88 @@
                 ]
             }
         },
+        "/api/v1/ads/get-data-filter": {
+            "get": {
+                "tags": [
+                    "Filter"
+                ],
+                "summary": "Get data filter",
+                "operationId": "GetDataFilter",
+                "responses": {
+                    "200": {
+                        "description": "Packages retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "price": {
+                                                    "properties": {
+                                                        "max": {
+                                                            "type": "integer"
+                                                        },
+                                                        "min": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "area": {
+                                                    "properties": {
+                                                        "max": {
+                                                            "type": "number",
+                                                            "format": "float"
+                                                        },
+                                                        "min": {
+                                                            "type": "number",
+                                                            "format": "float"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "ad_type": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/AdTypeViewModel"
+                                                    }
+                                                },
+                                                "estate_type": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/EstateTypeViewModel"
+                                                    }
+                                                },
+                                                "usage_type": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/UsageTypeViewModel"
+                                                    }
+                                                },
+                                                "property_utility": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/PropertyUtilityViewModel"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/ads/list-sell-ads": {
             "get": {
                 "tags": [
@@ -272,7 +354,7 @@
                         }
                     },
                     {
-                        "name": "is_store",
+                        "name": "is_story",
                         "in": "query",
                         "required": false,
                         "schema": {
@@ -324,6 +406,65 @@
                 "security": [
                     {
                         "optional": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/ads/store-buy-ads": {
+            "post": {
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "store buy ads",
+                "operationId": "storeBuyAds",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreBuyAdRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "title": "string",
+                                            "example": "slug ad"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
                     }
                 ]
             }
@@ -1143,6 +1284,23 @@
                 },
                 "type": "object"
             },
+            "AdTypeViewModel": {
+                "title": "AdTypeViewModel",
+                "description": "Type Ad View Model",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "AdViewListModel": {
                 "title": "AdViewListModel",
                 "description": "Ad List View Model",
@@ -1217,6 +1375,43 @@
                 },
                 "type": "object"
             },
+            "EstateTypeViewModel": {
+                "title": "EstateTypeViewModel",
+                "description": "Estate Type View Model",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "is_most_used": {
+                        "type": "boolean"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "PropertyUtilityViewModel": {
+                "title": "PropertyUtilityViewModel",
+                "description": "Property Utilities View Model",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "StoryListModel": {
                 "title": "AdViewListModel",
                 "description": "Ad List View Model",
@@ -1269,6 +1464,23 @@
                         "type": "integer"
                     },
                     "user_number": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UsageTypeViewModel": {
+                "title": "UsageTypeViewModel",
+                "description": "Usage Type View Model",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
                         "type": "string"
                     }
                 },
@@ -1821,6 +2033,62 @@
                     }
                 }
             },
+            "StoreBuyAdRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "description",
+                                "ad_type_id",
+                                "estate_type_id",
+                                "region_id",
+                                "city_id",
+                                "neighborhood_id"
+                            ],
+                            "properties": {
+                                "ad_type_id": {
+                                    "description": "Type of the ad",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "estate_type_id": {
+                                    "description": "Type of the estate",
+                                    "type": "integer",
+                                    "example": 2
+                                },
+                                "region_id": {
+                                    "description": "ID of the region",
+                                    "type": "integer",
+                                    "example": 3
+                                },
+                                "city_id": {
+                                    "description": "ID of the city",
+                                    "type": "integer",
+                                    "example": 4
+                                },
+                                "neighborhood_id": {
+                                    "description": "ID of the neighborhood",
+                                    "type": "integer",
+                                    "example": 5
+                                },
+                                "price": {
+                                    "description": "Ad price",
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 150000
+                                },
+                                "description": {
+                                    "description": "Ad description text.",
+                                    "type": "string",
+                                    "example": "This is a description of the ad."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "StoreSellAdRequest": {
                 "required": true,
                 "content": {
@@ -2114,6 +2382,10 @@
         {
             "name": "Ads",
             "description": "Ads"
+        },
+        {
+            "name": "Filter",
+            "description": "Filter"
         },
         {
             "name": "Auth",

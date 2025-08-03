@@ -77,11 +77,7 @@ class AdRepositoryEloquent implements AdRepository
 
                 break;
             case 'buy':
-                $data=[
-                    'main_type' => $mainType,
-
-
-                ];
+                $data=$request;
                 break;
         }
         $ad= Ad::create($data);
@@ -91,11 +87,11 @@ class AdRepositoryEloquent implements AdRepository
 
     public function update($id, array $data)
     {
-        $user = Ad::find($id);
-        if ($user) {
-            $user->update($data);
+        $ad = Ad::find($id);
+        if ($ad) {
+            $ad->update($data);
         }
-        return $user;
+        return $ad;
     }
     public function find($id)
     {
@@ -103,9 +99,9 @@ class AdRepositoryEloquent implements AdRepository
     }
     public function delete($id): bool
     {
-        $user = Ad::find($id);
-        if ($user) {
-            return $user->delete();
+        $ad = Ad::find($id);
+        if ($ad) {
+            return $ad->delete();
         }
         return false;
     }
@@ -134,12 +130,12 @@ class AdRepositoryEloquent implements AdRepository
         });
     }
 
-    public function CheckAdLicense(CheckAdLicenseRequest $request, ?Authenticatable $user): array
+    public function CheckAdLicense(CheckAdLicenseRequest $request, ?Authenticatable $ad): array
     {
         $adLicenseNumber=$request->input('license_number');
-        $data= $this->GetApiPlatform(1,$user->identity_number,$adLicenseNumber);
+        $data= $this->GetApiPlatform(1,$ad->identity_number,$adLicenseNumber);
         if (!$data['Status']){
-            $data= $this->GetApiPlatform(2,$user->commercial_number,$adLicenseNumber);
+            $data= $this->GetApiPlatform(2,$ad->commercial_number,$adLicenseNumber);
         }
         return $data;
 
@@ -214,7 +210,7 @@ class AdRepositoryEloquent implements AdRepository
             'property_utilities',
         ];
 
-        $query = Ad::query();
+        $query = Ad::Active();
 
         if ($withDist){
             $query= $query->WithDistanceFrom();
@@ -285,6 +281,28 @@ class AdRepositoryEloquent implements AdRepository
         }
 
         return $query;
+    }
+
+    public function getDataForFilter(): array
+    {
+        $ads = Ad::Active()->where('main_type', MainType::SELL);
+
+        $maxPrice = $ads->max('price');
+        $minPrice =  $ads->min('price');
+
+        $maxArea =  $ads->max('area');
+        $minArea =  $ads->min('area');
+
+        return [
+            'price' => [
+                'min' => (int)$minPrice,
+                'max' => (int)$maxPrice,
+            ],
+            'area' => [
+                'min' =>round($minArea, 2),
+                'max' =>round($maxArea, 2),
+            ],
+        ];
     }
 
 }
