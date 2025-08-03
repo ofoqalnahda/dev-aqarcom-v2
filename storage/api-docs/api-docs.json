@@ -1217,6 +1217,63 @@
                 },
                 "type": "object"
             },
+            "StoryListModel": {
+                "title": "AdViewListModel",
+                "description": "Ad List View Model",
+                "required": [
+                    "id",
+                    "slug"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "integer"
+                    },
+                    "property_price": {
+                        "type": "integer"
+                    },
+                    "is_favorite": {
+                        "type": "boolean"
+                    },
+                    "is_special": {
+                        "type": "boolean"
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "distance": {
+                        "type": "integer"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "number_of_rooms": {
+                        "type": "integer"
+                    },
+                    "area": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "user_number": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "UserViewModel": {
                 "title": "UserViewModel",
                 "description": "User View Model",
