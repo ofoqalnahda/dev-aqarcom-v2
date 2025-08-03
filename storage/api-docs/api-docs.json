@@ -143,11 +143,8 @@
                                         },
                                         "data": {
                                             "properties": {
-                                                "token": {
-                                                    "type": "string"
-                                                },
-                                                "user": {
-                                                    "$ref": "#/components/schemas/UserViewModel"
+                                                "user_id": {
+                                                    "type": "integer"
                                                 }
                                             },
                                             "type": "object"
@@ -213,6 +210,40 @@
                         "sanctum": []
                     }
                 ]
+            }
+        },
+        "/api/v1/settings/contact": {
+            "post": {
+                "tags": [
+                    "Settings"
+                ],
+                "operationId": "48fb95175665062d005350579f58238b",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateContactRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Contact message created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ContactViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/v1/settings/withdrawals": {
@@ -375,6 +406,40 @@
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/ProfitSubscriberViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/settings/contact/my-messages": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "operationId": "66de9f6198dc399c02eb5e1e8eef1fa1",
+                "responses": {
+                    "200": {
+                        "description": "User contact messages retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ContactViewModel"
                                             }
                                         }
                                     },
@@ -563,6 +628,71 @@
                     },
                     "is_nafath_verified": {
                         "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "ContactViewModel": {
+                "title": "ContactViewModel",
+                "description": "Contact Message View Model",
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "mobile",
+                    "subject",
+                    "message",
+                    "status",
+                    "created_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "mobile": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "in_progress",
+                            "resolved",
+                            "closed"
+                        ]
+                    },
+                    "responded_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "response_message": {
+                        "type": "string",
+                        "nullable": true
                     },
                     "created_at": {
                         "type": "string",
@@ -1037,6 +1167,46 @@
                             "properties": {
                                 "code": {
                                     "description": "Verification code",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CreateContactRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "email",
+                                "mobile",
+                                "subject",
+                                "message"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "description": "Contact person name",
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "description": "Contact email address",
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "mobile": {
+                                    "description": "Contact mobile number",
+                                    "type": "string"
+                                },
+                                "subject": {
+                                    "description": "Message subject",
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "description": "Message content",
                                     "type": "string"
                                 }
                             },
