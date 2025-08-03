@@ -520,6 +520,63 @@
                 ]
             }
         },
+        "/api/v1/auth/edit-profile": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "32acb2cefe03af89b5bc6d2ebee01dde",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/EditProfileRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/auth/login": {
             "post": {
                 "tags": [
@@ -544,11 +601,8 @@
                                         },
                                         "data": {
                                             "properties": {
-                                                "token": {
-                                                    "type": "string"
-                                                },
-                                                "user": {
-                                                    "$ref": "#/components/schemas/UserViewModel"
+                                                "user_id": {
+                                                    "type": "integer"
                                                 }
                                             },
                                             "type": "object"
@@ -614,6 +668,311 @@
                         "sanctum": []
                     }
                 ]
+            }
+        },
+        "/api/v1/settings/contact": {
+            "post": {
+                "tags": [
+                    "Settings"
+                ],
+                "operationId": "48fb95175665062d005350579f58238b",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateContactRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Contact message created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ContactViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/settings/withdrawals": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "operationId": "db63a835a3a9bbccfbea8584bea9fe21",
+                "responses": {
+                    "200": {
+                        "description": "User withdrawal requests retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/WithdrawalViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Settings"
+                ],
+                "operationId": "1c4bd0d5de3517ccc5e9df4055772476",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateWithdrawalRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Withdrawal request created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/WithdrawalViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/settings/packages": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "operationId": "460c7015dc1b5ceb19b753bc38fd420c",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Package type filter",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "individual",
+                                "companies"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Packages retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "individual": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/PackageViewModel"
+                                                    }
+                                                },
+                                                "companies": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/PackageViewModel"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/settings/profit-subscribers": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "operationId": "0a8be36d4bae2f507c07e2544d8255d0",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by name, email, or phone",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profit subscribers retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProfitSubscriberViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/settings/contact/my-messages": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "operationId": "66de9f6198dc399c02eb5e1e8eef1fa1",
+                "responses": {
+                    "200": {
+                        "description": "User contact messages retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ContactViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/settings/user": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "operationId": "cdd74b6458ee210c3579d33e20350a19",
+                "responses": {
+                    "200": {
+                        "description": "User settings retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SettingViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Settings"
+                ],
+                "operationId": "633819be4dbb63dc590d75e9c8748ba1",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateSettingRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Setting updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/SettingViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
@@ -858,6 +1217,63 @@
                 },
                 "type": "object"
             },
+            "StoryListModel": {
+                "title": "AdViewListModel",
+                "description": "Ad List View Model",
+                "required": [
+                    "id",
+                    "slug"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "integer"
+                    },
+                    "property_price": {
+                        "type": "integer"
+                    },
+                    "is_favorite": {
+                        "type": "boolean"
+                    },
+                    "is_special": {
+                        "type": "boolean"
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "distance": {
+                        "type": "integer"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "number_of_rooms": {
+                        "type": "integer"
+                    },
+                    "area": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "user_number": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "UserViewModel": {
                 "title": "UserViewModel",
                 "description": "User View Model",
@@ -966,6 +1382,302 @@
                     },
                     "is_nafath_verified": {
                         "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "ContactViewModel": {
+                "title": "ContactViewModel",
+                "description": "Contact Message View Model",
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "mobile",
+                    "subject",
+                    "message",
+                    "status",
+                    "created_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "mobile": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "in_progress",
+                            "resolved",
+                            "closed"
+                        ]
+                    },
+                    "responded_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "response_message": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "PackageViewModel": {
+                "title": "PackageViewModel",
+                "description": "Package View Model",
+                "required": [
+                    "id",
+                    "name",
+                    "type",
+                    "period_months",
+                    "description",
+                    "price",
+                    "is_active"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "individual",
+                            "companies"
+                        ]
+                    },
+                    "period_months": {
+                        "type": "integer"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "price_before_discount": {
+                        "type": "number",
+                        "format": "decimal",
+                        "nullable": true
+                    },
+                    "discount_percentage": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "features": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "sort_order": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "ProfitSubscriberViewModel": {
+                "title": "ProfitSubscriberViewModel",
+                "description": "Profit Subscriber View Model",
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "phone",
+                    "status",
+                    "subscription_date",
+                    "is_active"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "independent",
+                            "not_independent"
+                        ]
+                    },
+                    "subscription_date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "SettingViewModel": {
+                "title": "SettingViewModel",
+                "description": "Setting View Model",
+                "required": [
+                    "id",
+                    "key",
+                    "value",
+                    "type",
+                    "is_public",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "key": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "object"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "is_public": {
+                        "type": "boolean"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "WithdrawalViewModel": {
+                "title": "WithdrawalViewModel",
+                "description": "Withdrawal Request View Model",
+                "required": [
+                    "id",
+                    "user_id",
+                    "account_number",
+                    "account_holder_name",
+                    "amount",
+                    "status",
+                    "requested_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "account_number": {
+                        "type": "string"
+                    },
+                    "account_holder_name": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "accepted",
+                            "rejected"
+                        ]
+                    },
+                    "requested_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "processed_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "rejection_reason": {
+                        "type": "string",
+                        "nullable": true
                     },
                     "created_at": {
                         "type": "string",
@@ -1206,6 +1918,54 @@
                     }
                 }
             },
+            "EditProfileRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "whatsapp": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "commercial_name": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "location": {
+                                    "properties": {
+                                        "latitude": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "nullable": true
+                                        },
+                                        "longitude": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "nullable": true
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "LoginRequest": {
                 "required": true,
                 "content": {
@@ -1243,6 +2003,110 @@
                         }
                     }
                 }
+            },
+            "CreateContactRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "email",
+                                "mobile",
+                                "subject",
+                                "message"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "description": "Contact person name",
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "description": "Contact email address",
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "mobile": {
+                                    "description": "Contact mobile number",
+                                    "type": "string"
+                                },
+                                "subject": {
+                                    "description": "Message subject",
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "description": "Message content",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CreateWithdrawalRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "account_number",
+                                "account_holder_name",
+                                "amount"
+                            ],
+                            "properties": {
+                                "account_number": {
+                                    "description": "Bank account number",
+                                    "type": "string"
+                                },
+                                "account_holder_name": {
+                                    "description": "Account holder name",
+                                    "type": "string"
+                                },
+                                "amount": {
+                                    "description": "Withdrawal amount",
+                                    "type": "number",
+                                    "format": "decimal"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateSettingRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "key",
+                                "value"
+                            ],
+                            "properties": {
+                                "key": {
+                                    "description": "Setting key",
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "description": "Setting value",
+                                    "type": "object"
+                                },
+                                "type": {
+                                    "description": "Setting type",
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "description": {
+                                    "description": "Setting description",
+                                    "type": "string",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
             }
         }
     },
@@ -1254,6 +2118,10 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Settings",
+            "description": "Settings"
         }
     ]
 }

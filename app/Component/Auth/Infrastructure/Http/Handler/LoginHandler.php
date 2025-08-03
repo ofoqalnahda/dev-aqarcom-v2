@@ -22,8 +22,7 @@ use OpenApi\Attributes as OA;
                 new OA\Property(property: 'status', type: 'string'),
                 new OA\Property(property: 'message', type: 'string'),
                 new OA\Property(property: 'data', properties: [
-                    new OA\Property(property: 'token', type: 'string'),
-                    new OA\Property(property: 'user', ref: '#/components/schemas/UserViewModel'),
+                    new OA\Property(property: 'user_id', type: 'integer'),
                 ], type: 'object'),
             ],
             type: 'object'
@@ -45,15 +44,12 @@ class LoginHandler extends Handler
     {
         $phone = $request->input('phone');
         $user = $this->userService->loginByPhone($phone);
-        $token = $user->createToken('auth_token')->plainTextToken;
-        $userViewModel = $this->userMapper->toViewModel($user);
         //TODO: send code
         return response()->json([
             'status' => 'success',
             'message' => 'Login successful',
             'data' => [
-                'token' => $token,
-                'user' => $userViewModel->toArray(),
+                'user_id' => $user->id,
             ],
         ]);
     }

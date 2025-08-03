@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ])
                 ->group(function () {
                     require app_path('Component/Auth/Resource/routes.php');
+                    require app_path('Component/Settings/Resource/routes.php');
                     require app_path('Component/Ad/Resource/routes.php');
                 });
         }
