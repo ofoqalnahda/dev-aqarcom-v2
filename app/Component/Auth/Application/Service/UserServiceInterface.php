@@ -56,6 +56,8 @@ interface UserServiceInterface
      * @return \App\Models\User
      */
     public function completeProfile($user, array $data);
+}
+
 
     /**
      * Edit the user's profile.
@@ -64,4 +66,4 @@ interface UserServiceInterface
      * @return \App\Models\User
      */
     public function editProfile($user, array $data);
-} 
+}

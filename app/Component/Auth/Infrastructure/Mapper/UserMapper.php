@@ -11,4 +11,4 @@ class UserMapper implements UserMapperInterface
     {
         return new UserViewModel($user);
     }
-} 
+}

@@ -5,6 +5,464 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/v1/ads/check-license": {
+            "post": {
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "check license",
+                "operationId": "checkLicense",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CheckAdLicenseRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/AdPlatformViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "402": {
+                        "description": "Exit ad",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/AdExistsAdViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/ads/list-sell-ads": {
+            "get": {
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "List sell ads",
+                "operationId": "List Sell Ads",
+                "parameters": [
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "lng",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ad_type_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "estate_type_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "city_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "region_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "neighborhood_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "usage_type_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "main_type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "number_of_rooms",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "min_price",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "max_price",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "min_area",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "max_area",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "region_map_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "property_utilities",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "description": "Comma-separated list of utility IDs",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "is_special",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "is_store",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/AdViewListModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "optional": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/ads/store-sell-ads": {
+            "post": {
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "store sell ads",
+                "operationId": "storeSellAds",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreSellAdRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "title": "string",
+                                            "example": "slug ad"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "402": {
+                        "description": "Exit ad",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/AdExistsAdViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/ads/{ad}/toggle-favorite": {
+            "post": {
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "toggle favorite ads",
+                "operationId": "ToggleFavorite",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/auth/complete-profile": {
             "post": {
                 "tags": [
@@ -520,6 +978,245 @@
     },
     "components": {
         "schemas": {
+            "AdExistsAdViewModel": {
+                "title": "AdViewModel",
+                "description": "Ad If Already exists View Model",
+                "required": [
+                    "license_number"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "license_number": {
+                        "type": "string"
+                    },
+                    "user_name": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "AdPlatformViewModel": {
+                "title": "AdPlatformViewModel",
+                "description": "Ad From Platform View Model",
+                "required": [
+                    "license_number"
+                ],
+                "properties": {
+                    "license_number": {
+                        "type": "string"
+                    },
+                    "advertiser_name": {
+                        "type": "string"
+                    },
+                    "advertiser_phone": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "property_price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "region": {
+                        "type": "object"
+                    },
+                    "city": {
+                        "type": "object"
+                    },
+                    "neighborhood": {
+                        "type": "object"
+                    },
+                    "estate_type": {
+                        "type": "object"
+                    },
+                    "usage_type": {
+                        "type": "object"
+                    },
+                    "ad_type": {
+                        "type": "object"
+                    },
+                    "property_utilities": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "lng": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "lat": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "is_constrained": {
+                        "type": "boolean"
+                    },
+                    "is_pawned": {
+                        "type": "boolean"
+                    },
+                    "is_halted": {
+                        "type": "boolean"
+                    },
+                    "is_testment": {
+                        "type": "boolean"
+                    },
+                    "street_width": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "number_of_rooms": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "area": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "deed_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "property_face": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "plan_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "land_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "ad_license_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "ad_source": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "title_deed_type_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "location_description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "property_age": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "rerConstraints": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "creation_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "AdViewListModel": {
+                "title": "AdViewListModel",
+                "description": "Ad List View Model",
+                "required": [
+                    "id",
+                    "slug"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "integer"
+                    },
+                    "property_price": {
+                        "type": "integer"
+                    },
+                    "is_favorite": {
+                        "type": "boolean"
+                    },
+                    "is_special": {
+                        "type": "boolean"
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "distance": {
+                        "type": "integer"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "number_of_rooms": {
+                        "type": "integer"
+                    },
+                    "area": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "user_number": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "AdViewModel": {
+                "title": "AdViewModel",
+                "description": "Ad From Platform View Model",
+                "required": [
+                    "id",
+                    "license_number"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "license_number": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "UserViewModel": {
                 "title": "UserViewModel",
                 "description": "User View Model",
@@ -1045,6 +1742,81 @@
             }
         },
         "requestBodies": {
+            "CheckAdLicenseRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "license_number"
+                            ],
+                            "properties": {
+                                "license_number": {
+                                    "description": "The license number must be exactly 10 digits long and must begin with 72.",
+                                    "type": "string",
+                                    "maxLength": 10,
+                                    "minLength": 10,
+                                    "pattern": "^72\\d{8}$"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "StoreSellAdRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "license_number",
+                                "is_special",
+                                "is_story",
+                                "description",
+                                "main_image"
+                            ],
+                            "properties": {
+                                "license_number": {
+                                    "description": "The license number must be exactly 10 digits long and must begin with 72.",
+                                    "type": "string",
+                                    "maxLength": 10,
+                                    "minLength": 10,
+                                    "pattern": "^72\\d{8}$"
+                                },
+                                "is_special": {
+                                    "description": "Is the ad marked as special?",
+                                    "type": "boolean"
+                                },
+                                "is_story": {
+                                    "description": "Is the ad shown as a story?",
+                                    "type": "boolean"
+                                },
+                                "description": {
+                                    "description": "Ad description text.",
+                                    "type": "string"
+                                },
+                                "main_image": {
+                                    "description": "Ad main image."
+                                },
+                                "images": {
+                                    "description": "Array of image files. Each image must be one of: jpeg, png, gif, svg, webp, bmp, tiff and max 5MB each.",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "video": {
+                                    "description": "Video file (mp4, avi, mpeg, mov). Max size: 50MB.",
+                                    "format": "binary"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "CompleteProfileRequest": {
                 "required": true,
                 "content": {
@@ -1282,6 +2054,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Ads",
+            "description": "Ads"
+        },
         {
             "name": "Auth",
             "description": "Auth"

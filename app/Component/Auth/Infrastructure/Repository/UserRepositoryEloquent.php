@@ -34,4 +34,6 @@ class UserRepositoryEloquent implements UserRepository
     {
         return User::where('email', $email)->first();
     }
-} 
+
+
+}
