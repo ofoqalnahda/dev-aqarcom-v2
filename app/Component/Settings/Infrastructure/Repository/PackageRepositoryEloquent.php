@@ -14,7 +14,7 @@ class PackageRepositoryEloquent implements PackageRepositoryInterface
                      ->get()
                      ->toArray();
     }
-    
+
     public function findByType(string $type): array
     {
         return Package::where('type', $type)
@@ -23,7 +23,7 @@ class PackageRepositoryEloquent implements PackageRepositoryInterface
                      ->get()
                      ->toArray();
     }
-    
+
     public function findActiveByType(string $type): array
     {
         return Package::where('type', $type)
@@ -33,7 +33,7 @@ class PackageRepositoryEloquent implements PackageRepositoryInterface
                      ->get()
                      ->toArray();
     }
-    
+
     public function findActive(): array
     {
         return Package::where('is_active', true)
@@ -43,25 +43,25 @@ class PackageRepositoryEloquent implements PackageRepositoryInterface
                      ->get()
                      ->toArray();
     }
-    
+
     public function findById(int $id): ?Package
     {
         return Package::find($id);
     }
-    
+
     public function create(array $data): Package
     {
         return Package::create($data);
     }
-    
+
     public function update(Package $package, array $data): Package
     {
         $package->update($data);
         return $package->fresh();
     }
-    
+
     public function delete(Package $package): bool
     {
         return $package->delete();
     }
-} 
+}

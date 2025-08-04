@@ -7,7 +7,7 @@ use App\Component\Settings\Presentation\ViewModel\PackageViewModel;
 
 interface PackageMapperInterface
 {
-    public function toViewModel(Package $package): PackageViewModel;
-    
+    public function toViewModel(array $package): PackageViewModel;
+
     public function toViewModelCollection(array $packages): array;
-} 
+}
