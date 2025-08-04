@@ -12,50 +12,14 @@ class PaymentMapper implements PaymentMapperInterface
 {
     public function toSubscriptionViewModel(Subscription $subscription): SubscriptionViewModel
     {
-        return new SubscriptionViewModel(
-            id: $subscription->id,
-            userId: $subscription->user_id,
-            packageId: $subscription->package_id,
-            promoCodeId: $subscription->promo_code_id,
-            originalPrice: (float) $subscription->original_price,
-            finalPrice: (float) $subscription->final_price,
-            discountAmount: (float) $subscription->discount_amount,
-            discountPercentage: (float) $subscription->discount_percentage,
-            paymentMethod: $subscription->payment_method,
-            paymentStatus: $subscription->payment_status,
-            subscriptionStatus: $subscription->subscription_status,
-            startDate: $subscription->start_date?->toISOString(),
-            endDate: $subscription->end_date?->toISOString(),
-            transactionId: $subscription->transaction_id,
-            paymentDetails: $subscription->payment_details,
-            createdAt: $subscription->created_at?->toISOString(),
-            updatedAt: $subscription->updated_at?->toISOString(),
-            package: $subscription->package ? [
-                'id' => $subscription->package->id,
-                'name' => $subscription->package->name,
-                'type' => $subscription->package->type,
-                'period_months' => $subscription->package->period_months,
-                'description' => $subscription->package->description,
-                'features' => $subscription->package->features,
-            ] : null,
-            promoCode: $subscription->promoCode ? [
-                'id' => $subscription->promoCode->id,
-                'code' => $subscription->promoCode->code,
-                'description' => $subscription->promoCode->description,
-                'discount_type' => $subscription->promoCode->discount_type,
-                'discount_value' => (float) $subscription->promoCode->discount_value,
-            ] : null,
-        );
+        return new SubscriptionViewModel($subscription);
     }
     
-    public function toSubscriptionViewModelCollection(array $subscriptions): array
+    public function toSubscriptionViewModelCollection(\Illuminate\Database\Eloquent\Collection $subscriptions): array
     {
         return array_map(function ($subscription) {
-            if ($subscription instanceof Subscription) {
-                return $this->toSubscriptionViewModel($subscription);
-            }
-            return $subscription;
-        }, $subscriptions);
+            return $this->toSubscriptionViewModel($subscription);
+        }, $subscriptions->all());
     }
     
     public function toPromoCodeViewModel(PromoCode $promoCode): PromoCodeViewModel

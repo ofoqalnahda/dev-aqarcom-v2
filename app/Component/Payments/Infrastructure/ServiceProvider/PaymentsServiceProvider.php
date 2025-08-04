@@ -28,6 +28,9 @@ class PaymentsServiceProvider extends ServiceProvider
             
             // Mapper bindings
             \App\Component\Payments\Application\Mapper\PaymentMapperInterface::class => \App\Component\Payments\Infrastructure\Mapper\PaymentMapper::class,
+            
+            // ViewQuery bindings
+            \App\Component\Payments\Presentation\ViewQuery\PaymentViewQueryInterface::class => \App\Component\Payments\Infrastructure\ViewQuery\PaymentViewQuery::class,
         ];
     }
 } 

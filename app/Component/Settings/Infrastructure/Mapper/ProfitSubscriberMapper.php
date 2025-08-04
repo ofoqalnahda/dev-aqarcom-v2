@@ -5,6 +5,7 @@ namespace App\Component\Settings\Infrastructure\Mapper;
 use App\Component\Settings\Application\Mapper\ProfitSubscriberMapperInterface;
 use App\Component\Settings\Data\Entity\ProfitSubscriber;
 use App\Component\Settings\Presentation\ViewModel\ProfitSubscriberViewModel;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProfitSubscriberMapper implements ProfitSubscriberMapperInterface
 {
@@ -13,10 +14,10 @@ class ProfitSubscriberMapper implements ProfitSubscriberMapperInterface
         return new ProfitSubscriberViewModel($subscriber);
     }
     
-    public function toViewModelCollection(array $subscribers): array
+    public function toViewModelCollection(Collection $subscribers): array
     {
         return array_map(function ($subscriber) {
             return $this->toViewModel($subscriber);
-        }, $subscribers);
+        }, $subscribers->all());
     }
 } 

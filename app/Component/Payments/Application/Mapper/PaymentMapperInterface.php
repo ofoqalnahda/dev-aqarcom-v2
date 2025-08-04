@@ -11,7 +11,7 @@ interface PaymentMapperInterface
 {
     public function toSubscriptionViewModel(Subscription $subscription): SubscriptionViewModel;
     
-    public function toSubscriptionViewModelCollection(array $subscriptions): array;
+    public function toSubscriptionViewModelCollection(\Illuminate\Database\Eloquent\Collection $subscriptions): array;
     
     public function toPromoCodeViewModel(PromoCode $promoCode): PromoCodeViewModel;
 } 

@@ -2,16 +2,15 @@
 
 namespace App\Component\Payments\Infrastructure\Http\Handler;
 
-use App\Component\Payments\Application\Service\PaymentServiceInterface;
-use App\Component\Payments\Application\Mapper\PaymentMapperInterface;
+use App\Component\Payments\Presentation\ViewQuery\PaymentViewQueryInterface;
 use App\Libraries\Base\Http\Handler;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 #[OA\Get(
     path: '/api/v1/payments/subscriptions',
-    tags: ['Payments'],
     security: [['bearerAuth' => []]],
+    tags: ['Payments'],
     responses: [
         new OA\Response(response: 200, description: 'User subscriptions retrieved successfully', content: new OA\JsonContent(
             properties: [
@@ -28,28 +27,24 @@ use OpenApi\Attributes as OA;
 )]
 class GetUserSubscriptionsHandler extends Handler
 {
-    protected PaymentServiceInterface $paymentService;
-    protected PaymentMapperInterface $paymentMapper;
+    protected PaymentViewQueryInterface $paymentViewQuery;
 
-    public function __construct(
-        PaymentServiceInterface $paymentService,
-        PaymentMapperInterface $paymentMapper
-    ) {
-        $this->paymentService = $paymentService;
-        $this->paymentMapper = $paymentMapper;
+    public function __construct(PaymentViewQueryInterface $paymentViewQuery)
+    {
+        $this->paymentViewQuery = $paymentViewQuery;
     }
 
     public function __invoke(Request $request): \Illuminate\Http\JsonResponse
     {
         $userId = auth()->id();
-        $subscriptions = $this->paymentService->getUserSubscriptions($userId);
+        $subscriptions = $this->paymentViewQuery->getUserSubscriptions($userId);
 
         return response()->json([
             'status' => 'success',
             'message' => 'User subscriptions retrieved successfully',
             'data' => [
-                'subscriptions' => $subscriptions,
+                'subscriptions' => array_map(fn($subscription) => $subscription->toArray(), $subscriptions),
             ],
         ]);
     }
-} 
+}

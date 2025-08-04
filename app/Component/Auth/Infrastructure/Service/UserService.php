@@ -46,9 +46,9 @@ class UserService implements UserServiceInterface
             ]);
         }
 
-        //set ranom code
+        //set random code
         $user->update([
-            'code' => rand(1000, 9999),
+            'code' => app()->isProduction() ? rand(1000, 9999): 1111,
         ]);
         return $user;
     }
@@ -112,5 +112,24 @@ class UserService implements UserServiceInterface
         $this->userRepository->update($user->id, $updateData);
         $user->refresh();
         return $user;
+    }
+
+    public function resendCode($user): string
+    {
+        $newCode = app()->isProduction() ? rand(1000, 9999) : 1111;
+        $user->update(['code' => $newCode]);
+        
+        // TODO: Send the code via SMS or other notification method
+        // This would typically call a notification service
+        
+        return $newCode;
+    }
+
+    public function logout($user): bool
+    {
+        // Revoke all tokens for the current user
+        $user->tokens()->delete();
+        
+        return true;
     }
 }

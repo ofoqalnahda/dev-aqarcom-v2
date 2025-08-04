@@ -64,4 +64,18 @@ interface UserServiceInterface
      * @return \App\Models\User
      */
     public function editProfile($user, array $data);
+
+    /**
+     * Resend verification code to user.
+     * @param \App\Models\User $user
+     * @return string
+     */
+    public function resendCode($user): string;
+
+    /**
+     * Logout user by revoking all tokens.
+     * @param \App\Models\User $user
+     * @return bool
+     */
+    public function logout($user): bool;
 }

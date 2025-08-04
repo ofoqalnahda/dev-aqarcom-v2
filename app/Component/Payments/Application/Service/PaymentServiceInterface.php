@@ -15,7 +15,7 @@ interface PaymentServiceInterface
     
     public function getSubscription(int $subscriptionId): ?array;
     
-    public function getUserSubscriptions(int $userId): array;
+    public function getUserSubscriptions(int $userId): \Illuminate\Database\Eloquent\Collection;
     
     public function getPromoCodeByCode(string $code): ?array;
 } 

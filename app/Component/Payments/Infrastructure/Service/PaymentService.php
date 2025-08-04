@@ -133,7 +133,7 @@ class PaymentService implements PaymentServiceInterface
         return $subscription ? $subscription->toArray() : null;
     }
 
-    public function getUserSubscriptions(int $userId): array
+    public function getUserSubscriptions(int $userId): \Illuminate\Database\Eloquent\Collection
     {
         return $this->subscriptionRepository->findByUserId($userId);
     }

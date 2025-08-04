@@ -4,6 +4,7 @@ namespace App\Component\Settings\Infrastructure\Repository;
 
 use App\Component\Settings\Application\Repository\ContactRepositoryInterface;
 use App\Component\Settings\Data\Entity\Contact;
+use Illuminate\Database\Eloquent\Collection;
 
 class ContactRepositoryEloquent implements ContactRepositoryInterface
 {
@@ -17,20 +18,18 @@ class ContactRepositoryEloquent implements ContactRepositoryInterface
         return Contact::with('user')->find($id);
     }
     
-    public function findByUserId(int $userId): array
+    public function findByUserId(int $userId): Collection
     {
         return Contact::where('user_id', $userId)
                      ->orderBy('created_at', 'desc')
-                     ->get()
-                     ->toArray();
+                     ->get();
     }
     
-    public function findAll(): array
+    public function findAll(): Collection
     {
         return Contact::with('user')
                      ->orderBy('created_at', 'desc')
-                     ->get()
-                     ->toArray();
+                     ->get();
     }
     
     public function update(Contact $contact, array $data): Contact

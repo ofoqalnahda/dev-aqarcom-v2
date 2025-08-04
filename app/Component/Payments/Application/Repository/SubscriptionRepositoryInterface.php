@@ -8,9 +8,9 @@ interface SubscriptionRepositoryInterface
 {
     public function findById(int $id): ?Subscription;
     
-    public function findByUserId(int $userId): array;
+    public function findByUserId(int $userId): \Illuminate\Database\Eloquent\Collection;
     
-    public function findActiveByUserId(int $userId): array;
+    public function findActiveByUserId(int $userId): \Illuminate\Database\Eloquent\Collection;
     
     public function create(array $data): Subscription;
     

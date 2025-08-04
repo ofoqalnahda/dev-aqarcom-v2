@@ -12,23 +12,21 @@ class SubscriptionRepositoryEloquent implements SubscriptionRepositoryInterface
         return Subscription::with(['user', 'package', 'promoCode'])->find($id);
     }
     
-    public function findByUserId(int $userId): array
+    public function findByUserId(int $userId): \Illuminate\Database\Eloquent\Collection
     {
         return Subscription::with(['package', 'promoCode'])
                           ->where('user_id', $userId)
                           ->orderBy('created_at', 'desc')
-                          ->get()
-                          ->toArray();
+                          ->get();
     }
     
-    public function findActiveByUserId(int $userId): array
+    public function findActiveByUserId(int $userId): \Illuminate\Database\Eloquent\Collection
     {
         return Subscription::with(['package', 'promoCode'])
                           ->where('user_id', $userId)
                           ->where('subscription_status', 'active')
                           ->orderBy('created_at', 'desc')
-                          ->get()
-                          ->toArray();
+                          ->get();
     }
     
     public function create(array $data): Subscription
