@@ -35,6 +35,7 @@ use OpenApi\Attributes as OA;
         new OA\Parameter(name: "main_type", in: "query", required: false, schema: new OA\Schema(type: "integer")),
         new OA\Parameter(name: "status", in: "query", required: false, schema: new OA\Schema(type: "integer")),
         new OA\Parameter(name: "number_of_rooms", in: "query", required: false, schema: new OA\Schema(type: "integer")),
+        new OA\Parameter(name: "price", in: "query", required: false, schema: new OA\Schema(type: "integer")),
         new OA\Parameter(name: "min_price", in: "query", required: false, schema: new OA\Schema(type: "integer")),
         new OA\Parameter(name: "max_price", in: "query", required: false, schema: new OA\Schema(type: "integer")),
         new OA\Parameter(name: "min_area", in: "query", required: false, schema: new OA\Schema(type: "number")),
@@ -45,6 +46,21 @@ use OpenApi\Attributes as OA;
         new OA\Parameter(name: "page", in: "query", required: false, schema: new OA\Schema(type: "integer")),
         new OA\Parameter(name: "is_special", in: "query", required: false, schema: new OA\Schema(type: "integer")),
         new OA\Parameter(name: "is_story", in: "query", required: false, schema: new OA\Schema(type: "integer")),
+        new OA\Parameter(
+            name: "sort_by",
+            description: "قيمة الترتيب:
+                    nearest = الأقرب إليك,
+                    lowest_price = الأقل سعراً,
+                    highest_price = الأعلى سعراً,
+                    largest_area = الأكبر مساحة,
+                    smallest_area = الأصغر مساحة",
+            in: "query",
+            required: false,
+            schema: new OA\Schema(
+                type: "string",
+                enum: ["nearest", "lowest_price", "highest_price", "largest_area", "smallest_area"]
+            )
+        ),
 
     ],
     responses: [

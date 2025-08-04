@@ -279,7 +279,27 @@ class AdRepositoryEloquent implements AdRepository
 
             $query->where($key, $value);
         }
-
+        if (isset($filters['sort_by'])) {
+            switch ($filters['sort_by']) {
+                case 'nearest':
+                    if ($withDist) {
+                        $query->orderBy('distance');
+                    }
+                    break;
+                case 'lowest_price':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'highest_price':
+                    $query->orderBy('price', 'desc');
+                    break;
+                case 'largest_area':
+                    $query->orderBy('area', 'desc');
+                    break;
+                case 'smallest_area':
+                    $query->orderBy('area', 'asc');
+                    break;
+            }
+        }
         return $query;
     }
 
