@@ -22,5 +22,8 @@ class DatabaseSeeder extends Seeder
 
         // Seed packages
         $this->call(PackageSeeder::class);
+        
+        // Seed promo codes
+        $this->call(PromoCodeSeeder::class);
     }
 }
