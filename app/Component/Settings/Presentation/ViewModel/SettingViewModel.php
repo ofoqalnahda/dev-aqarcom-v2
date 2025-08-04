@@ -23,31 +23,31 @@ use OpenApi\Attributes as OA;
 )]
 class SettingViewModel
 {
-    public $id;
-    public $key;
-    public $value;
-    public $type;
-    public $user_id;
-    public $is_public;
-    public $description;
-    public $created_at;
-    public $updated_at;
+    public mixed $id;
+    public mixed $key;
+    public mixed $value;
+    public mixed $type;
+    public mixed $user_id;
+    public mixed $is_public;
+    public mixed $description;
+    public mixed $created_at;
+    public mixed $updated_at;
 
-    public function __construct($setting)
+    public function __construct(array $setting)
     {
-        $this->id = $setting->id;
-        $this->key = $setting->key;
-        $this->value = $setting->value;
-        $this->type = $setting->type;
-        $this->user_id = $setting->user_id;
-        $this->is_public = $setting->is_public;
-        $this->description = $setting->description;
-        $this->created_at = $setting->created_at;
-        $this->updated_at = $setting->updated_at;
+        $this->id = $setting["id"];
+        $this->key = $setting["key"];
+        $this->value = $setting["value"];
+        $this->type = $setting["type"];
+        $this->user_id = $setting["user_id"];
+        $this->is_public = $setting["is_public"];
+        $this->description = $setting["description"];
+        $this->created_at = $setting["created_at"];
+        $this->updated_at = $setting["updated_at"];
     }
 
     public function toArray(): array
     {
         return get_object_vars($this);
     }
-} 
+}
