@@ -65,7 +65,7 @@ class AdViewListModel
         $this->distance = round($data->distance_for_user, 2);
         $this->address = $data->address;
         $this->number_of_rooms = $data->number_of_rooms;
-        $this->area = $data->area;
+        $this->area = round($data->area, 2);
         $this->user_id = $data->user_id;
         $this->user_number = $data->user_number;
     }

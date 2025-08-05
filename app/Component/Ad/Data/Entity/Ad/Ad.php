@@ -80,7 +80,7 @@ class Ad extends Model implements HasMedia
     public function scopeActive($query)
     {
 
-        return $query->where('status', 1)->whereDate('end_date', '<=', date('Y-m-d'));
+        return $query->where('status', 1);//->whereDate('end_date', '<=', date('Y-m-d'));
     }
     // relations
     public function user()

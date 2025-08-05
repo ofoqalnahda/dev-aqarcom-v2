@@ -24,15 +24,15 @@ class AdMapper implements AdMapperInterface
         return new AdPlatformViewModel($ad);
     }
 
-    public function toViewLiseModel($ad): AdViewListModel
+    public function toViewListModel($ad): AdViewListModel
     {
         return new AdViewListModel($ad);
 
     }
-    public function toViewLiseModelCollection(array $ad): array
+    public function toViewLiseModelCollection($ad)
     {
         return array_map(function ($ad) {
-            return $this->toViewLiseModel($ad);
+            return $this->toViewListModel($ad);
         }, $ad);
     }
 }

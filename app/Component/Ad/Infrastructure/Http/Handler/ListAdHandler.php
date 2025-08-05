@@ -100,7 +100,7 @@ class ListAdHandler extends Handler
             $filters =$request->all();
             $query = $this->adService->filter(MainType::SELL,$filters,true);
             $paginated = $query->paginate($perPage);
-            $items = $this->adMapper->toViewLiseModelCollection($paginated->getCollection());
+            $items = $this->adMapper->toViewLiseModelCollection($paginated->items());
 //            $items = $paginated->getCollection()->map(function ($ad) {
 //                return new AdViewListModel($ad);
 //            });
