@@ -5,6 +5,7 @@ namespace App\Component\Ad\Infrastructure\Repository;
 use App\Component\Ad\Application\Repository\PropertyUtilityRepository;
 use App\Component\Ad\Data\Entity\Ad\EstateType;
 use App\Component\Ad\Data\Entity\Ad\PropertyUtility;
+
 class PropertyUtilityRepositoryEloquent implements PropertyUtilityRepository
 {
     public function index(): mixed

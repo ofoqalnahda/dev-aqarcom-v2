@@ -17,18 +17,18 @@ class UserViewQuery implements UserViewQueryInterface
         return $query->get()->toArray();
     }
 
-    public function find($id)
+    public function find($id): ?User
     {
-        return User::find($id);
+        return User::query()->findOrFail($id);
     }
 
     public function findUserByPhone(string $phone)
     {
-        return \App\Models\User::where('phone', $phone)->first();
+        return User::query()->where('phone','=', $phone)->first();
     }
 
     public function findUserByCode(string $code)
     {
-        return \App\Models\User::where('code', $code)->first();
+        return User::query()::where('code','=', $code)->first();
     }
 }

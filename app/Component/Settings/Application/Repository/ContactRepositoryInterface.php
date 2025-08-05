@@ -3,6 +3,7 @@
 namespace App\Component\Settings\Application\Repository;
 
 use App\Component\Settings\Data\Entity\Contact;
+use Illuminate\Database\Eloquent\Collection;
 
 interface ContactRepositoryInterface
 {
@@ -10,9 +11,9 @@ interface ContactRepositoryInterface
     
     public function findById(int $id): ?Contact;
     
-    public function findByUserId(int $userId): array;
+    public function findByUserId(int $userId): Collection;
     
-    public function findAll(): array;
+    public function findAll(): Collection;
     
     public function update(Contact $contact, array $data): Contact;
     

@@ -16,7 +16,7 @@ interface UserViewQueryInterface
      * @param int|string $id
      * @return mixed
      */
-    public function find($id);
+    public function find($id): ?\App\Models\User;
 
     /**
      * Find a user by phone number.

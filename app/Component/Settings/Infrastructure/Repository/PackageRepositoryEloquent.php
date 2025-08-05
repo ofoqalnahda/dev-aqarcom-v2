@@ -4,44 +4,40 @@ namespace App\Component\Settings\Infrastructure\Repository;
 
 use App\Component\Settings\Application\Repository\PackageRepositoryInterface;
 use App\Component\Settings\Data\Entity\Package;
-
+use Illuminate\Database\Eloquent\Collection;
 class PackageRepositoryEloquent implements PackageRepositoryInterface
 {
-    public function findAll(): array
+    public function findAll(): Collection
     {
         return Package::orderBy('sort_order')
                      ->orderBy('period_months')
-                     ->get()
-                     ->toArray();
+                     ->get();
     }
 
-    public function findByType(string $type): array
+    public function findByType(string $type): Collection
     {
         return Package::where('type', $type)
                      ->orderBy('sort_order')
                      ->orderBy('period_months')
-                     ->get()
-                     ->toArray();
+                     ->get();
     }
 
-    public function findActiveByType(string $type): array
+    public function findActiveByType(string $type): Collection
     {
-        return Package::where('type', $type)
+        return Package::query()->where('type', $type)
                      ->where('is_active', true)
                      ->orderBy('sort_order')
                      ->orderBy('period_months')
-                     ->get()
-                     ->toArray();
+                     ->get();
     }
 
-    public function findActive(): array
+    public function findActive(): Collection
     {
         return Package::where('is_active', true)
                      ->orderBy('type')
                      ->orderBy('sort_order')
                      ->orderBy('period_months')
-                     ->get()
-                     ->toArray();
+                     ->get();
     }
 
     public function findById(int $id): ?Package
