@@ -15,7 +15,7 @@ interface AdMapperInterface
      * @return AdViewModel
      */
     public function toViewModel($ad): AdViewModel;
-    public function toViewLiseModel($ad): AdViewListModel;
+    public function toViewListModel($ad): AdViewListModel;
     public function toExistsViewModel($ad): AdExistsAdViewModel;
     public function toPlatformViewModel($ad): AdPlatformViewModel;
 }

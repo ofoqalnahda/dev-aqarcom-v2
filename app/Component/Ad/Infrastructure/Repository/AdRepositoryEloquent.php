@@ -211,10 +211,10 @@ class AdRepositoryEloquent implements AdRepository
         ];
 
         $query = Ad::Active();
-
         if ($withDist){
             $query= $query->WithDistanceFrom();
         }
+
         $query->where('main_type', $mainType->value);
         $filters = array_filter($filters, fn($v) => $v !== null && $v !== '');
 
