@@ -132,5 +132,6 @@ return [
         'default_currency' => 'SAR',
 
     ],
+    'locales' => ['ar', 'en'],
 
 ];

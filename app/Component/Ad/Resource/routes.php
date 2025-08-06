@@ -1,6 +1,15 @@
 <?php
 
 use App\Component\Ad\Infrastructure\Http\Handler\CheckAdLicenseHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\Constants\Geography\GetCityHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\Constants\Geography\GetNeighborhoodHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\Constants\Geography\GetRegionHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\Constants\Geography\GetRegionMapHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\Constants\GetAdTypeHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\Constants\GetEstateTypeHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\Constants\GetPropertyUtilityHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\Constants\GetReasonHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\Constants\GetUsageTypeHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\GetDataFilterHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\StoreBuyAdHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\StoreSellAdHandler;
@@ -21,8 +30,21 @@ Route::group([
 
     Route::get('list-sell-ads', ListAdHandler::class)->middleware('optional.auth');
     Route::post('{ad}/toggle-favorite', ToggleFavoriteHandler::class)->middleware('auth:sanctum');
-
-
-    //    Route::post('store-request-ads', StoreRequestAdHandler::class)->middleware('auth:sanctum');
-
 });
+Route::prefix('constants')->group(function () {
+    Route::get('ad-types', GetAdTypeHandler::class);
+    Route::get('estate-types', GetEstateTypeHandler::class);
+    Route::get('property-utilities', GetPropertyUtilityHandler::class);
+    Route::get('reasons', GetReasonHandler::class);
+    Route::get('usage-types', GetUsageTypeHandler::class);
+    Route::group([
+        'prefix' => 'geography',
+    ],function () {
+        Route::get('regions', GetRegionHandler::class);
+        Route::get('region-maps', GetRegionMapHandler::class);
+        Route::get('cities', GetCityHandler::class);
+        Route::get('neighborhoods', GetNeighborhoodHandler::class);
+    });
+});
+
+
