@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ChangeLangForApi;
 use App\Http\Middleware\OptionalAuthenticate;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -16,7 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
         then:function () {
             Route::prefix('api/v1')
                 ->middleware([
-                    'api'
+                    'api',
+                    'change.lang.api'
                 ])
                 ->group(function () {
                     require app_path('Component/Auth/Resource/routes.php');
@@ -29,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
          $middleware->alias([
              'optional.auth' => OptionalAuthenticate::class,
+             'change.lang.api' => ChangeLangForApi::class,
          ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

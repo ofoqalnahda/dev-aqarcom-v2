@@ -117,7 +117,7 @@ class GetDataFilterHandler extends Handler
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Packages retrieved successfully',
+            'message' => '',
             'data' => $date,
         ]);
     }

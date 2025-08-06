@@ -84,6 +84,321 @@
                 ]
             }
         },
+        "/api/v1/constants/geography/cities": {
+            "get": {
+                "tags": [
+                    "Constants"
+                ],
+                "summary": "Get City List",
+                "operationId": "GetCityList",
+                "responses": {
+                    "200": {
+                        "description": "City retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CityViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/constants/geography/neighborhoods": {
+            "get": {
+                "tags": [
+                    "Constants"
+                ],
+                "summary": "Get Neighborhood List",
+                "operationId": "GetNeighborhoodList",
+                "responses": {
+                    "200": {
+                        "description": "Neighborhood retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NeighborhoodViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/constants/geography/regions": {
+            "get": {
+                "tags": [
+                    "Constants"
+                ],
+                "summary": "Get Region List",
+                "operationId": "GetRegionList",
+                "responses": {
+                    "200": {
+                        "description": "Region retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/RegionViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/constants/geography/region-maps": {
+            "get": {
+                "tags": [
+                    "Constants"
+                ],
+                "summary": "Get Region For Map List",
+                "operationId": "GetRegionMapList",
+                "responses": {
+                    "200": {
+                        "description": "Region For Map retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/RegionMapViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/constants/ad-types": {
+            "get": {
+                "tags": [
+                    "Constants"
+                ],
+                "summary": "Get Ad Type List",
+                "operationId": "GetAdTypeList",
+                "responses": {
+                    "200": {
+                        "description": "Ad Types retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/AdTypeViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/constants/estate-types": {
+            "get": {
+                "tags": [
+                    "Constants"
+                ],
+                "summary": "Get Estate Type List",
+                "operationId": "GetEstateTypeList",
+                "responses": {
+                    "200": {
+                        "description": "Estate Types retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/EstateTypeViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/constants/property-utilities": {
+            "get": {
+                "tags": [
+                    "Constants"
+                ],
+                "summary": "Get Property Utility List",
+                "operationId": "GetPropertyUtilityList",
+                "responses": {
+                    "200": {
+                        "description": "Estate Types retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PropertyUtilityViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/constants/reasons": {
+            "get": {
+                "tags": [
+                    "Constants"
+                ],
+                "summary": "Get Reason List",
+                "operationId": "GetReasonList",
+                "responses": {
+                    "200": {
+                        "description": "Reasons retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ReasonViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/constants/usage-types": {
+            "get": {
+                "tags": [
+                    "Constants"
+                ],
+                "summary": "Get Usage Type List",
+                "operationId": "GetUsageTypeList",
+                "responses": {
+                    "200": {
+                        "description": "Usage Types retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UsageTypeViewModel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/ads/get-data-filter": {
             "get": {
                 "tags": [
@@ -1752,6 +2067,23 @@
                 },
                 "type": "object"
             },
+            "CityViewModel": {
+                "title": "CityViewModel",
+                "description": "City View Model",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "EstateTypeViewModel": {
                 "title": "EstateTypeViewModel",
                 "description": "Estate Type View Model",
@@ -1772,9 +2104,77 @@
                 },
                 "type": "object"
             },
+            "NeighborhoodViewModel": {
+                "title": "NeighborhoodViewModel",
+                "description": "Neighborhood View Model",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "PropertyUtilityViewModel": {
                 "title": "PropertyUtilityViewModel",
                 "description": "Property Utilities View Model",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ReasonViewModel": {
+                "title": "ReasonViewModel",
+                "description": "Reason View Model",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "RegionMapViewModel": {
+                "title": "RegionMapViewModel",
+                "description": "Region Map View Model",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "RegionViewModel": {
+                "title": "RegionViewModel",
+                "description": "Region View Model",
                 "required": [
                     "id",
                     "title"
@@ -2854,6 +3254,10 @@
         {
             "name": "Ads",
             "description": "Ads"
+        },
+        {
+            "name": "Constants",
+            "description": "Constants"
         },
         {
             "name": "Filter",
