@@ -67,10 +67,10 @@ interface UserServiceInterface
 
     /**
      * Resend verification code to user.
-     * @param \App\Models\User $user
-     * @return string
+     * @param int $user_id
+     * @return bool
      */
-    public function resendCode($user): string;
+    public function resendCode(int $user_id): bool;
 
     /**
      * Logout user by revoking all tokens.
