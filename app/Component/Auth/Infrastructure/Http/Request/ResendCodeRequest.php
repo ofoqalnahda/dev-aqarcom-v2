@@ -6,17 +6,16 @@ use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
 
 #[OA\RequestBody(
-    request: 'VerifyCodeRequest',
+    request: 'ResendCodeRequest',
     required: true,
     content: new OA\JsonContent(
-        required: ['code','user_id'],
+        required: ['user_id'],
         properties: [
             new OA\Property(property: 'user_id', description: 'Id For User ', type: 'integer'),
-            new OA\Property(property: 'code', description: 'Verification code', type: 'string'),
         ],
     )
 )]
-class VerifyCodeRequest extends FormRequest
+class ResendCodeRequest extends FormRequest
 {
     public function rules()
     {
