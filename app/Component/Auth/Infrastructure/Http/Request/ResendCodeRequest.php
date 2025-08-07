@@ -21,7 +21,6 @@ class ResendCodeRequest extends FormRequest
     {
         return [
             'user_id' => ['required','exists:users,id'],
-            'code' => ['required', 'string', 'size:4', 'regex:/^[0-9]{4}$/'],
         ];
     }
 }
