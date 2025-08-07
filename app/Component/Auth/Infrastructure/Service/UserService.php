@@ -48,7 +48,7 @@ class UserService implements UserServiceInterface
 
         //set ranom code
         $user->update([
-            'code' => rand(1000, 9999),
+            'code' =>1111,// rand(1000, 9999),
         ]);
         return $user;
     }
@@ -63,13 +63,15 @@ class UserService implements UserServiceInterface
         return $this->userRepository->delete($id);
     }
 
-    public function verifyCode($user, string $code): bool
+    public function verifyCode($user_id, string $code):object
     {
+        $user = $this->userViewQuery->find($user_id);
+
         if ($user->code === $code) {
             $user->update(['code' => null]);
-            return true;
+            return $user;
         }
-        return false;
+        return null;
     }
 
     public function completeProfile($user, array $data)

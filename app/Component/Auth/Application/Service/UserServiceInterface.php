@@ -43,11 +43,11 @@ interface UserServiceInterface
 
     /**
      * Verify the user's code.
-     * @param \App\Models\User $user
+     * @param int $user_id
      * @param string $code
-     * @return bool
+     * @return object
      */
-    public function verifyCode($user, string $code): bool;
+    public function verifyCode($user_id, string $code): object;
 
     /**
      * Complete the user's profile.
