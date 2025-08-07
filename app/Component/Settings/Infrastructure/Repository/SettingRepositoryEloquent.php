@@ -4,6 +4,7 @@ namespace App\Component\Settings\Infrastructure\Repository;
 
 use App\Component\Settings\Application\Repository\SettingRepositoryInterface;
 use App\Component\Settings\Data\Entity\Setting;
+use Illuminate\Database\Eloquent\Collection;
 
 class SettingRepositoryEloquent implements SettingRepositoryInterface
 {
@@ -20,14 +21,14 @@ class SettingRepositoryEloquent implements SettingRepositoryInterface
         return $query->first();
     }
     
-    public function findByUserId(int $userId): array
+    public function findByUserId(int $userId): Collection
     {
-        return Setting::where('user_id', $userId)->get()->toArray();
+        return Setting::where('user_id', $userId)->get();
     }
     
-    public function findGlobalSettings(): array
+    public function findGlobalSettings(): Collection
     {
-        return Setting::whereNull('user_id')->get()->toArray();
+        return Setting::whereNull('user_id')->get();
     }
     
     public function create(array $data): Setting

@@ -3,6 +3,7 @@
 namespace App\Component\Settings\Application\Repository;
 
 use App\Component\Settings\Data\Entity\WithdrawalRequest;
+use Illuminate\Database\Eloquent\Collection;
 
 interface WithdrawalRepositoryInterface
 {
@@ -10,7 +11,7 @@ interface WithdrawalRepositoryInterface
     
     public function findById(int $id): ?WithdrawalRequest;
     
-    public function findByUserId(int $userId): array;
+    public function findByUserId(int $userId): Collection;
     
     public function update(WithdrawalRequest $withdrawalRequest, array $data): WithdrawalRequest;
     

@@ -5,6 +5,7 @@ namespace App\Component\Ad\Infrastructure\Repository;
 use App\Component\Ad\Application\Repository\UsageTypeRepository;
 use App\Component\Ad\Data\Entity\Ad\EstateType;
 use App\Component\Ad\Data\Entity\Ad\UsageType;
+
 class UsageTypeRepositoryEloquent implements UsageTypeRepository
 {
 

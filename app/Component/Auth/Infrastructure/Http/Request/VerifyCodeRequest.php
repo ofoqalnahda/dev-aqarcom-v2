@@ -10,7 +10,7 @@ use OpenApi\Attributes as OA;
     required: true,
     content: new OA\JsonContent(
         required: ['code'],
-        properties: [
+
             new OA\Property(property: 'user_id', description: 'Id For User ', type: 'integer'),
             new OA\Property(property: 'code', description: 'Verification code', type: 'string'),
         ],

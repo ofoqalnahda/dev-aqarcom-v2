@@ -1096,6 +1096,126 @@
                 }
             }
         },
+        "/api/v1/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "f977387e97183b69943b388eb6b70e8b",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/resend-code": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "21943fc38824027798eb4f16162460d7",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/auth/verify-code": {
             "post": {
                 "tags": [
@@ -1117,6 +1237,17 @@
                                         },
                                         "message": {
                                             "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string"
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserViewModel"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -1146,6 +1277,228 @@
                 "security": [
                     {
                         "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payments/apply-promo-code": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "operationId": "fd1345a42f18afd5a0983a0f4f082521",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "package_id",
+                                    "code"
+                                ],
+                                "properties": {
+                                    "package_id": {
+                                        "description": "Package ID",
+                                        "type": "integer"
+                                    },
+                                    "code": {
+                                        "description": "Promo code",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Promo code applied successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "package_id": {
+                                                    "type": "integer"
+                                                },
+                                                "original_price": {
+                                                    "type": "number"
+                                                },
+                                                "final_price": {
+                                                    "type": "number"
+                                                },
+                                                "discount_amount": {
+                                                    "type": "number"
+                                                },
+                                                "discount_percentage": {
+                                                    "type": "number"
+                                                },
+                                                "promo_code": {
+                                                    "type": "string"
+                                                },
+                                                "is_valid": {
+                                                    "type": "boolean"
+                                                },
+                                                "error_message": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/v1/payments/subscriptions": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "operationId": "e43531a54d40b817c30dd69b6a84a2d3",
+                "responses": {
+                    "200": {
+                        "description": "User subscriptions retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "subscriptions": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/SubscriptionViewModel"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payments/subscribe": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "operationId": "b484865b9c894da7f032f232c8c8dff6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "package_id",
+                                    "payment_method"
+                                ],
+                                "properties": {
+                                    "package_id": {
+                                        "description": "Package ID",
+                                        "type": "integer"
+                                    },
+                                    "promo_code": {
+                                        "description": "Promo code (optional)",
+                                        "type": "string"
+                                    },
+                                    "payment_method": {
+                                        "type": "string",
+                                        "enum": [
+                                            "electronic",
+                                            "bank",
+                                            "credit_card",
+                                            "debit_card",
+                                            "wallet"
+                                        ]
+                                    },
+                                    "payment_details": {
+                                        "description": "Additional payment details",
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Subscription created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "subscription": {
+                                                    "$ref": "#/components/schemas/SubscriptionViewModel"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -2030,6 +2383,97 @@
                 },
                 "type": "object"
             },
+            "SubscriptionViewModel": {
+                "title": "SubscriptionViewModel",
+                "description": "Subscription View Model",
+                "required": [
+                    "id",
+                    "user_id",
+                    "package_id",
+                    "original_price",
+                    "final_price",
+                    "payment_method",
+                    "payment_status",
+                    "subscription_status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "package_id": {
+                        "type": "integer"
+                    },
+                    "promo_code_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "original_price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "final_price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "discount_amount": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "discount_percentage": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "payment_method": {
+                        "type": "string"
+                    },
+                    "payment_status": {
+                        "type": "string"
+                    },
+                    "subscription_status": {
+                        "type": "string"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "transaction_id": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "payment_details": {
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "package": {
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "promo_code": {
+                        "type": "object",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
             "ContactViewModel": {
                 "title": "ContactViewModel",
                 "description": "Contact Message View Model",
@@ -2686,6 +3130,10 @@
                                 "code"
                             ],
                             "properties": {
+                                "user_id": {
+                                    "description": "User ID",
+                                    "type": "integer"
+                                },
                                 "code": {
                                     "description": "Verification code",
                                     "type": "string"
@@ -2818,6 +3266,10 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Payments",
+            "description": "Payments"
         },
         {
             "name": "Settings",

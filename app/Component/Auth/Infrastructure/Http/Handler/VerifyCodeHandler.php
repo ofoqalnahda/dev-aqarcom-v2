@@ -5,6 +5,7 @@ namespace App\Component\Auth\Infrastructure\Http\Handler;
 use App\Component\Auth\Application\Mapper\UserMapperInterface;
 use App\Component\Auth\Infrastructure\Http\Request\VerifyCodeRequest;
 use App\Component\Auth\Application\Service\UserServiceInterface;
+use App\Component\Auth\Presentation\ViewQuery\UserViewQueryInterface;
 use App\Libraries\Base\Http\Handler;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OA;
@@ -36,6 +37,7 @@ use OpenApi\Attributes as OA;
 )]
 class VerifyCodeHandler extends Handler
 {
+
     protected UserServiceInterface $userService;
     protected UserMapperInterface $userMapper;
 

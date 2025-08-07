@@ -4,6 +4,7 @@ namespace App\Component\Settings\Infrastructure\Repository;
 
 use App\Component\Settings\Application\Repository\WithdrawalRepositoryInterface;
 use App\Component\Settings\Data\Entity\WithdrawalRequest;
+use Illuminate\Database\Eloquent\Collection;
 
 class WithdrawalRepositoryEloquent implements WithdrawalRepositoryInterface
 {
@@ -17,12 +18,11 @@ class WithdrawalRepositoryEloquent implements WithdrawalRepositoryInterface
         return WithdrawalRequest::find($id);
     }
     
-    public function findByUserId(int $userId): array
+    public function findByUserId(int $userId): Collection
     {
         return WithdrawalRequest::where('user_id', $userId)
             ->orderBy('created_at', 'desc')
-            ->get()
-            ->toArray();
+            ->get();
     }
     
     public function update(WithdrawalRequest $withdrawalRequest, array $data): WithdrawalRequest
