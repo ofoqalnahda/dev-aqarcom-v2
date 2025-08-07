@@ -116,22 +116,24 @@ class UserService implements UserServiceInterface
         return $user;
     }
 
-    public function resendCode($user): string
+    public function resendCode(int $user_id): bool
     {
+        $user = $this->userViewQuery->find($user_id);
+        if (!$user) {
+            return false;
+        }
         $newCode = app()->isProduction() ? rand(1000, 9999) : 1111;
         $user->update(['code' => $newCode]);
-        
-        // TODO: Send the code via SMS or other notification method
         // This would typically call a notification service
-        
-        return $newCode;
+
+        return true;
     }
 
     public function logout($user): bool
     {
         // Revoke all tokens for the current user
         $user->tokens()->delete();
-        
+
         return true;
     }
 }
