@@ -7,6 +7,7 @@ use App\Component\Ad\Data\Entity\Ad\Ad;
 use App\Component\Ad\Data\Entity\Ad\AdType;
 use App\Component\Ad\Data\Entity\Ad\EstateType;
 use App\Component\Ad\Data\Entity\Geography\City;
+use App\Component\Ad\Data\Entity\Geography\Neighborhood;
 use App\Component\Ad\Data\Entity\Geography\Region;
 use App\Component\Ad\Data\Entity\Geography\RegionMap;
 use App\Component\Ad\Domain\Enum\MainType;
@@ -77,7 +78,26 @@ class AdRepositoryEloquent implements AdRepository
 
                 break;
             case 'buy':
-                $data=$request;
+
+                $ad_type=AdType::where('id',$request['ad_type_id'])->first();
+                $estate_type=EstateType::where('id',$request['estate_type_id'])->first();
+                $city=City::where('id',$request['city_id'])->first();
+                $neighborhood=Neighborhood::where('id',$request['neighborhood_id'])->first();
+
+                $slug=self::CreateSlug(Str::slug('or-'.$ad_type->title.'-'.$estate_type->title.'-'.$city->name.'-'.$neighborhood->name));
+                $data = [
+                    'slug' => $slug,
+                    'main_type' => $mainType,
+                    'user_id' => $user->id,
+                    'status' => true,
+                    "ad_type_id"=> $request['ad_type_id'],
+                    "estate_type_id"=> $request['estate_type_id'],
+                    "region_id"=> $request['region_id'],
+                    "city_id"=> $request['city_id'],
+                    "neighborhood_id"=> $request['neighborhood_id'],
+                    "price"=> $request['price']?? null,
+                    "description"=> $request['description']
+                    ];
                 break;
         }
         $ad= Ad::create($data);
