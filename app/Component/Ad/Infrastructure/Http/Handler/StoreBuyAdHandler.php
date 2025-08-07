@@ -64,6 +64,7 @@ class StoreBuyAdHandler extends Handler
             );
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e);
             \Log::error('Error in Store Buy Ad Handler', [
                 'error'     => $e->getMessage(),
                 'file'      => $e->getFile(),
