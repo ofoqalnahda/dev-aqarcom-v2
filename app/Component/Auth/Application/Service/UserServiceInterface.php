@@ -45,9 +45,9 @@ interface UserServiceInterface
      * Verify the user's code.
      * @param int $user_id
      * @param string $code
-     * @return object
+     * @return object|null
      */
-    public function verifyCode($user_id, string $code): object;
+    public function verifyCode(int $user_id, string $code): object|null;
 
     /**
      * Complete the user's profile.

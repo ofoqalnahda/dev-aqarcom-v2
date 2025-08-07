@@ -63,7 +63,7 @@ class UserService implements UserServiceInterface
         return $this->userRepository->delete($id);
     }
 
-    public function verifyCode($user_id, string $code):object
+    public function verifyCode(int $user_id, string $code):object|null
     {
         $user = $this->userViewQuery->find($user_id);
 
