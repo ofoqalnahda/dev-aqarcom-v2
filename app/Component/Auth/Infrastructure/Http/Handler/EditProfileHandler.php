@@ -11,8 +11,8 @@ use OpenApi\Attributes as OA;
 
 #[OA\Post(
     path: '/api/v1/auth/edit-profile',
-    requestBody: new OA\RequestBody(ref: '#/components/requestBodies/EditProfileRequest'),
     security: [['sanctum' => []]],
+    requestBody: new OA\RequestBody(ref: '#/components/requestBodies/EditProfileRequest'),
     tags: ['Auth'],
     responses: [
         new OA\Response(response: 200, description: 'Success', content: new OA\JsonContent(
@@ -54,4 +54,4 @@ class EditProfileHandler extends Handler
             'data' => $userViewModel->toArray(),
         ]);
     }
-} 
+}

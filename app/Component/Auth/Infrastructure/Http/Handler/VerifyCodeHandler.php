@@ -12,7 +12,6 @@ use OpenApi\Attributes as OA;
 
 #[OA\Post(
     path: '/api/v1/auth/verify-code',
-    security: [['sanctum' => []]],
     requestBody: new OA\RequestBody(ref: '#/components/requestBodies/VerifyCodeRequest'),
     tags: ['Auth'],
     responses: [
@@ -38,23 +37,32 @@ use OpenApi\Attributes as OA;
 )]
 class VerifyCodeHandler extends Handler
 {
-    public function __construct(private readonly UserServiceInterface $userService, private readonly UserViewQueryInterface $query, private readonly  UserMapperInterface $userMapper)
-    {}
+
+    protected UserServiceInterface $userService;
+    protected UserMapperInterface $userMapper;
+
+    public function __construct(UserServiceInterface $userService, UserMapperInterface $userMapper)
+    {
+        $this->userService = $userService;
+        $this->userMapper = $userMapper;
+
+    }
 
     public function __invoke(VerifyCodeRequest $request): \Illuminate\Http\JsonResponse
     {
-        $user = $this->query->find($request->userId());
-        if ($this->userService->verifyCode($user, $request->code())) {
-            $user = $this->query->find($request->userId());
+
+        $code = $request->input('code');
+        $user_id = $request->input('user_id');
+        $user= $this->userService->verifyCode($user_id, $code);
+        if ($user) {
             $token = $user->createToken('auth_token')->plainTextToken;
             $userViewModel = $this->userMapper->toViewModel($user);
-
             return response()->json([
                 'status' => 'success',
-                'message' => 'Code verified',
+                'message' => 'Login successful',
                 'data' => [
                     'token' => $token,
-                    'user' => $userViewModel,
+                    'user' => $userViewModel->toArray(),
                 ],
             ]);
         }

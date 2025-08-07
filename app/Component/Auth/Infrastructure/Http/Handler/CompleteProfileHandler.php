@@ -11,8 +11,8 @@ use OpenApi\Attributes as OA;
 
 #[OA\Post(
     path: '/api/v1/auth/complete-profile',
-    requestBody: new OA\RequestBody(ref: '#/components/requestBodies/CompleteProfileRequest'),
     security: [['sanctum' => []]],
+    requestBody: new OA\RequestBody(ref: '#/components/requestBodies/CompleteProfileRequest'),
     tags: ['Auth'],
     responses: [
         new OA\Response(response: 200, description: 'Success', content: new OA\JsonContent(
