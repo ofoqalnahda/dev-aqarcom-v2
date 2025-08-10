@@ -36,6 +36,6 @@ interface AdTypeServiceInterface
      */
     public function find(int|string $id): mixed;
 
-    public function getByType(MainType $type);
+    public function getByType(string $type);
 
 }

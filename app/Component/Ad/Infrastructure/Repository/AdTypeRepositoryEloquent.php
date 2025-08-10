@@ -37,7 +37,7 @@ class AdTypeRepositoryEloquent implements AdTypeRepository
         return false;
     }
 
-    public function getByType(MainType $type)
+    public function getByType(string $type)
     {
         return AdType::where('main_type',$type)->get()
             ->toArray();

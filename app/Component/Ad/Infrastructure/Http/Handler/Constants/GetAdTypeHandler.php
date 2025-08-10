@@ -23,6 +23,19 @@ use OpenApi\Attributes as OA;
     operationId: "GetAdTypeList",
     summary: "Get Ad Type List",
     tags: ['Constants'],
+    parameters: [
+        new OA\Parameter(
+            name: 'type',
+            description: "Type",
+            required: true,
+            schema: new OA\Schema(
+                enum:[
+                    MainType::SELL,
+                    MainType::Buy
+                ],
+            ),
+        )
+    ],
     responses: [
         new OA\Response(response: 200, description: 'Ad Types retrieved successfully', content: new OA\JsonContent(
             properties: [

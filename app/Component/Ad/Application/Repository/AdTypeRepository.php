@@ -29,6 +29,6 @@ interface AdTypeRepository
      * @return bool
      */
     public function delete(int|string $id): bool;
-    public function getByType(MainType $type);
+    public function getByType(string $type);
 
 }
