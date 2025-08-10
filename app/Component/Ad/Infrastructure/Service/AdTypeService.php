@@ -39,7 +39,7 @@ class AdTypeService implements AdTypeServiceInterface
     }
 
 
-    public function getByType(MainType $type)
+    public function getByType(string $type)
     {
         return $this->adRepository->getByType($type);
     }
