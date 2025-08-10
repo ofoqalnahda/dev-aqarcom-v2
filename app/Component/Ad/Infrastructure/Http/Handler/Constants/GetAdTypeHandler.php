@@ -29,6 +29,7 @@ use OpenApi\Attributes as OA;
             description: "Type",
             required: true,
             schema: new OA\Schema(
+                type: 'string',
                 enum:[
                     MainType::SELL,
                     MainType::Buy
