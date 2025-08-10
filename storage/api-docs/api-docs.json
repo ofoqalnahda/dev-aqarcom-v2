@@ -1385,7 +1385,7 @@
         "/api/v1/service-providers/{id}": {
             "get": {
                 "tags": [
-                    "Auth"
+                    "Service Providers"
                 ],
                 "operationId": "b061f5f366b04184b076b265cf6a2467",
                 "parameters": [
@@ -1439,7 +1439,7 @@
         "/api/v1/service-providers": {
             "get": {
                 "tags": [
-                    "Auth"
+                    "Service Providers"
                 ],
                 "operationId": "c7ab08232d27753c93eafae18771f36f",
                 "parameters": [
@@ -3251,6 +3251,10 @@
                         "type": "string",
                         "nullable": true
                     },
+                    "user_type": {
+                        "type": "string",
+                        "example": "individual"
+                    },
                     "code": {
                         "type": "string",
                         "nullable": true
@@ -4593,6 +4597,10 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Service Providers",
+            "description": "Service Providers"
         },
         {
             "name": "Payments",
