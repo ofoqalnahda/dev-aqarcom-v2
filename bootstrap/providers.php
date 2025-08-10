@@ -4,6 +4,7 @@ use App\Component\Ad\Infrastructure\ServiceProvider\AdServiceProvider;
 use App\Component\Auth\Infrastructure\ServiceProvider\AuthServiceProvider;
 use App\Component\Settings\Infrastructure\ServiceProvider\SettingsServiceProvider;
 use App\Component\Payments\Infrastructure\ServiceProvider\PaymentsServiceProvider;
+use App\Component\Properties\Infrastructure\ServiceProvider\PropertiesServiceProvider;
 
 return [
     App\Providers\AppServiceProvider::class,
@@ -13,4 +14,5 @@ return [
     SettingsServiceProvider::class,
     AdServiceProvider::class,
     PaymentsServiceProvider::class,
+    PropertiesServiceProvider::class,
 ];
