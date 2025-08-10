@@ -3,12 +3,13 @@
 namespace App\Component\Settings\Application\Service;
 
 use App\Component\Settings\Data\Entity\Setting;
+use Illuminate\Database\Eloquent\Collection;
 
 interface SettingServiceInterface
 {
-    public function getUserSettings(int $userId): array;
+    public function getUserSettings(int $userId): Collection;
     
-    public function getGlobalSettings(): array;
+    public function getGlobalSettings(): Collection;
     
     public function updateUserSetting(int $userId, string $key, mixed $value): Setting;
     

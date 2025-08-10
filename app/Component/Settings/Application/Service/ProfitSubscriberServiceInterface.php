@@ -3,10 +3,11 @@
 namespace App\Component\Settings\Application\Service;
 
 use App\Component\Settings\Data\Entity\ProfitSubscriber;
+use Illuminate\Database\Eloquent\Collection;
 
 interface ProfitSubscriberServiceInterface
 {
-    public function getAllSubscribers(?string $search = null): array;
+    public function getAllSubscribers(?string $search = null): Collection;
     
     public function getSubscriber(int $id): ?ProfitSubscriber;
     
