@@ -100,7 +100,7 @@ class GetDataFilterHandler extends Handler
         // Get all packages grouped by type
         $date = $this->adService->getDataForFilter();
 
-        $ad_type_data = $this->adTypeService->getByType(MainType::SELL);
+        $ad_type_data = $this->adTypeService->getByType('sell');
         $date['ad_type']=$this->adTypeMapper->toViewModelCollection($ad_type_data);
 
 
