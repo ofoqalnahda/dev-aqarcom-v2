@@ -24,10 +24,7 @@ use OpenApi\Attributes as OA;
     summary: "Get Ad Type List",
     tags: ['Constants'],
     parameters: [
-        new OA\Parameter(
-            name: 'type',
-            description: "Type",
-            required: true,
+        new OA\Parameter(name: "type", description: "Type", in: "query", required: true,
             schema: new OA\Schema(
                 type: 'string',
                 enum:[
@@ -35,6 +32,9 @@ use OpenApi\Attributes as OA;
                     MainType::Buy
                 ],
             ),
+        examples: [
+            MainType::SELL
+            ]
         )
     ],
     responses: [
