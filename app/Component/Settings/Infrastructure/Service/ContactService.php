@@ -5,6 +5,7 @@ namespace App\Component\Settings\Infrastructure\Service;
 use App\Component\Settings\Application\Service\ContactServiceInterface;
 use App\Component\Settings\Application\Repository\ContactRepositoryInterface;
 use App\Component\Settings\Data\Entity\Contact;
+use Illuminate\Database\Eloquent\Collection;
 
 class ContactService implements ContactServiceInterface
 {
@@ -23,26 +24,26 @@ class ContactService implements ContactServiceInterface
 
         return $this->contactRepository->create($contactData);
     }
-    
-    public function getUserContactMessages(int $userId): array
+
+    public function getUserContactMessages(int $userId): Collection
     {
         return $this->contactRepository->findByUserId($userId);
     }
-    
-    public function getAllContactMessages(): array
+
+    public function getAllContactMessages(): Collection
     {
         return $this->contactRepository->findAll();
     }
-    
+
     public function getContactMessage(int $id): ?Contact
     {
         return $this->contactRepository->findById($id);
     }
-    
+
     public function updateContactStatus(int $id, string $status, ?string $responseMessage = null): Contact
     {
         $contact = $this->contactRepository->findById($id);
-        
+
         if (!$contact) {
             throw new \Exception('Contact message not found');
         }
@@ -58,4 +59,4 @@ class ContactService implements ContactServiceInterface
 
         return $this->contactRepository->update($contact, $updateData);
     }
-} 
+}

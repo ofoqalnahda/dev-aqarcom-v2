@@ -101,8 +101,10 @@ class UserService implements UserServiceInterface
             'latitude',
             'longitude',
             'address',
+            'about_company',
         ];
         $updateData = array_intersect_key($data, array_flip($fields));
+        
         // Handle location array if present
         if (isset($data['location'])) {
             foreach (['latitude', 'longitude', 'address'] as $locField) {
@@ -111,7 +113,25 @@ class UserService implements UserServiceInterface
                 }
             }
         }
+        
+        // Update user basic info
         $this->userRepository->update($user->id, $updateData);
+        
+        // Handle working hours
+        if (isset($data['working_hours'])) {
+            $this->updateWorkingHours($user, $data['working_hours']);
+        }
+        
+        // Handle previous work history
+        if (isset($data['previous_work_history'])) {
+            $this->updatePreviousWorkHistory($user, $data['previous_work_history']);
+        }
+        
+        // Handle services
+        if (isset($data['services'])) {
+            $this->updateServices($user, $data['services']);
+        }
+        
         $user->refresh();
         return $user;
     }
@@ -135,5 +155,44 @@ class UserService implements UserServiceInterface
         $user->tokens()->delete();
 
         return true;
+    }
+    
+    private function updateWorkingHours($user, array $workingHours): void
+    {
+        // Delete existing working hours
+        $user->workingHours()->delete();
+        
+        // Create new working hours
+        foreach ($workingHours as $wh) {
+            $user->workingHours()->create([
+                'day' => $wh['day'],
+                'start_time' => $wh['start_time'] ?? null,
+                'end_time' => $wh['end_time'] ?? null,
+                'is_working_day' => $wh['is_working_day'] ?? true,
+            ]);
+        }
+    }
+    
+    private function updatePreviousWorkHistory($user, array $workHistory): void
+    {
+        // Delete existing work history
+        $user->previousWorkHistory()->delete();
+        
+        // Create new work history
+        foreach ($workHistory as $wh) {
+            $user->previousWorkHistory()->create([
+                'company_name' => $wh['company_name'],
+                'description' => $wh['description'],
+                'start_date' => $wh['start_date'] ?? null,
+                'end_date' => $wh['is_current_job'] ? null : ($wh['end_date'] ?? null),
+                'is_current_job' => $wh['is_current_job'] ?? false,
+            ]);
+        }
+    }
+    
+    private function updateServices($user, array $serviceIds): void
+    {
+        // Sync services (this will handle both attaching and detaching)
+        $user->services()->sync($serviceIds);
     }
 }
