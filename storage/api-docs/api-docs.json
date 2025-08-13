@@ -497,13 +497,13 @@
                 }
             }
         },
-        "/api/v1/ads/home-ads": {
+        "/api/v1/home": {
             "get": {
                 "tags": [
-                    "Ads"
+                    "Home"
                 ],
-                "summary": "Home ads",
-                "operationId": "Home Ads",
+                "summary": "Get home ads: special, nearest and services",
+                "operationId": "Home",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -512,13 +512,35 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "success"
                                         },
                                         "message": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Fetched successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/AdViewListModel"
+                                            "properties": {
+                                                "special": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/AdViewListModel"
+                                                    }
+                                                },
+                                                "nearest": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/AdViewListModel"
+                                                    }
+                                                },
+                                                "services": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/ServiceViewModel"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -527,7 +549,7 @@
                         }
                     },
                     "400": {
-                        "description": "error",
+                        "description": "Error",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1520,12 +1542,7 @@
                 "tags": [
                     "Auth"
                 ],
-
-                "operationId": "21943fc38824027798eb4f16162460d7",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/ResendCodeRequest"
-                },
-
+                "operationId": "fe08f98367030e93980ed66e7d7ada11",
                 "responses": {
                     "200": {
                         "description": "Rating deleted successfully",
@@ -1586,7 +1603,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/auth/edit-profile": {
@@ -1638,7 +1660,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/auth/companies/{companyId}/ratings": {
@@ -4797,7 +4824,6 @@
                     }
                 }
             },
-
             "UpdateRatingRequest": {
                 "required": true,
                 "content": {
@@ -4970,6 +4996,10 @@
         {
             "name": "Filter",
             "description": "Filter"
+        },
+        {
+            "name": "Home",
+            "description": "Home"
         },
         {
             "name": "Story",

@@ -96,7 +96,6 @@ class StoryAdHandler extends Handler
                 ]
             );
         } catch (\Exception $e) {
-            dd($e);
             \Log::error('Error in List Sell Ad Handler', [
                 'error'     => $e->getMessage(),
                 'file'      => $e->getFile(),

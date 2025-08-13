@@ -154,7 +154,7 @@ class Ad extends Model implements HasMedia
 
 
 
-    public function scopeWithDistanceFrom($query)
+    public function scopeWithDistanceFrom($query,$is_sort=false)
     {
         $lat = request()->input('lat');
         $lng = request()->input('lng');
@@ -167,8 +167,13 @@ class Ad extends Model implements HasMedia
                     + sin(radians($lat))
                     * sin(radians(lat))))";
 
-        return $query->select('*')
+       $query->select('*')
             ->selectRaw("$haversine AS distance_for_user");
+
+        if ($is_sort){
+            $query->orderByRaw("$haversine ASC");
+        }
+        return $query;
     }
     public function getTitleAttribute()
     {
