@@ -24,11 +24,11 @@ return new class extends Migration
             $table->enum('payment_status', ['pending', 'processing', 'completed', 'failed', 'cancelled', 'refunded'])->default('pending');
             $table->enum('subscription_status', ['active', 'expired', 'cancelled', 'suspended'])->default('active');
             $table->timestamp('start_date');
-            $table->timestamp('end_date');
+            $table->timestamp('end_date')->nullable();
             $table->string('transaction_id')->nullable();
             $table->json('payment_details')->nullable();
             $table->timestamps();
-            
+
             $table->index(['user_id', 'subscription_status']);
             $table->index(['payment_status']);
             $table->index(['start_date', 'end_date']);
@@ -42,4 +42,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('subscriptions');
     }
-}; 
+};

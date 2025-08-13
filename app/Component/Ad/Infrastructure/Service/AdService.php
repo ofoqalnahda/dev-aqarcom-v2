@@ -63,4 +63,9 @@ class AdService implements AdServiceInterface
     {
         return $this->adRepository->getDataForFilter();
     }
+
+    public function getStores()
+    {
+        return $this->adRepository->getStores();
+    }
 }
