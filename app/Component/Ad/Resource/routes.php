@@ -11,10 +11,14 @@ use App\Component\Ad\Infrastructure\Http\Handler\Constants\GetPropertyUtilityHan
 use App\Component\Ad\Infrastructure\Http\Handler\Constants\GetReasonHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\Constants\GetUsageTypeHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\GetDataFilterHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\ListAdBuyHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\StoreBuyAdHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\StoreSellAdHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\ListAdHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\HomeAdHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\StoryAdHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\ToggleFavoriteHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\ToggleViewHandler;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -28,9 +32,15 @@ Route::group([
     Route::post('store-buy-ads', StoreBuyAdHandler::class)->middleware('auth:sanctum');
 
 
-    Route::get('list-sell-ads', ListAdHandler::class)->middleware('optional.auth');
     Route::post('{ad}/toggle-favorite', ToggleFavoriteHandler::class)->middleware('auth:sanctum');
+    Route::post('{ad}/toggle-view', ToggleViewHandler::class)->middleware('auth:sanctum');
+    Route::get('list-sell-ads', ListAdHandler::class)->middleware('optional.auth');
+    Route::get('list-buy-ads', ListAdBuyHandler::class)->middleware('optional.auth');
+
+    Route::get('list-story-ads', StoryAdHandler::class)->middleware('optional.auth');
 });
+Route::get('home', HomeAdHandler::class)->middleware('optional.auth');
+
 Route::prefix('constants')->group(function () {
     Route::get('ad-types', GetAdTypeHandler::class);
     Route::get('estate-types', GetEstateTypeHandler::class);

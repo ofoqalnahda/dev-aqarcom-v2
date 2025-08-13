@@ -12,6 +12,7 @@ use App\Component\Ad\Data\Entity\Geography\Region;
 use App\Component\Ad\Data\Entity\Geography\RegionMap;
 use App\Component\Ad\Domain\Enum\MainType;
 use App\Component\Ad\Infrastructure\Http\Request\CheckAdLicenseRequest;
+use App\Component\Auth\Data\Entity\User\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
@@ -209,7 +210,6 @@ class AdRepositoryEloquent implements AdRepository
         $validKeys = [
             'user_id',
             'is_special',
-            'is_special',
             'ad_type_id',
             'estate_type_id',
             'city_id',
@@ -232,7 +232,8 @@ class AdRepositoryEloquent implements AdRepository
 
         $query = Ad::Active();
         if ($withDist){
-            $query= $query->WithDistanceFrom();
+            $is_sort=isset($filters['sort_by']) && $filters['sort_by'] ==='nearest';
+            $query= $query->WithDistanceFrom(is_sort:$is_sort);
         }
 
         $query->where('main_type', $mainType->value);
@@ -301,11 +302,6 @@ class AdRepositoryEloquent implements AdRepository
         }
         if (isset($filters['sort_by'])) {
             switch ($filters['sort_by']) {
-                case 'nearest':
-                    if ($withDist) {
-                        $query->orderBy('distance');
-                    }
-                    break;
                 case 'lowest_price':
                     $query->orderBy('price', 'asc');
                     break;
@@ -343,6 +339,20 @@ class AdRepositoryEloquent implements AdRepository
                 'max' =>round($maxArea, 2),
             ],
         ];
+    }
+    public function getStores()
+    {
+
+        return User::select('id', 'name')
+            ->whereHas('ads', function ($q) {
+                $q->where('is_story', 1)
+                    ->where('status', 1);
+            })
+            ->with(['ads' => function ($query) {
+                $query->select('id', 'status','slug','created_at', 'is_story', 'user_id')
+                ->where('is_story', 1)->where('status', 1);
+            }]);
+
     }
 
 }
