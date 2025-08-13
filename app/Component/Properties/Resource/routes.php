@@ -15,3 +15,4 @@ Route::prefix('properties')->group(function () {
         Route::delete('/{id}', DeleteServiceHandler::class);
     });
 });
+

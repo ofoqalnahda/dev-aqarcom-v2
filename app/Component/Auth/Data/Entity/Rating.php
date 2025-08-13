@@ -31,3 +31,4 @@ class Rating extends Model
         return $this->belongsTo(\App\Models\User::class, 'company_id');
     }
 }
+

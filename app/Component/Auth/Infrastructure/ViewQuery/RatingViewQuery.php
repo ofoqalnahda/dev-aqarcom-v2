@@ -46,3 +46,4 @@ class RatingViewQuery
         return Rating::where('company_id', $companyId)->count();
     }
 }
+
