@@ -5,6 +5,7 @@ namespace App\Component\Settings\Infrastructure\Service;
 use App\Component\Settings\Application\Service\SettingServiceInterface;
 use App\Component\Settings\Application\Repository\SettingRepositoryInterface;
 use App\Component\Settings\Data\Entity\Setting;
+use Illuminate\Database\Eloquent\Collection;
 
 class SettingService implements SettingServiceInterface
 {
@@ -15,12 +16,12 @@ class SettingService implements SettingServiceInterface
         $this->settingRepository = $settingRepository;
     }
 
-    public function getUserSettings(int $userId): array
+    public function getUserSettings(int $userId): Collection
     {
         return $this->settingRepository->findByUserId($userId);
     }
     
-    public function getGlobalSettings(): array
+    public function getGlobalSettings(): Collection
     {
         return $this->settingRepository->findGlobalSettings();
     }

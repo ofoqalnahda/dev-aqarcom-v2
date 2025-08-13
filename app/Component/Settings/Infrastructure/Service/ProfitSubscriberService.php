@@ -5,6 +5,7 @@ namespace App\Component\Settings\Infrastructure\Service;
 use App\Component\Settings\Application\Service\ProfitSubscriberServiceInterface;
 use App\Component\Settings\Application\Repository\ProfitSubscriberRepositoryInterface;
 use App\Component\Settings\Data\Entity\ProfitSubscriber;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProfitSubscriberService implements ProfitSubscriberServiceInterface
 {
@@ -15,7 +16,7 @@ class ProfitSubscriberService implements ProfitSubscriberServiceInterface
         $this->subscriberRepository = $subscriberRepository;
     }
 
-    public function getAllSubscribers(?string $search = null): array
+    public function getAllSubscribers(?string $search = null): Collection
     {
         return $this->subscriberRepository->findAll($search);
     }
