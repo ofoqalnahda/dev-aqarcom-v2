@@ -48,5 +48,6 @@ interface AdServiceInterface
     public function CheckAdLicense(CheckAdLicenseRequest $request, ?Authenticatable $user);
 
     public function filter(MainType $mainType, array $filters,$withDist=false);
+    public function getStores();
     public function getDataForFilter(): array;
 }

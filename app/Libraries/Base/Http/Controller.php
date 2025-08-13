@@ -5,6 +5,7 @@ namespace App\Libraries\Base\Http;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use League\Fractal;
+use League\Fractal\Resource\ResourceInterface;
 use OpenApi\Attributes as OA;
 
 #[OA\Info(version: "1.0.0", title: "Aqarkom API Documentation")]
@@ -20,13 +21,18 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object'
 )]
-
+#[OA\SecurityScheme(
+    securityScheme: 'sanctum',
+    type: 'http',
+    bearerFormat: 'JWT',
+    scheme: 'bearer'
+)]
 abstract class Controller extends \Illuminate\Routing\Controller
 {
     /**
-     * @param Fractal\Resource\ResourceInterface $resource
+     * @param ResourceInterface $resource
      * @param string[] $includes
-     *
+     * @param int $status
      * @return JsonResponse
      */
     public function successResponse(

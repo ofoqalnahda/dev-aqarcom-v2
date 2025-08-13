@@ -12,6 +12,7 @@ use App\Component\Ad\Data\Entity\Geography\Region;
 use App\Component\Ad\Data\Entity\Geography\RegionMap;
 use App\Component\Ad\Domain\Enum\MainType;
 use App\Component\Ad\Infrastructure\Http\Request\CheckAdLicenseRequest;
+use App\Component\Auth\Data\Entity\User\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
@@ -343,6 +344,20 @@ class AdRepositoryEloquent implements AdRepository
                 'max' =>round($maxArea, 2),
             ],
         ];
+    }
+    public function getStores()
+    {
+
+        return User::select('id', 'name')
+            ->whereHas('ads', function ($q) {
+                $q->where('is_story', 1)
+                    ->where('status', 1);
+            })
+            ->with(['ads' => function ($query) {
+                $query->select('id', 'status','slug','created_at', 'is_story', 'user_id')
+                ->where('is_story', 1)->where('status', 1);
+            }]);
+
     }
 
 }

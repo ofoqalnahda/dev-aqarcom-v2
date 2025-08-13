@@ -136,9 +136,20 @@ class Ad extends Model implements HasMedia
     }
 
 
+
+    public function ViewByUsers()
+    {
+        return $this->belongsToMany(User::class, 'ad_user_views', 'ad_id', 'user_id');
+    }
+
+
     public function isFavoritedBy($userId): bool
     {
         return $this->favoritedByUsers()->where('user_id', $userId)->exists();
+    }
+    public function isViewBy($userId): bool
+    {
+        return $this->ViewByUsers()->where('user_id', $userId)->exists();
     }
 
 
@@ -161,11 +172,14 @@ class Ad extends Model implements HasMedia
     }
     public function getTitleAttribute()
     {
-        return __('special.title_ad',[
-            "estate_type"=>$this->estateType->title,
-            "ad_type"=>$this->ad_type->title,
-            "neighborhood"=>$this->neighborhood->name
-        ]) ;
+        if($this->estateType && $this->ad_type && $this->neighborhood){
+            return __('special.title_ad',[
+                "estate_type"=>$this->estateType->title,
+                "ad_type"=>$this->ad_type->title,
+                "neighborhood"=>$this->neighborhood->name
+            ]) ;
+        }
+        return '';
 
     }
 
