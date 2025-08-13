@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 #[OA\Delete(
-    path: "/api/v1/services/{id}",
+    path: "/api/v1/properties/services/{id}",
     summary: "Delete a service",
     description: "Deletes an existing service with the specified ID",
     tags: ["Services"],
@@ -70,7 +70,7 @@ class DeleteServiceHandler extends Controller
     {
         try {
             $deleted = $this->serviceService->deleteService($id);
-            
+
             if (!$deleted) {
                 return response()->json([
                     'status' => 'error',

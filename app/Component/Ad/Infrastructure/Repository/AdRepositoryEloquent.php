@@ -210,7 +210,6 @@ class AdRepositoryEloquent implements AdRepository
         $validKeys = [
             'user_id',
             'is_special',
-            'is_special',
             'ad_type_id',
             'estate_type_id',
             'city_id',
@@ -233,7 +232,8 @@ class AdRepositoryEloquent implements AdRepository
 
         $query = Ad::Active();
         if ($withDist){
-            $query= $query->WithDistanceFrom();
+            $is_sort=isset($filters['sort_by']) && $filters['sort_by'] ==='nearest';
+            $query= $query->WithDistanceFrom(is_sort:$is_sort);
         }
 
         $query->where('main_type', $mainType->value);
@@ -302,11 +302,6 @@ class AdRepositoryEloquent implements AdRepository
         }
         if (isset($filters['sort_by'])) {
             switch ($filters['sort_by']) {
-                case 'nearest':
-                    if ($withDist) {
-                        $query->orderBy('distance');
-                    }
-                    break;
                 case 'lowest_price':
                     $query->orderBy('price', 'asc');
                     break;

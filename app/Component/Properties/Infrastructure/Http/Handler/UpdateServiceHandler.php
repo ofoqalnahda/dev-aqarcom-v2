@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 #[OA\Put(
-    path: "/api/v1/services/{id}",
+    path: "/api/v1/properties/services/{id}",
     summary: "Update a service",
     description: "Updates an existing service with the specified ID",
     tags: ["Services"],
@@ -89,7 +89,7 @@ class UpdateServiceHandler extends Controller
     {
         try {
             $service = $this->serviceService->updateService($id, $request->validated());
-            
+
             if (!$service) {
                 return response()->json([
                     'status' => 'error',

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 #[OA\Get(
-    path: "/api/v1/services",
+    path: "/api/v1/properties/services",
     summary: "Get services",
     description: "Retrieve services with optional filtering by type, name, or active status",
     tags: ["Services"],

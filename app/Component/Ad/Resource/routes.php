@@ -38,8 +38,9 @@ Route::group([
     Route::get('list-buy-ads', ListAdBuyHandler::class)->middleware('optional.auth');
 
     Route::get('list-story-ads', StoryAdHandler::class)->middleware('optional.auth');
-    Route::get('home-ads', HomeAdHandler::class)->middleware('optional.auth');
 });
+Route::get('home', HomeAdHandler::class)->middleware('optional.auth');
+
 Route::prefix('constants')->group(function () {
     Route::get('ad-types', GetAdTypeHandler::class);
     Route::get('estate-types', GetEstateTypeHandler::class);
