@@ -11,5 +11,5 @@ interface ServiceMapperInterface
      * @param mixed $service
      * @return ServiceViewModel
      */
-    public function toViewModel($service): ServiceViewModel;
+    public function toViewModel(mixed $service): ServiceViewModel;
 }

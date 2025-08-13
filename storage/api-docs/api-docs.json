@@ -2317,14 +2317,14 @@
                 ]
             }
         },
-        "/api/v1/services": {
+        "/api/v1/properties/services": {
             "get": {
                 "tags": [
                     "Services"
                 ],
                 "summary": "Get services",
                 "description": "Retrieve services with optional filtering by type, name, or active status",
-                "operationId": "d33681de9f5a07672ffa7f4a78a381b7",
+                "operationId": "f5eac3547869f32e583fa993369b957e",
                 "parameters": [
                     {
                         "name": "type",
@@ -2418,7 +2418,7 @@
                 ],
                 "summary": "Create a new service",
                 "description": "Creates a new service with the specified type and name",
-                "operationId": "68971773c983617d20cf66c132d88607",
+                "operationId": "af71e9a38c069627ac4d10fea00114a7",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2502,14 +2502,14 @@
                 }
             }
         },
-        "/api/v1/services/{id}": {
+        "/api/v1/properties/services/{id}": {
             "put": {
                 "tags": [
                     "Services"
                 ],
                 "summary": "Update a service",
                 "description": "Updates an existing service with the specified ID",
-                "operationId": "0c2160015af86af6b20a9529900ea258",
+                "operationId": "a0105c0e144704f923f2f3bd65715a07",
                 "parameters": [
                     {
                         "name": "id",
@@ -2633,7 +2633,7 @@
                 ],
                 "summary": "Delete a service",
                 "description": "Deletes an existing service with the specified ID",
-                "operationId": "019e23d98a6ee7b958d48e10a33fb4b9",
+                "operationId": "9ebb2698d573836db1a0e68230220d87",
                 "parameters": [
                     {
                         "name": "id",
@@ -3988,6 +3988,9 @@
                         "description": "Whether the service is active",
                         "type": "boolean",
                         "default": true
+                    },
+                    "image": {
+                        "description": "Service image."
                     }
                 },
                 "type": "object"
@@ -4019,6 +4022,7 @@
                     "id",
                     "type",
                     "name",
+                    "image",
                     "is_active",
                     "created_at",
                     "updated_at"
@@ -4034,6 +4038,9 @@
                         "type": "string"
                     },
                     "name": {
+                        "type": "string"
+                    },
+                    "image": {
                         "type": "string"
                     },
                     "is_active": {

@@ -10,14 +10,14 @@ use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 #[OA\Post(
-    path: "/api/v1/services",
-    summary: "Create a new service",
+    path: "/api/v1/properties/services",
     description: "Creates a new service with the specified type and name",
-    tags: ["Services"],
+    summary: "Create a new service",
     requestBody: new OA\RequestBody(
         required: true,
         content: new OA\JsonContent(ref: "#/components/schemas/CreateServiceRequest")
     ),
+    tags: ["Services"],
     responses: [
         new OA\Response(
             response: 201,
@@ -69,6 +69,10 @@ class CreateServiceHandler extends Controller
     {
         try {
             $service = $this->serviceService->createService($request->validated());
+            if ($request->has('image')) {
+                    $service->addMediaFromRequest('image')->toMediaCollection('images');
+            }
+
             $viewModel = $this->serviceMapper->toViewModel($service);
 
             return response()->json([

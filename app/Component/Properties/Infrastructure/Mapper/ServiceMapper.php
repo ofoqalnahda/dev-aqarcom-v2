@@ -7,7 +7,7 @@ use App\Component\Properties\Presentation\ViewModel\ServiceViewModel;
 
 class ServiceMapper implements ServiceMapperInterface
 {
-    public function toViewModel($service): ServiceViewModel
+    public function toViewModel(mixed $service): ServiceViewModel
     {
         return new ServiceViewModel($service);
     }
