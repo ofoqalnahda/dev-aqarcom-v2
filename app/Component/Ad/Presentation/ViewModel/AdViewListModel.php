@@ -42,7 +42,7 @@ class AdViewListModel
     public ?int $distance = null;
     public ?string $address = null;
     public ?int $number_of_rooms = null;
-    public ?float $area = null;
+    public ?string $area = null;
     public ?int $user_id = null;
     public ?string $user_number = null;
 
@@ -68,7 +68,7 @@ class AdViewListModel
         $this->distance = round($data->distance_for_user, 2);
         $this->address = $data->address;
         $this->number_of_rooms = $data->number_of_rooms;
-        $this->area = round($data->area, 2);
+        $this->area = number_format(round($data->area, 2), 2, '.', '');
         $this->user_id = $data->user_id;
         $this->user_number = $data->user_number;
     }
