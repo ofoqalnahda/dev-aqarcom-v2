@@ -13,6 +13,7 @@ use ReflectionClass;
         new OA\Property(property: "id", type: "integer"),
         new OA\Property(property: "slug", type: "string"),
         new OA\Property(property: "title", type: "string"),
+        new OA\Property(property: "type_ad", type: "string"),
         new OA\Property(property: "price", type: "integer"),
         new OA\Property(property: "property_price", type: "integer"),
         new OA\Property(property: "is_favorite", type: "boolean"),
@@ -32,6 +33,7 @@ class AdViewListModel
     public int $id;
     public ?string $slug = null;
     public ?string $title = null;
+    public ?string $type_ad = null;
     public ?int $price = null;
     public ?int $property_price = null;
     public bool $is_favorite = false;
@@ -49,6 +51,7 @@ class AdViewListModel
         $this->id = $data->id;
         $this->slug = $data->slug;
         $this->title = $data->title;
+        $this->type_ad = $data->ad_type?->title;
         $this->price = $data->price;
         $this->property_price = $data->property_price;
         $this->is_favorite = auth()->check() && $data->favoritedByUsers->contains(auth()->id());
