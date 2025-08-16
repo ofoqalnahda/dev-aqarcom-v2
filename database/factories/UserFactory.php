@@ -31,6 +31,8 @@ class UserFactory extends Factory
 //            'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'latitude' => fake()->randomFloat(6, 16.0, 32.0), // Saudi Arabia latitude range
+            'longitude' => fake()->randomFloat(6, 34.0, 56.0), // Saudi Arabia longitude range
         ];
     }
 

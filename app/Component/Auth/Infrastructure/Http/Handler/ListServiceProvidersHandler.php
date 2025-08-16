@@ -2,9 +2,9 @@
 
 namespace App\Component\Auth\Infrastructure\Http\Handler;
 
+use App\Component\Auth\Infrastructure\ViewQuery\UserViewQuery;
 use App\Component\Auth\Presentation\ViewModel\UserViewListModel;
 use App\Libraries\Base\Http\Handler;
-use App\Models\User;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
@@ -18,6 +18,20 @@ use OpenApi\Attributes as OA;
             in: 'query',
             required: false,
             schema: new OA\Schema(type: 'string', example: 'construction')
+        ),
+        new OA\Parameter(
+            name: 'latitude',
+            description: 'User latitude for distance calculation',
+            in: 'query',
+            required: false,
+            schema: new OA\Schema(type: 'number', format: 'float', example: 21.422510)
+        ),
+        new OA\Parameter(
+            name: 'longitude',
+            description: 'User longitude for distance calculation',
+            in: 'query',
+            required: false,
+            schema: new OA\Schema(type: 'number', format: 'float', example: 39.826168)
         ),
         new OA\Parameter(
             name: 'per_page',
@@ -43,12 +57,12 @@ use OpenApi\Attributes as OA;
                     new OA\Property(property: 'status', type: 'string', example: 'success'),
                     new OA\Property(property: 'message', type: 'string', example: 'Service providers retrieved successfully'),
                     new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/UserViewListModel')),
-                    new OA\Property(property: 'pagination', type: 'object', properties: [
+                    new OA\Property(property: 'pagination', properties: [
                         new OA\Property(property: 'current_page', type: 'integer', example: 1),
                         new OA\Property(property: 'last_page', type: 'integer', example: 5),
                         new OA\Property(property: 'per_page', type: 'integer', example: 15),
                         new OA\Property(property: 'total', type: 'integer', example: 75),
-                    ]),
+                    ], type: 'object'),
                 ],
                 type: 'object'
             )
@@ -59,22 +73,31 @@ use OpenApi\Attributes as OA;
 )]
 class ListServiceProvidersHandler extends Handler
 {
+    public function __construct(private UserViewQuery $userViewQuery)
+    {
+    }
+
     public function __invoke(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
-            $query = User::query()
-                ->where('user_type', '!=', 'individual')
-                ->withAvg('ratingsReceived', 'rating')
-                ->withCount('ratingsReceived');
+            $userLat = $request->input('latitude');
+            $userLng = $request->input('longitude');
+            $search = $request->input('search');
+            $perPage = $request->input('per_page', 15);
 
-            // Apply search filter
-            if ($search = $request->input('search')) {
-                $query->where('name', 'like', "%{$search}%");
+            // Prepare filters
+            $filters = [];
+            if ($search) {
+                $filters['search'] = $search;
             }
 
-            // Get paginated results
-            $perPage = $request->input('per_page', 15);
-            $users = $query->orderBy('name')->paginate($perPage);
+            // Get service providers with distance calculation
+            $users = $this->userViewQuery->listServiceProviders(
+                $filters,
+                $perPage,
+                $userLat ? (float) $userLat : null,
+                $userLng ? (float) $userLng : null
+            );
 
             // Transform to view models
             $data = $users->getCollection()->map(function ($user) {

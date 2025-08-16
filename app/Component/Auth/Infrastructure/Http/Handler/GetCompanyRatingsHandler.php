@@ -39,11 +39,11 @@ class GetCompanyRatingsHandler extends Handler
         try {
             $perPage = request()->get('per_page', 15);
             $ratings = $this->ratingViewQuery->getCompanyRatings($companyId, $perPage);
-            
+
             $ratingViewModels = $ratings->map(function ($rating) {
                 return (new \App\Component\Auth\Presentation\ViewModel\RatingViewModel($rating))->toArray();
             });
-            
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Company ratings retrieved successfully',
