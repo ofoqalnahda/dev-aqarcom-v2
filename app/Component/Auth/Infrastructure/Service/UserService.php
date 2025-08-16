@@ -4,6 +4,7 @@ namespace App\Component\Auth\Infrastructure\Service;
 
 use App\Component\Auth\Application\Service\UserServiceInterface;
 use App\Component\Auth\Application\Repository\UserRepository;
+use App\Component\Auth\Domain\Enum\UserTypeEnum;
 use Illuminate\Support\Facades\Hash;
 use App\Component\Auth\Presentation\ViewQuery\UserViewQueryInterface;
 use Illuminate\Support\Str;
@@ -77,11 +78,14 @@ class UserService implements UserServiceInterface
     public function completeProfile($user, array $data)
     {
         // Only update allowed fields
+        $data['user_type'] = $data['account_type'] ?? UserTypeEnum::INDIVIDUAL->value; // Map account_type to user_type
+        unset($data['account_type']); // account_type is not used here
+
         $fields = [
             'name',
             'identity_number',
             'email',
-            'account_type',
+            'user_type',
             'commercial_name',
             'commercial_number',
         ];
@@ -104,7 +108,7 @@ class UserService implements UserServiceInterface
             'about_company',
         ];
         $updateData = array_intersect_key($data, array_flip($fields));
-        
+
         // Handle location array if present
         if (isset($data['location'])) {
             foreach (['latitude', 'longitude', 'address'] as $locField) {
@@ -113,25 +117,25 @@ class UserService implements UserServiceInterface
                 }
             }
         }
-        
+
         // Update user basic info
         $this->userRepository->update($user->id, $updateData);
-        
+
         // Handle working hours
         if (isset($data['working_hours'])) {
             $this->updateWorkingHours($user, $data['working_hours']);
         }
-        
+
         // Handle previous work history
         if (isset($data['previous_work_history'])) {
             $this->updatePreviousWorkHistory($user, $data['previous_work_history']);
         }
-        
+
         // Handle services
         if (isset($data['services'])) {
             $this->updateServices($user, $data['services']);
         }
-        
+
         $user->refresh();
         return $user;
     }
@@ -156,12 +160,12 @@ class UserService implements UserServiceInterface
 
         return true;
     }
-    
+
     private function updateWorkingHours($user, array $workingHours): void
     {
         // Delete existing working hours
         $user->workingHours()->delete();
-        
+
         // Create new working hours
         foreach ($workingHours as $wh) {
             $user->workingHours()->create([
@@ -172,12 +176,12 @@ class UserService implements UserServiceInterface
             ]);
         }
     }
-    
+
     private function updatePreviousWorkHistory($user, array $workHistory): void
     {
         // Delete existing work history
         $user->previousWorkHistory()->delete();
-        
+
         // Create new work history
         foreach ($workHistory as $wh) {
             $user->previousWorkHistory()->create([
@@ -189,7 +193,7 @@ class UserService implements UserServiceInterface
             ]);
         }
     }
-    
+
     private function updateServices($user, array $serviceIds): void
     {
         // Sync services (this will handle both attaching and detaching)

@@ -40,3 +40,4 @@ class UpdateRatingRequest extends FormRequest
         ];
     }
 }
+
