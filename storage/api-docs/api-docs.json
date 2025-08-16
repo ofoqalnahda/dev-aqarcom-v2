@@ -1743,6 +1743,28 @@
                             "type": "integer",
                             "example": 1
                         }
+                    },
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "description": "User latitude for distance calculation",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "example": 21.42251
+                        }
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "User longitude for distance calculation",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "example": 39.826168
+                        }
                     }
                 ],
                 "responses": {
@@ -1796,6 +1818,28 @@
                         "schema": {
                             "type": "string",
                             "example": "construction"
+                        }
+                    },
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "description": "User latitude for distance calculation",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "example": 21.42251
+                        }
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "User longitude for distance calculation",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "example": 39.826168
                         }
                     },
                     {
@@ -3316,6 +3360,9 @@
                     "title": {
                         "type": "string"
                     },
+                    "type_ad": {
+                        "type": "string"
+                    },
                     "price": {
                         "type": "integer"
                     },
@@ -3611,6 +3658,12 @@
                         "type": "integer",
                         "example": 10,
                         "nullable": true
+                    },
+                    "distance": {
+                        "description": "Distance in kilometers from user location",
+                        "type": "number",
+                        "format": "float",
+                        "example": 2.5
                     }
                 },
                 "type": "object"
@@ -3825,6 +3878,12 @@
                         },
                         "type": "object",
                         "nullable": true
+                    },
+                    "distance": {
+                        "description": "Distance in kilometers from user location",
+                        "type": "number",
+                        "format": "float",
+                        "example": 2.5
                     },
                     "ratings_received": {
                         "type": "array",

@@ -75,3 +75,4 @@ class DeleteRatingHandler extends Handler
     }
 }
 
+

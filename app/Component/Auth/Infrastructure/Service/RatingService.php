@@ -78,3 +78,4 @@ class RatingService implements RatingServiceInterface
     }
 }
 
+
