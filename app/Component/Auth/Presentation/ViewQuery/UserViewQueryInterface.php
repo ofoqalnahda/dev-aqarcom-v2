@@ -31,4 +31,23 @@ interface UserViewQueryInterface
      * @return mixed
      */
     public function findUserByCode(string $code);
+
+    /**
+     * Get a paginated list of service providers with optional distance calculation.
+     * @param array $filters
+     * @param int $perPage
+     * @param float|null $userLat
+     * @param float|null $userLng
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function listServiceProviders(array $filters = [], int $perPage = 15, ?float $userLat = null, ?float $userLng = null);
+
+    /**
+     * Find a service provider by ID with optional distance calculation.
+     * @param int $id
+     * @param float|null $userLat
+     * @param float|null $userLng
+     * @return \App\Models\User|null
+     */
+    public function findServiceProvider(int $id, ?float $userLat = null, ?float $userLng = null);
 }
