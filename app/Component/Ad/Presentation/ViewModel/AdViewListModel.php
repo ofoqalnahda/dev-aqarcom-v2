@@ -22,7 +22,7 @@ use ReflectionClass;
         new OA\Property(property: "distance", type: "integer"),
         new OA\Property(property: "address", type: "string"),
         new OA\Property(property: "number_of_rooms", type: "integer"),
-        new OA\Property(property: "area", type: "double"),
+        new OA\Property(property: "area", type: "string"),
         new OA\Property(property: "user_id", type: "integer"),
         new OA\Property(property: "user_number", type: "string"),
     ],
