@@ -4,6 +4,7 @@ namespace App\Component\Ad\Infrastructure\Mapper;
 
 use App\Component\Ad\Application\Mapper\AdMapperInterface;
 use App\Component\Ad\Presentation\ViewModel\AdBuyViewListModel;
+use App\Component\Ad\Presentation\ViewModel\AdBuyViewModel;
 use App\Component\Ad\Presentation\ViewModel\AdExistsAdViewModel;
 use App\Component\Ad\Presentation\ViewModel\AdStoryViewListModel;
 use App\Component\Ad\Presentation\ViewModel\AdViewListModel;
@@ -81,4 +82,11 @@ class AdMapper implements AdMapperInterface
             return $this->toUserStoryViewListModel($ad);
         }, $ad);
     }
+
+    public function toBuyViewModel(mixed $ad): AdBuyViewModel
+    {
+        return new AdBuyViewModel($ad);
+    }
+
+
 }
