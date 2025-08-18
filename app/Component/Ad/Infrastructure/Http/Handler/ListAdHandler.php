@@ -64,14 +64,39 @@ use OpenApi\Attributes as OA;
 
     ],
     responses: [
-        new OA\Response(response: 200, description: 'Success', content: new OA\JsonContent(
-            properties: [
-                new OA\Property(property: 'status', type: 'string'),
-                new OA\Property(property: 'message', type: 'string'),
-                new OA\Property(property: 'data', ref: '#/components/schemas/AdViewListModel'),
-            ],
-            type: 'object'
-        )),
+        new OA\Response(
+            response: 200,
+            description: 'Success',
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(property: 'status', type: 'string'),
+                    new OA\Property(property: 'message', type: 'string'),
+                    new OA\Property(
+                        property: 'data',
+                        properties: [
+                            new OA\Property(
+                                property: 'items',
+                                type: 'array',
+                                items: new OA\Items(ref: '#/components/schemas/AdViewListModel')
+                            ),
+                            new OA\Property(
+                                property: 'meta',
+                                properties: [
+                                    new OA\Property(property: 'current_page', type: 'integer'),
+                                    new OA\Property(property: 'per_page', type: 'integer'),
+                                    new OA\Property(property: 'total', type: 'integer'),
+                                    new OA\Property(property: 'last_page', type: 'integer'),
+                                ],
+                                type: 'object'
+                            ),
+                        ],
+                        type: 'object'
+                    ),
+                ],
+                type: 'object'
+            )
+        ),
+
         new OA\Response(response: 400, description: 'error', content: new OA\JsonContent(
             properties: [
                 new OA\Property(property: 'status', type: 'string'),
@@ -106,7 +131,7 @@ class ListAdHandler extends Handler
 //            });
             return  responseApi(
                 data: [
-                    'data' => $items,
+                    'items' => $items,
                     'meta' => [
                         'current_page' => $paginated->currentPage(),
                         'per_page'     => $paginated->perPage(),

@@ -661,7 +661,32 @@
                                             "type": "string"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/AdBuyViewListModel"
+                                            "properties": {
+                                                "items": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/AdBuyViewListModel"
+                                                    }
+                                                },
+                                                "meta": {
+                                                    "properties": {
+                                                        "current_page": {
+                                                            "type": "integer"
+                                                        },
+                                                        "per_page": {
+                                                            "type": "integer"
+                                                        },
+                                                        "total": {
+                                                            "type": "integer"
+                                                        },
+                                                        "last_page": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -929,7 +954,87 @@
                                             "type": "string"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/AdViewListModel"
+                                            "properties": {
+                                                "items": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/AdViewListModel"
+                                                    }
+                                                },
+                                                "meta": {
+                                                    "properties": {
+                                                        "current_page": {
+                                                            "type": "integer"
+                                                        },
+                                                        "per_page": {
+                                                            "type": "integer"
+                                                        },
+                                                        "total": {
+                                                            "type": "integer"
+                                                        },
+                                                        "last_page": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "optional": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/ads/sell/show/{slug}": {
+            "get": {
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "Show Ad Details",
+                "operationId": "ShowAdDetails",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/AdViewModel"
                                         }
                                     },
                                     "type": "object"
@@ -3093,8 +3198,8 @@
                     "price": {
                         "type": "integer"
                     },
-                    "is_favorite": {
-                        "type": "boolean"
+                    "date": {
+                        "type": "string"
                     },
                     "estate_type": {
                         "type": "string"
@@ -3109,6 +3214,9 @@
                         "type": "integer"
                     },
                     "user_number": {
+                        "type": "string"
+                    },
+                    "user_whatsapp": {
                         "type": "string"
                     }
                 },
@@ -3398,23 +3506,151 @@
                     },
                     "user_number": {
                         "type": "string"
+                    },
+                    "user_whatsapp": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
             },
             "AdViewModel": {
                 "title": "AdViewModel",
-                "description": "Ad From Platform View Model",
-                "required": [
-                    "id",
-                    "license_number"
-                ],
+                "description": "Ad View Model",
                 "properties": {
                     "id": {
                         "type": "integer"
                     },
+                    "slug": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "type_ad": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "estate_type": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "usage_type": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "price": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "property_price": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "is_favorite": {
+                        "type": "boolean"
+                    },
+                    "number_of_rooms": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "area": {
+                        "type": "string",
+                        "nullable": true
+                    },
                     "license_number": {
                         "type": "string"
+                    },
+                    "creation_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "address": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "region": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "city": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "neighborhood": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "lat": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "lng": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "deed_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "property_face": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "plan_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "land_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "street_width": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "ad_license_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "is_constrained": {
+                        "type": "boolean"
+                    },
+                    "is_pawned": {
+                        "type": "boolean"
+                    },
+                    "is_halted": {
+                        "type": "boolean"
+                    },
+                    "is_testament": {
+                        "type": "boolean"
+                    },
+                    "title_deed_type_name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "video": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "user": {
+                        "type": "object",
+                        "nullable": true
                     }
                 },
                 "type": "object"

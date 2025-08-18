@@ -355,4 +355,8 @@ class AdRepositoryEloquent implements AdRepository
 
     }
 
+    public function findBySlug($slug)
+    {
+        return Ad::where('slug',$slug)->first();
+    }
 }

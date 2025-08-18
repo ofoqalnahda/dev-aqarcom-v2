@@ -50,4 +50,5 @@ interface AdServiceInterface
     public function filter(MainType $mainType, array $filters,$withDist=false);
     public function getStores();
     public function getDataForFilter(): array;
+    public function findBySlug($slug);
 }
