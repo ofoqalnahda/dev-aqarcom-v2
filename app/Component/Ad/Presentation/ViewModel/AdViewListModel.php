@@ -25,6 +25,7 @@ use ReflectionClass;
         new OA\Property(property: "area", type: "string"),
         new OA\Property(property: "user_id", type: "integer"),
         new OA\Property(property: "user_number", type: "string"),
+        new OA\Property(property: "user_whatsapp", type: "string"),
     ],
     type: "object",
 )]
@@ -45,9 +46,12 @@ class AdViewListModel
     public ?string $area = null;
     public ?int $user_id = null;
     public ?string $user_number = null;
+    public ?string $user_whatsapp = null;
 
     public function __construct(object $data)
     {
+        $user=$data->user;
+
         $this->id = $data->id;
         $this->slug = $data->slug;
         $this->title = $data->title;
@@ -70,7 +74,8 @@ class AdViewListModel
         $this->number_of_rooms = $data->number_of_rooms;
         $this->area = number_format(round($data->area, 2), 2, '.', '');
         $this->user_id = $data->user_id;
-        $this->user_number = $data->user_number;
+        $this->user_number = $user?->phone;
+        $this->user_whatsapp = $user?->phone;
     }
 
 
