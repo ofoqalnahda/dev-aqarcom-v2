@@ -121,7 +121,7 @@ class AdViewModel
         $this->area = $data->area ? number_format(round($data->area, 2), 2, '.', '') : null;
 
         $this->license_number = $data->license_number;
-        $this->creation_date = optional($data->created_at)->toDateTimeString();
+        $this->creation_date =$data->creation_date;
         $this->end_date = optional($data->end_date)->toDateTimeString();
 
         $this->region = $data->region?->name;
