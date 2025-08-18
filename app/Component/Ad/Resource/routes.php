@@ -12,6 +12,7 @@ use App\Component\Ad\Infrastructure\Http\Handler\Constants\GetReasonHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\Constants\GetUsageTypeHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\GetDataFilterHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\ListAdBuyHandler;
+use App\Component\Ad\Infrastructure\Http\Handler\ShowAdHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\StoreBuyAdHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\StoreSellAdHandler;
 use App\Component\Ad\Infrastructure\Http\Handler\ListAdHandler;
@@ -38,6 +39,7 @@ Route::group([
     Route::get('list-buy-ads', ListAdBuyHandler::class)->middleware('optional.auth');
 
     Route::get('list-story-ads', StoryAdHandler::class)->middleware('optional.auth');
+    Route::get('show/sell/{slug}', ShowAdHandler::class)->middleware('optional.auth');
 });
 Route::get('home', HomeAdHandler::class)->middleware('optional.auth');
 

@@ -68,4 +68,9 @@ class AdService implements AdServiceInterface
     {
         return $this->adRepository->getStores();
     }
+
+    public function findBySlug($slug)
+    {
+        return $this->adRepository->findBySlug($slug);
+    }
 }
