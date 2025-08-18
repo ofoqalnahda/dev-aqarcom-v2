@@ -48,11 +48,11 @@ class RatingViewModel
         $this->description = $rating->description;
         $this->created_at = $rating->created_at;
         $this->updated_at = $rating->updated_at;
-        
+
         if ($rating->relationLoaded('user')) {
             $this->user = $rating->user;
         }
-        
+
         if ($rating->relationLoaded('company')) {
             $this->company = $rating->company;
         }
@@ -73,3 +73,4 @@ class RatingViewModel
         ];
     }
 }
+

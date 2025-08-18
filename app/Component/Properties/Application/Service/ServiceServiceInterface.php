@@ -13,3 +13,5 @@ interface ServiceServiceInterface
     public function searchServicesByName(string $name);
     public function toggleServiceStatus(int $id): bool;
 }
+
+

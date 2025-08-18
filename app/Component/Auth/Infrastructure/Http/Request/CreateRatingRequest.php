@@ -45,3 +45,5 @@ class CreateRatingRequest extends FormRequest
         ];
     }
 }
+
+

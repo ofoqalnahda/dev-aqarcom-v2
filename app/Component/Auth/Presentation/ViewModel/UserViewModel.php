@@ -72,6 +72,7 @@ use OpenApi\Attributes as OA;
             new OA\Property(property: "total_ratings", type: "integer", example: 10),
             new OA\Property(property: "ratings_given_count", type: "integer", example: 5),
         ]),
+        new OA\Property(property: "distance", type: "number", format: "float", description: "Distance in kilometers from user location", example: 2.5),
         new OA\Property(property: "ratings_received", type: "array", nullable: true, items: new OA\Items(
             type: "object",
             properties: [
@@ -130,6 +131,7 @@ class UserViewModel
     public $services;
     public $rating_stats;
     public $ratings_received;
+    public $distance;
     public $created_at;
     public $updated_at;
 
@@ -210,6 +212,7 @@ class UserViewModel
                 'created_at' => $rating->created_at,
             ];
         })->toArray() : null;
+        $this->distance = $user->distance;
         $this->created_at = $user->created_at;
         $this->updated_at = $user->updated_at;
     }

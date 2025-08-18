@@ -50,10 +50,10 @@ class CreateRatingHandler extends Handler
         try {
             $data = $request->validated();
             $data['user_id'] = Auth::id();
-            
+
             $rating = $this->ratingService->createRating($data);
             $ratingViewModel = new RatingViewModel($rating);
-            
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Rating created successfully',
@@ -67,3 +67,4 @@ class CreateRatingHandler extends Handler
         }
     }
 }
+

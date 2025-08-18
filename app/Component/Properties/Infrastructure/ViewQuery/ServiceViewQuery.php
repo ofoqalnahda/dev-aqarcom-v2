@@ -39,3 +39,5 @@ class ServiceViewQuery implements ServiceViewQueryInterface
         return $this->model->all();
     }
 }
+
+

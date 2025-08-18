@@ -15,6 +15,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: "user_type", type: "string", example: "office"),
         new OA\Property(property: "average_rating", type: "number", format: "float", nullable: true, example: 4.5),
         new OA\Property(property: "total_ratings", type: "integer", nullable: true, example: 10),
+        new OA\Property(property: "distance", type: "number", format: "float", description: "Distance in kilometers from user location", example: 2.5),
     ],
     type: "object",
 )]
@@ -26,6 +27,7 @@ class UserViewListModel
     public $user_type;
     public $average_rating;
     public $total_ratings;
+    public $distance;
 
     public function __construct($user)
     {
@@ -35,6 +37,7 @@ class UserViewListModel
         $this->user_type = $user->user_type;
         $this->average_rating = $user->average_rating;
         $this->total_ratings = $user->rating_count;
+        $this->distance = $user->distance ?? 0;
     }
 
     public function toArray(): array
@@ -42,3 +45,5 @@ class UserViewListModel
         return get_object_vars($this);
     }
 }
+
+

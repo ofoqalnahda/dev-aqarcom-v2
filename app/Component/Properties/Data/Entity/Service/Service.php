@@ -25,3 +25,5 @@ class Service extends Model implements HasMedia
 
     protected $table = 'services';
 }
+
+
