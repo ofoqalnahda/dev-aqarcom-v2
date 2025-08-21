@@ -12,6 +12,7 @@ use ReflectionClass;
            new OA\Property(property: "id", type: "integer"),
            new OA\Property(property: "slug", type: "string", nullable: true),
            new OA\Property(property: "title", type: "string", nullable: true),
+           new OA\Property(property: "date_at", type: "string", nullable: true),
            new OA\Property(property: "type_ad", type: "string", nullable: true),
            new OA\Property(property: "estate_type", type: "string", nullable: true),
            new OA\Property(property: "usage_type", type: "string", nullable: true),
@@ -23,8 +24,8 @@ use ReflectionClass;
            new OA\Property(property: "area", type: "string", nullable: true),
 
            new OA\Property(property: "license_number", type: "string"),
-           new OA\Property(property: "creation_date", type: "string", format: "date-time"),
-           new OA\Property(property: "end_date", type: "string", format: "date-time"),
+           new OA\Property(property: "creation_date", type: "string", format: "date"),
+           new OA\Property(property: "end_date", type: "string", format: "date"),
 
            new OA\Property(property: "address", type: "string", nullable: true),
            new OA\Property(property: "region", type: "string", nullable: true),
@@ -59,6 +60,7 @@ class AdViewModel
     public int $id;
     public ?string $slug = null;
     public ?string $title = null;
+    public ?string $date_at = null;
     public ?string $type_ad = null;
     public ?string $estate_type = null;
     public ?string $usage_type = null;
@@ -108,6 +110,9 @@ class AdViewModel
         $this->id = $data->id;
         $this->slug = $data->slug;
         $this->title = $data->title;
+        $this->date_at = optional($data->created_at)
+//            ->locale()
+            ->isoFormat('D MMMM YYYY');
         $this->type_ad = $data->ad_type?->title;
         $this->estate_type = $data->estateType?->title;
         $this->usage_type = $data->usageType?->title;
@@ -121,9 +126,8 @@ class AdViewModel
         $this->area = $data->area ? number_format(round($data->area, 2), 2, '.', '') : null;
 
         $this->license_number = $data->license_number;
-        $this->creation_date =$data->creation_date;
-        $this->end_date = optional($data->end_date)->toDateTimeString();
-
+        $this->creation_date = optional($data->creation_date)->format('Y-m-d');
+        $this->end_date = optional($data->end_date)->format('Y-m-d');
         $this->region = $data->region?->name;
         $this->city = $data->city?->name;
         $this->neighborhood = $data->neighborhood?->name;
