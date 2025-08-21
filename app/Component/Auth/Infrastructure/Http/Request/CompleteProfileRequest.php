@@ -5,6 +5,7 @@ namespace App\Component\Auth\Infrastructure\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
 use App\Component\Auth\Domain\Enum\UserTypeEnum;
+use Illuminate\Validation\Rule;
 
 #[OA\RequestBody(
     request: 'CompleteProfileRequest',
@@ -29,10 +30,14 @@ class CompleteProfileRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'identity_number' => ['required', 'string'],
-            'email' => ['nullable', 'email'],
+            'email' => [
+                'nullable',
+                'email',
+                Rule::unique('users', 'email')->ignore(auth()->guard('api')->id()),
+            ],
             'account_type' => ['required', 'string', 'in:' . implode(',', $accountTypes)],
             'commercial_name' => ['required_if:account_type,office,organization', 'nullable', 'string'],
             'commercial_number' => ['required_if:account_type,office,organization', 'nullable', 'string'],
         ];
     }
-} 
+}
