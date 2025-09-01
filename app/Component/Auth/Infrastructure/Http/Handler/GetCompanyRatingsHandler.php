@@ -64,3 +64,4 @@ class GetCompanyRatingsHandler extends Handler
     }
 }
 
+

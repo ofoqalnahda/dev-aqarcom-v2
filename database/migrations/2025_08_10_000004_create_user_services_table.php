@@ -8,12 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (Schema::hasTable('working_hours'))
+        {
+            return;
+        }
         Schema::create('user_services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('service_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            
+
             $table->unique(['user_id', 'service_id']);
         });
     }
