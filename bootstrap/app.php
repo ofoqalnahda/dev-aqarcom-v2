@@ -26,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     require app_path('Component/Ad/Resource/routes.php');
                     require app_path('Component/Payments/Resource/routes.php');
                     require app_path('Component/Properties/Resource/routes.php');
+                    require app_path('Component/Notification/Resource/routes.php');
                 });
         }
     )
